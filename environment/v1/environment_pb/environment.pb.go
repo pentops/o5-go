@@ -30,7 +30,7 @@ type Environment struct {
 	//
 	//	*Environment_Aws
 	Provider   isEnvironment_Provider `protobuf_oneof:"provider"`
-	CustomVars map[string]string      `protobuf:"bytes,2,rep,name=custom_vars,json=customVars,proto3" json:"custom_vars,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	CustomVars []*CustomVariable      `protobuf:"bytes,2,rep,name=custom_vars,json=customVars,proto3" json:"custom_vars,omitempty"`
 }
 
 func (x *Environment) Reset() {
@@ -86,7 +86,7 @@ func (x *Environment) GetAws() *AWS {
 	return nil
 }
 
-func (x *Environment) GetCustomVars() map[string]string {
+func (x *Environment) GetCustomVars() []*CustomVariable {
 	if x != nil {
 		return x.CustomVars
 	}
@@ -102,6 +102,61 @@ type Environment_Aws struct {
 }
 
 func (*Environment_Aws) isEnvironment_Provider() {}
+
+type CustomVariable struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name  string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *CustomVariable) Reset() {
+	*x = CustomVariable{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CustomVariable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CustomVariable) ProtoMessage() {}
+
+func (x *CustomVariable) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CustomVariable.ProtoReflect.Descriptor instead.
+func (*CustomVariable) Descriptor() ([]byte, []int) {
+	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CustomVariable) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CustomVariable) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
 
 type AWS struct {
 	state         protoimpl.MessageState
@@ -122,7 +177,7 @@ type AWS struct {
 func (x *AWS) Reset() {
 	*x = AWS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_environment_v1_environment_proto_msgTypes[1]
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -135,7 +190,7 @@ func (x *AWS) String() string {
 func (*AWS) ProtoMessage() {}
 
 func (x *AWS) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_environment_v1_environment_proto_msgTypes[1]
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -148,7 +203,7 @@ func (x *AWS) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AWS.ProtoReflect.Descriptor instead.
 func (*AWS) Descriptor() ([]byte, []int) {
-	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{1}
+	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AWS) GetListenerArn() string {
@@ -212,7 +267,7 @@ type RDSHost struct {
 func (x *RDSHost) Reset() {
 	*x = RDSHost{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_environment_v1_environment_proto_msgTypes[2]
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -225,7 +280,7 @@ func (x *RDSHost) String() string {
 func (*RDSHost) ProtoMessage() {}
 
 func (x *RDSHost) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_environment_v1_environment_proto_msgTypes[2]
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -238,7 +293,7 @@ func (x *RDSHost) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RDSHost.ProtoReflect.Descriptor instead.
 func (*RDSHost) Descriptor() ([]byte, []int) {
-	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{2}
+	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RDSHost) GetServerGroup() string {
@@ -261,22 +316,21 @@ var file_o5_environment_v1_environment_proto_rawDesc = []byte{
 	0x0a, 0x23, 0x6f, 0x35, 0x2f, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74,
 	0x2f, 0x76, 0x31, 0x2f, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f,
-	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x22, 0xf2, 0x01, 0x0a, 0x0b, 0x45, 0x6e, 0x76,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x22, 0xa6, 0x01, 0x0a, 0x0b, 0x45, 0x6e, 0x76,
 	0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x66, 0x75, 0x6c, 0x6c,
 	0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x66, 0x75, 0x6c,
 	0x6c, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x2a, 0x0a, 0x03, 0x61, 0x77, 0x73, 0x18, 0x0a, 0x20, 0x01,
 	0x28, 0x0b, 0x32, 0x16, 0x2e, 0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d,
 	0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x48, 0x00, 0x52, 0x03, 0x61, 0x77,
-	0x73, 0x12, 0x4f, 0x0a, 0x0b, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x5f, 0x76, 0x61, 0x72, 0x73,
-	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69,
-	0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x76, 0x69, 0x72,
-	0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x56, 0x61, 0x72,
-	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0a, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x56, 0x61,
-	0x72, 0x73, 0x1a, 0x3d, 0x0a, 0x0f, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x56, 0x61, 0x72, 0x73,
-	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x42, 0x0a, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x22, 0xaa, 0x02,
+	0x73, 0x12, 0x42, 0x0a, 0x0b, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x5f, 0x76, 0x61, 0x72, 0x73,
+	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69,
+	0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f,
+	0x6d, 0x56, 0x61, 0x72, 0x69, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x0a, 0x63, 0x75, 0x73, 0x74, 0x6f,
+	0x6d, 0x56, 0x61, 0x72, 0x73, 0x42, 0x0a, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65,
+	0x72, 0x22, 0x3a, 0x0a, 0x0e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x56, 0x61, 0x72, 0x69, 0x61,
+	0x62, 0x6c, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xaa, 0x02,
 	0x0a, 0x03, 0x41, 0x57, 0x53, 0x12, 0x21, 0x0a, 0x0c, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65,
 	0x72, 0x5f, 0x61, 0x72, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6c, 0x69, 0x73,
 	0x74, 0x65, 0x6e, 0x65, 0x72, 0x41, 0x72, 0x6e, 0x12, 0x28, 0x0a, 0x10, 0x65, 0x63, 0x73, 0x5f,
@@ -321,15 +375,15 @@ func file_o5_environment_v1_environment_proto_rawDescGZIP() []byte {
 
 var file_o5_environment_v1_environment_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_o5_environment_v1_environment_proto_goTypes = []interface{}{
-	(*Environment)(nil), // 0: o5.environment.v1.Environment
-	(*AWS)(nil),         // 1: o5.environment.v1.AWS
-	(*RDSHost)(nil),     // 2: o5.environment.v1.RDSHost
-	nil,                 // 3: o5.environment.v1.Environment.CustomVarsEntry
+	(*Environment)(nil),    // 0: o5.environment.v1.Environment
+	(*CustomVariable)(nil), // 1: o5.environment.v1.CustomVariable
+	(*AWS)(nil),            // 2: o5.environment.v1.AWS
+	(*RDSHost)(nil),        // 3: o5.environment.v1.RDSHost
 }
 var file_o5_environment_v1_environment_proto_depIdxs = []int32{
-	1, // 0: o5.environment.v1.Environment.aws:type_name -> o5.environment.v1.AWS
-	3, // 1: o5.environment.v1.Environment.custom_vars:type_name -> o5.environment.v1.Environment.CustomVarsEntry
-	2, // 2: o5.environment.v1.AWS.rds_hosts:type_name -> o5.environment.v1.RDSHost
+	2, // 0: o5.environment.v1.Environment.aws:type_name -> o5.environment.v1.AWS
+	1, // 1: o5.environment.v1.Environment.custom_vars:type_name -> o5.environment.v1.CustomVariable
+	3, // 2: o5.environment.v1.AWS.rds_hosts:type_name -> o5.environment.v1.RDSHost
 	3, // [3:3] is the sub-list for method output_type
 	3, // [3:3] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -356,7 +410,7 @@ func file_o5_environment_v1_environment_proto_init() {
 			}
 		}
 		file_o5_environment_v1_environment_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AWS); i {
+			switch v := v.(*CustomVariable); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -368,6 +422,18 @@ func file_o5_environment_v1_environment_proto_init() {
 			}
 		}
 		file_o5_environment_v1_environment_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AWS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_environment_v1_environment_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RDSHost); i {
 			case 0:
 				return &v.state
@@ -383,7 +449,7 @@ func file_o5_environment_v1_environment_proto_init() {
 	file_o5_environment_v1_environment_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*Environment_Aws)(nil),
 	}
-	file_o5_environment_v1_environment_proto_msgTypes[1].OneofWrappers = []interface{}{}
+	file_o5_environment_v1_environment_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
