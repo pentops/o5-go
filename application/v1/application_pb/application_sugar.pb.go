@@ -7,6 +7,7 @@ import (
 	fmt "fmt"
 )
 
+type IsSubscription_XEnvName = isSubscription_XEnvName
 type IsDatabase_Engine = isDatabase_Engine
 type IsContainer_Source = isContainer_Source
 type IsContainer_Image_XTag = isContainer_Image_XTag
