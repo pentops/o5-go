@@ -15,61 +15,6 @@ type IsEnvironmentVariable_Spec = isEnvironmentVariable_Spec
 type IsBlobstoreEnvVar_Format = isBlobstoreEnvVar_Format
 type IsBlobstoreEnvVar_XSubPath = isBlobstoreEnvVar_XSubPath
 
-// Topology
-const (
-	Topology_UNSPECIFIED Topology = 0
-	Topology_BROADCAST   Topology = 1
-	Topology_UNICAST     Topology = 2
-	Topology_REPLY       Topology = 3
-)
-
-var (
-	Topology_name_short = map[int32]string{
-		0: "UNSPECIFIED",
-		1: "BROADCAST",
-		2: "UNICAST",
-		3: "REPLY",
-	}
-	Topology_value_short = map[string]int32{
-		"UNSPECIFIED": 0,
-		"BROADCAST":   1,
-		"UNICAST":     2,
-		"REPLY":       3,
-	}
-	Topology_value_either = map[string]int32{
-		"UNSPECIFIED":          0,
-		"TOPOLOGY_UNSPECIFIED": 0,
-		"BROADCAST":            1,
-		"TOPOLOGY_BROADCAST":   1,
-		"UNICAST":              2,
-		"TOPOLOGY_UNICAST":     2,
-		"REPLY":                3,
-		"TOPOLOGY_REPLY":       3,
-	}
-)
-
-// ShortString returns the un-prefixed string representation of the enum value
-func (x Topology) ShortString() string {
-	return Topology_name_short[int32(x)]
-}
-func (x Topology) Value() (driver.Value, error) {
-	return []uint8(x.ShortString()), nil
-}
-func (x *Topology) Scan(value interface{}) error {
-	var strVal string
-	switch vt := value.(type) {
-	case []uint8:
-		strVal = string(vt)
-	case string:
-		strVal = vt
-	default:
-		return fmt.Errorf("invalid type %T", value)
-	}
-	val := Topology_value_either[strVal]
-	*x = Topology(val)
-	return nil
-}
-
 // RouteProtocol
 const (
 	RouteProtocol_UNSPECIFIED RouteProtocol = 0
