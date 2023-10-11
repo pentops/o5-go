@@ -206,8 +206,9 @@ type AWS struct {
 	VpcId                string `protobuf:"bytes,5,opt,name=vpc_id,json=vpcId,proto3" json:"vpc_id,omitempty"`
 	// when set, adds a host header rule exactly as defined to all listener rules.
 	// This allows re-use of the same listener for multiple (related) environments.
-	HostHeader *string    `protobuf:"bytes,6,opt,name=host_header,json=hostHeader,proto3,oneof" json:"host_header,omitempty"`
-	RdsHosts   []*RDSHost `protobuf:"bytes,7,rep,name=rds_hosts,json=rdsHosts,proto3" json:"rds_hosts,omitempty"`
+	HostHeader       *string    `protobuf:"bytes,6,opt,name=host_header,json=hostHeader,proto3,oneof" json:"host_header,omitempty"`
+	RdsHosts         []*RDSHost `protobuf:"bytes,7,rep,name=rds_hosts,json=rdsHosts,proto3" json:"rds_hosts,omitempty"`
+	EnvironmentLinks []*AWSLink `protobuf:"bytes,8,rep,name=environment_links,json=environmentLinks,proto3" json:"environment_links,omitempty"`
 }
 
 func (x *AWS) Reset() {
@@ -291,6 +292,68 @@ func (x *AWS) GetRdsHosts() []*RDSHost {
 	return nil
 }
 
+func (x *AWS) GetEnvironmentLinks() []*AWSLink {
+	if x != nil {
+		return x.EnvironmentLinks
+	}
+	return nil
+}
+
+type AWSLink struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	FullName  string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"` // used to match
+	SnsPrefix string `protobuf:"bytes,2,opt,name=sns_prefix,json=snsPrefix,proto3" json:"sns_prefix,omitempty"`
+}
+
+func (x *AWSLink) Reset() {
+	*x = AWSLink{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AWSLink) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AWSLink) ProtoMessage() {}
+
+func (x *AWSLink) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AWSLink.ProtoReflect.Descriptor instead.
+func (*AWSLink) Descriptor() ([]byte, []int) {
+	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *AWSLink) GetFullName() string {
+	if x != nil {
+		return x.FullName
+	}
+	return ""
+}
+
+func (x *AWSLink) GetSnsPrefix() string {
+	if x != nil {
+		return x.SnsPrefix
+	}
+	return ""
+}
+
 type RDSHost struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -303,7 +366,7 @@ type RDSHost struct {
 func (x *RDSHost) Reset() {
 	*x = RDSHost{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -316,7 +379,7 @@ func (x *RDSHost) String() string {
 func (*RDSHost) ProtoMessage() {}
 
 func (x *RDSHost) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_environment_v1_environment_proto_msgTypes[3]
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -329,7 +392,7 @@ func (x *RDSHost) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RDSHost.ProtoReflect.Descriptor instead.
 func (*RDSHost) Descriptor() ([]byte, []int) {
-	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{3}
+	return file_o5_environment_v1_environment_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RDSHost) GetServerGroup() string {
@@ -358,7 +421,7 @@ type CustomVariable_Join struct {
 func (x *CustomVariable_Join) Reset() {
 	*x = CustomVariable_Join{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_environment_v1_environment_proto_msgTypes[4]
+		mi := &file_o5_environment_v1_environment_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -371,7 +434,7 @@ func (x *CustomVariable_Join) String() string {
 func (*CustomVariable_Join) ProtoMessage() {}
 
 func (x *CustomVariable_Join) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_environment_v1_environment_proto_msgTypes[4]
+	mi := &file_o5_environment_v1_environment_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -429,7 +492,7 @@ var file_o5_environment_v1_environment_proto_rawDesc = []byte{
 	0x69, 0x6d, 0x69, 0x74, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x64, 0x65,
 	0x6c, 0x69, 0x6d, 0x69, 0x74, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65,
 	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x42,
-	0x05, 0x0a, 0x03, 0x73, 0x72, 0x63, 0x22, 0xaa, 0x02, 0x0a, 0x03, 0x41, 0x57, 0x53, 0x12, 0x21,
+	0x05, 0x0a, 0x03, 0x73, 0x72, 0x63, 0x22, 0xf3, 0x02, 0x0a, 0x03, 0x41, 0x57, 0x53, 0x12, 0x21,
 	0x0a, 0x0c, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x5f, 0x61, 0x72, 0x6e, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x41, 0x72,
 	0x6e, 0x12, 0x28, 0x0a, 0x10, 0x65, 0x63, 0x73, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72,
@@ -447,8 +510,17 @@ var file_o5_environment_v1_environment_proto_rawDesc = []byte{
 	0x73, 0x5f, 0x68, 0x6f, 0x73, 0x74, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
 	0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e, 0x76,
 	0x31, 0x2e, 0x52, 0x44, 0x53, 0x48, 0x6f, 0x73, 0x74, 0x52, 0x08, 0x72, 0x64, 0x73, 0x48, 0x6f,
-	0x73, 0x74, 0x73, 0x42, 0x0e, 0x0a, 0x0c, 0x5f, 0x68, 0x6f, 0x73, 0x74, 0x5f, 0x68, 0x65, 0x61,
-	0x64, 0x65, 0x72, 0x22, 0x4d, 0x0a, 0x07, 0x52, 0x44, 0x53, 0x48, 0x6f, 0x73, 0x74, 0x12, 0x21,
+	0x73, 0x74, 0x73, 0x12, 0x47, 0x0a, 0x11, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x5f, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x6f, 0x35, 0x2e, 0x65, 0x6e, 0x76, 0x69, 0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x2e,
+	0x76, 0x31, 0x2e, 0x41, 0x57, 0x53, 0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x10, 0x65, 0x6e, 0x76, 0x69,
+	0x72, 0x6f, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x4c, 0x69, 0x6e, 0x6b, 0x73, 0x42, 0x0e, 0x0a, 0x0c,
+	0x5f, 0x68, 0x6f, 0x73, 0x74, 0x5f, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x22, 0x45, 0x0a, 0x07,
+	0x41, 0x57, 0x53, 0x4c, 0x69, 0x6e, 0x6b, 0x12, 0x1b, 0x0a, 0x09, 0x66, 0x75, 0x6c, 0x6c, 0x5f,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x66, 0x75, 0x6c, 0x6c,
+	0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x6e, 0x73, 0x5f, 0x70, 0x72, 0x65, 0x66,
+	0x69, 0x78, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x6e, 0x73, 0x50, 0x72, 0x65,
+	0x66, 0x69, 0x78, 0x22, 0x4d, 0x0a, 0x07, 0x52, 0x44, 0x53, 0x48, 0x6f, 0x73, 0x74, 0x12, 0x21,
 	0x0a, 0x0c, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x5f, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x47, 0x72, 0x6f, 0x75,
 	0x70, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
@@ -472,24 +544,26 @@ func file_o5_environment_v1_environment_proto_rawDescGZIP() []byte {
 	return file_o5_environment_v1_environment_proto_rawDescData
 }
 
-var file_o5_environment_v1_environment_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_o5_environment_v1_environment_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_o5_environment_v1_environment_proto_goTypes = []interface{}{
 	(*Environment)(nil),         // 0: o5.environment.v1.Environment
 	(*CustomVariable)(nil),      // 1: o5.environment.v1.CustomVariable
 	(*AWS)(nil),                 // 2: o5.environment.v1.AWS
-	(*RDSHost)(nil),             // 3: o5.environment.v1.RDSHost
-	(*CustomVariable_Join)(nil), // 4: o5.environment.v1.CustomVariable.Join
+	(*AWSLink)(nil),             // 3: o5.environment.v1.AWSLink
+	(*RDSHost)(nil),             // 4: o5.environment.v1.RDSHost
+	(*CustomVariable_Join)(nil), // 5: o5.environment.v1.CustomVariable.Join
 }
 var file_o5_environment_v1_environment_proto_depIdxs = []int32{
 	2, // 0: o5.environment.v1.Environment.aws:type_name -> o5.environment.v1.AWS
 	1, // 1: o5.environment.v1.Environment.vars:type_name -> o5.environment.v1.CustomVariable
-	4, // 2: o5.environment.v1.CustomVariable.join:type_name -> o5.environment.v1.CustomVariable.Join
-	3, // 3: o5.environment.v1.AWS.rds_hosts:type_name -> o5.environment.v1.RDSHost
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 2: o5.environment.v1.CustomVariable.join:type_name -> o5.environment.v1.CustomVariable.Join
+	4, // 3: o5.environment.v1.AWS.rds_hosts:type_name -> o5.environment.v1.RDSHost
+	3, // 4: o5.environment.v1.AWS.environment_links:type_name -> o5.environment.v1.AWSLink
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_o5_environment_v1_environment_proto_init() }
@@ -535,7 +609,7 @@ func file_o5_environment_v1_environment_proto_init() {
 			}
 		}
 		file_o5_environment_v1_environment_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RDSHost); i {
+			switch v := v.(*AWSLink); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -547,6 +621,18 @@ func file_o5_environment_v1_environment_proto_init() {
 			}
 		}
 		file_o5_environment_v1_environment_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RDSHost); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_environment_v1_environment_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CustomVariable_Join); i {
 			case 0:
 				return &v.state
@@ -573,7 +659,7 @@ func file_o5_environment_v1_environment_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_o5_environment_v1_environment_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
