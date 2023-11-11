@@ -118,3 +118,68 @@ func (x *DeploymentStatus) Scan(value interface{}) error {
 	*x = DeploymentStatus(val)
 	return nil
 }
+
+// StackStatus
+const (
+	StackStatus_UNSPECIFIED   StackStatus = 0
+	StackStatus_PROGRESS      StackStatus = 1
+	StackStatus_COMPLETE      StackStatus = 2
+	StackStatus_ROLLING_BACK  StackStatus = 3
+	StackStatus_CREATE_FAILED StackStatus = 4
+	StackStatus_TERMINAL      StackStatus = 5
+)
+
+var (
+	StackStatus_name_short = map[int32]string{
+		0: "UNSPECIFIED",
+		1: "PROGRESS",
+		2: "COMPLETE",
+		3: "ROLLING_BACK",
+		4: "CREATE_FAILED",
+		5: "TERMINAL",
+	}
+	StackStatus_value_short = map[string]int32{
+		"UNSPECIFIED":   0,
+		"PROGRESS":      1,
+		"COMPLETE":      2,
+		"ROLLING_BACK":  3,
+		"CREATE_FAILED": 4,
+		"TERMINAL":      5,
+	}
+	StackStatus_value_either = map[string]int32{
+		"UNSPECIFIED":                0,
+		"STACK_STATUS_UNSPECIFIED":   0,
+		"PROGRESS":                   1,
+		"STACK_STATUS_PROGRESS":      1,
+		"COMPLETE":                   2,
+		"STACK_STATUS_COMPLETE":      2,
+		"ROLLING_BACK":               3,
+		"STACK_STATUS_ROLLING_BACK":  3,
+		"CREATE_FAILED":              4,
+		"STACK_STATUS_CREATE_FAILED": 4,
+		"TERMINAL":                   5,
+		"STACK_STATUS_TERMINAL":      5,
+	}
+)
+
+// ShortString returns the un-prefixed string representation of the enum value
+func (x StackStatus) ShortString() string {
+	return StackStatus_name_short[int32(x)]
+}
+func (x StackStatus) Value() (driver.Value, error) {
+	return []uint8(x.ShortString()), nil
+}
+func (x *StackStatus) Scan(value interface{}) error {
+	var strVal string
+	switch vt := value.(type) {
+	case []uint8:
+		strVal = string(vt)
+	case string:
+		strVal = vt
+	default:
+		return fmt.Errorf("invalid type %T", value)
+	}
+	val := StackStatus_value_either[strVal]
+	*x = StackStatus(val)
+	return nil
+}
