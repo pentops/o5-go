@@ -24,6 +24,7 @@ const (
 	DeploymentStatus_DB_MIGRATED    DeploymentStatus = 10
 	DeploymentStatus_SCALING_UP     DeploymentStatus = 11
 	DeploymentStatus_SCALED_UP      DeploymentStatus = 12
+	DeploymentStatus_CREATING       DeploymentStatus = 13
 	DeploymentStatus_DONE           DeploymentStatus = 100
 	DeploymentStatus_FAILED         DeploymentStatus = 101
 )
@@ -43,6 +44,7 @@ var (
 		10:  "DB_MIGRATED",
 		11:  "SCALING_UP",
 		12:  "SCALED_UP",
+		13:  "CREATING",
 		100: "DONE",
 		101: "FAILED",
 	}
@@ -60,6 +62,7 @@ var (
 		"DB_MIGRATED":    10,
 		"SCALING_UP":     11,
 		"SCALED_UP":      12,
+		"CREATING":       13,
 		"DONE":           100,
 		"FAILED":         101,
 	}
@@ -90,6 +93,8 @@ var (
 		"DEPLOYMENT_STATUS_SCALING_UP":     11,
 		"SCALED_UP":                        12,
 		"DEPLOYMENT_STATUS_SCALED_UP":      12,
+		"CREATING":                         13,
+		"DEPLOYMENT_STATUS_CREATING":       13,
 		"DONE":                             100,
 		"DEPLOYMENT_STATUS_DONE":           100,
 		"FAILED":                           101,
@@ -119,18 +124,18 @@ func (x *DeploymentStatus) Scan(value interface{}) error {
 	return nil
 }
 
-// StackStatus
+// StackLifecycle
 const (
-	StackStatus_UNSPECIFIED   StackStatus = 0
-	StackStatus_PROGRESS      StackStatus = 1
-	StackStatus_COMPLETE      StackStatus = 2
-	StackStatus_ROLLING_BACK  StackStatus = 3
-	StackStatus_CREATE_FAILED StackStatus = 4
-	StackStatus_TERMINAL      StackStatus = 5
+	StackLifecycle_UNSPECIFIED   StackLifecycle = 0
+	StackLifecycle_PROGRESS      StackLifecycle = 1
+	StackLifecycle_COMPLETE      StackLifecycle = 2
+	StackLifecycle_ROLLING_BACK  StackLifecycle = 3
+	StackLifecycle_CREATE_FAILED StackLifecycle = 4
+	StackLifecycle_TERMINAL      StackLifecycle = 5
 )
 
 var (
-	StackStatus_name_short = map[int32]string{
+	StackLifecycle_name_short = map[int32]string{
 		0: "UNSPECIFIED",
 		1: "PROGRESS",
 		2: "COMPLETE",
@@ -138,7 +143,7 @@ var (
 		4: "CREATE_FAILED",
 		5: "TERMINAL",
 	}
-	StackStatus_value_short = map[string]int32{
+	StackLifecycle_value_short = map[string]int32{
 		"UNSPECIFIED":   0,
 		"PROGRESS":      1,
 		"COMPLETE":      2,
@@ -146,30 +151,30 @@ var (
 		"CREATE_FAILED": 4,
 		"TERMINAL":      5,
 	}
-	StackStatus_value_either = map[string]int32{
-		"UNSPECIFIED":                0,
-		"STACK_STATUS_UNSPECIFIED":   0,
-		"PROGRESS":                   1,
-		"STACK_STATUS_PROGRESS":      1,
-		"COMPLETE":                   2,
-		"STACK_STATUS_COMPLETE":      2,
-		"ROLLING_BACK":               3,
-		"STACK_STATUS_ROLLING_BACK":  3,
-		"CREATE_FAILED":              4,
-		"STACK_STATUS_CREATE_FAILED": 4,
-		"TERMINAL":                   5,
-		"STACK_STATUS_TERMINAL":      5,
+	StackLifecycle_value_either = map[string]int32{
+		"UNSPECIFIED":                   0,
+		"STACK_LIFECYCLE_UNSPECIFIED":   0,
+		"PROGRESS":                      1,
+		"STACK_LIFECYCLE_PROGRESS":      1,
+		"COMPLETE":                      2,
+		"STACK_LIFECYCLE_COMPLETE":      2,
+		"ROLLING_BACK":                  3,
+		"STACK_LIFECYCLE_ROLLING_BACK":  3,
+		"CREATE_FAILED":                 4,
+		"STACK_LIFECYCLE_CREATE_FAILED": 4,
+		"TERMINAL":                      5,
+		"STACK_LIFECYCLE_TERMINAL":      5,
 	}
 )
 
 // ShortString returns the un-prefixed string representation of the enum value
-func (x StackStatus) ShortString() string {
-	return StackStatus_name_short[int32(x)]
+func (x StackLifecycle) ShortString() string {
+	return StackLifecycle_name_short[int32(x)]
 }
-func (x StackStatus) Value() (driver.Value, error) {
+func (x StackLifecycle) Value() (driver.Value, error) {
 	return []uint8(x.ShortString()), nil
 }
-func (x *StackStatus) Scan(value interface{}) error {
+func (x *StackLifecycle) Scan(value interface{}) error {
 	var strVal string
 	switch vt := value.(type) {
 	case []uint8:
@@ -179,7 +184,72 @@ func (x *StackStatus) Scan(value interface{}) error {
 	default:
 		return fmt.Errorf("invalid type %T", value)
 	}
-	val := StackStatus_value_either[strVal]
-	*x = StackStatus(val)
+	val := StackLifecycle_value_either[strVal]
+	*x = StackLifecycle(val)
+	return nil
+}
+
+// DatabaseMigrationStatus
+const (
+	DatabaseMigrationStatus_UNSPECIFIED DatabaseMigrationStatus = 0
+	DatabaseMigrationStatus_PENDING     DatabaseMigrationStatus = 1
+	DatabaseMigrationStatus_RUNNING     DatabaseMigrationStatus = 2
+	DatabaseMigrationStatus_CLEANUP     DatabaseMigrationStatus = 3
+	DatabaseMigrationStatus_COMPLETED   DatabaseMigrationStatus = 4
+	DatabaseMigrationStatus_FAILED      DatabaseMigrationStatus = 5
+)
+
+var (
+	DatabaseMigrationStatus_name_short = map[int32]string{
+		0: "UNSPECIFIED",
+		1: "PENDING",
+		2: "RUNNING",
+		3: "CLEANUP",
+		4: "COMPLETED",
+		5: "FAILED",
+	}
+	DatabaseMigrationStatus_value_short = map[string]int32{
+		"UNSPECIFIED": 0,
+		"PENDING":     1,
+		"RUNNING":     2,
+		"CLEANUP":     3,
+		"COMPLETED":   4,
+		"FAILED":      5,
+	}
+	DatabaseMigrationStatus_value_either = map[string]int32{
+		"UNSPECIFIED":                           0,
+		"DATABASE_MIGRATION_STATUS_UNSPECIFIED": 0,
+		"PENDING":                               1,
+		"DATABASE_MIGRATION_STATUS_PENDING":     1,
+		"RUNNING":                               2,
+		"DATABASE_MIGRATION_STATUS_RUNNING":     2,
+		"CLEANUP":                               3,
+		"DATABASE_MIGRATION_STATUS_CLEANUP":     3,
+		"COMPLETED":                             4,
+		"DATABASE_MIGRATION_STATUS_COMPLETED":   4,
+		"FAILED":                                5,
+		"DATABASE_MIGRATION_STATUS_FAILED":      5,
+	}
+)
+
+// ShortString returns the un-prefixed string representation of the enum value
+func (x DatabaseMigrationStatus) ShortString() string {
+	return DatabaseMigrationStatus_name_short[int32(x)]
+}
+func (x DatabaseMigrationStatus) Value() (driver.Value, error) {
+	return []uint8(x.ShortString()), nil
+}
+func (x *DatabaseMigrationStatus) Scan(value interface{}) error {
+	var strVal string
+	switch vt := value.(type) {
+	case []uint8:
+		strVal = string(vt)
+	case string:
+		strVal = vt
+	default:
+		return fmt.Errorf("invalid type %T", value)
+	}
+	val := DatabaseMigrationStatus_value_either[strVal]
+	*x = DatabaseMigrationStatus(val)
 	return nil
 }
