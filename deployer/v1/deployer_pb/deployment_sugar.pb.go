@@ -7,6 +7,154 @@ import (
 	fmt "fmt"
 )
 
+// DeploymentEventType is a oneof wrapper
+type DeploymentEventTypeKey string
+
+const (
+	DeploymentEvent_Triggered       DeploymentEventTypeKey = "triggered"
+	DeploymentEvent_GotLock         DeploymentEventTypeKey = "gotLock"
+	DeploymentEvent_StackCreate     DeploymentEventTypeKey = "stackCreate"
+	DeploymentEvent_StackWait       DeploymentEventTypeKey = "stackWait"
+	DeploymentEvent_StackScale      DeploymentEventTypeKey = "stackScale"
+	DeploymentEvent_StackTrigger    DeploymentEventTypeKey = "stackTrigger"
+	DeploymentEvent_StackStatus     DeploymentEventTypeKey = "stackStatus"
+	DeploymentEvent_MigrateData     DeploymentEventTypeKey = "migrateData"
+	DeploymentEvent_DbMigrateStatus DeploymentEventTypeKey = "dbMigrateStatus"
+	DeploymentEvent_DataMigrated    DeploymentEventTypeKey = "dataMigrated"
+	DeploymentEvent_Error           DeploymentEventTypeKey = "error"
+	DeploymentEvent_Done            DeploymentEventTypeKey = "done"
+)
+
+func (x *DeploymentEventType) TypeKey() (DeploymentEventTypeKey, bool) {
+	switch x.Type.(type) {
+	case *DeploymentEventType_Triggered_:
+		return DeploymentEvent_Triggered, true
+	case *DeploymentEventType_GotLock_:
+		return DeploymentEvent_GotLock, true
+	case *DeploymentEventType_StackCreate_:
+		return DeploymentEvent_StackCreate, true
+	case *DeploymentEventType_StackWait_:
+		return DeploymentEvent_StackWait, true
+	case *DeploymentEventType_StackScale_:
+		return DeploymentEvent_StackScale, true
+	case *DeploymentEventType_StackTrigger_:
+		return DeploymentEvent_StackTrigger, true
+	case *DeploymentEventType_StackStatus_:
+		return DeploymentEvent_StackStatus, true
+	case *DeploymentEventType_MigrateData_:
+		return DeploymentEvent_MigrateData, true
+	case *DeploymentEventType_DbMigrateStatus:
+		return DeploymentEvent_DbMigrateStatus, true
+	case *DeploymentEventType_DataMigrated_:
+		return DeploymentEvent_DataMigrated, true
+	case *DeploymentEventType_Error_:
+		return DeploymentEvent_Error, true
+	case *DeploymentEventType_Done_:
+		return DeploymentEvent_Done, true
+	default:
+		return "", false
+	}
+}
+
+type IsDeploymentEventTypeWrappedType interface {
+	TypeKey() DeploymentEventTypeKey
+}
+
+func (x *DeploymentEventType) Set(val IsDeploymentEventTypeWrappedType) {
+	switch v := val.(type) {
+	case *DeploymentEventType_Triggered:
+		x.Type = &DeploymentEventType_Triggered_{Triggered: v}
+	case *DeploymentEventType_GotLock:
+		x.Type = &DeploymentEventType_GotLock_{GotLock: v}
+	case *DeploymentEventType_StackCreate:
+		x.Type = &DeploymentEventType_StackCreate_{StackCreate: v}
+	case *DeploymentEventType_StackWait:
+		x.Type = &DeploymentEventType_StackWait_{StackWait: v}
+	case *DeploymentEventType_StackScale:
+		x.Type = &DeploymentEventType_StackScale_{StackScale: v}
+	case *DeploymentEventType_StackTrigger:
+		x.Type = &DeploymentEventType_StackTrigger_{StackTrigger: v}
+	case *DeploymentEventType_StackStatus:
+		x.Type = &DeploymentEventType_StackStatus_{StackStatus: v}
+	case *DeploymentEventType_MigrateData:
+		x.Type = &DeploymentEventType_MigrateData_{MigrateData: v}
+	case *DeploymentEventType_DBMigrateStatus:
+		x.Type = &DeploymentEventType_DbMigrateStatus{DbMigrateStatus: v}
+	case *DeploymentEventType_DataMigrated:
+		x.Type = &DeploymentEventType_DataMigrated_{DataMigrated: v}
+	case *DeploymentEventType_Error:
+		x.Type = &DeploymentEventType_Error_{Error: v}
+	case *DeploymentEventType_Done:
+		x.Type = &DeploymentEventType_Done_{Done: v}
+	}
+}
+func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
+	switch v := x.Type.(type) {
+	case *DeploymentEventType_Triggered_:
+		return v.Triggered
+	case *DeploymentEventType_GotLock_:
+		return v.GotLock
+	case *DeploymentEventType_StackCreate_:
+		return v.StackCreate
+	case *DeploymentEventType_StackWait_:
+		return v.StackWait
+	case *DeploymentEventType_StackScale_:
+		return v.StackScale
+	case *DeploymentEventType_StackTrigger_:
+		return v.StackTrigger
+	case *DeploymentEventType_StackStatus_:
+		return v.StackStatus
+	case *DeploymentEventType_MigrateData_:
+		return v.MigrateData
+	case *DeploymentEventType_DbMigrateStatus:
+		return v.DbMigrateStatus
+	case *DeploymentEventType_DataMigrated_:
+		return v.DataMigrated
+	case *DeploymentEventType_Error_:
+		return v.Error
+	case *DeploymentEventType_Done_:
+		return v.Done
+	default:
+		return nil
+	}
+}
+func (x *DeploymentEventType_Triggered) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_Triggered
+}
+func (x *DeploymentEventType_GotLock) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_GotLock
+}
+func (x *DeploymentEventType_StackCreate) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackCreate
+}
+func (x *DeploymentEventType_StackWait) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackWait
+}
+func (x *DeploymentEventType_StackScale) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackScale
+}
+func (x *DeploymentEventType_StackTrigger) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackTrigger
+}
+func (x *DeploymentEventType_StackStatus) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackStatus
+}
+func (x *DeploymentEventType_MigrateData) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_MigrateData
+}
+func (x *DeploymentEventType_DBMigrateStatus) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_DbMigrateStatus
+}
+func (x *DeploymentEventType_DataMigrated) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_DataMigrated
+}
+func (x *DeploymentEventType_Error) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_Error
+}
+func (x *DeploymentEventType_Done) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_Done
+}
+
 type IsDeploymentEventType_Type = isDeploymentEventType_Type
 
 // DeploymentStatus

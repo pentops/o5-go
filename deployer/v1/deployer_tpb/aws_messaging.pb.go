@@ -82,24 +82,3 @@ func (msg *RunDatabaseMigrationMessage) MessagingHeaders() map[string]string {
 	}
 	return headers
 }
-
-// Service: AWSStatusTopic
-// Method: StackStatusChanged
-
-func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.topic.AWSStatusTopic/StackStatusChanged",
-		"grpc-message": "o5.deployer.v1.topic.StackStatusChangedMessage",
-	}
-	return headers
-}
-
-// Method: MigrationStatusChanged
-
-func (msg *MigrationStatusChangedMessage) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.topic.AWSStatusTopic/MigrationStatusChanged",
-		"grpc-message": "o5.deployer.v1.topic.MigrationStatusChangedMessage",
-	}
-	return headers
-}
