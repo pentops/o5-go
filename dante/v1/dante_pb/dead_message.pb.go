@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.31.0
 // 	protoc        (unknown)
-// source: o5/dempe/v1/dead_message.proto
+// source: o5/dante/v1/dead_message.proto
 
-package dempe_pb
+package dante_pb
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -59,11 +59,11 @@ func (x Urgency) String() string {
 }
 
 func (Urgency) Descriptor() protoreflect.EnumDescriptor {
-	return file_o5_dempe_v1_dead_message_proto_enumTypes[0].Descriptor()
+	return file_o5_dante_v1_dead_message_proto_enumTypes[0].Descriptor()
 }
 
 func (Urgency) Type() protoreflect.EnumType {
-	return &file_o5_dempe_v1_dead_message_proto_enumTypes[0]
+	return &file_o5_dante_v1_dead_message_proto_enumTypes[0]
 }
 
 func (x Urgency) Number() protoreflect.EnumNumber {
@@ -72,7 +72,7 @@ func (x Urgency) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Urgency.Descriptor instead.
 func (Urgency) EnumDescriptor() ([]byte, []int) {
-	return file_o5_dempe_v1_dead_message_proto_rawDescGZIP(), []int{0}
+	return file_o5_dante_v1_dead_message_proto_rawDescGZIP(), []int{0}
 }
 
 type DeadMessage struct {
@@ -98,7 +98,7 @@ type DeadMessage struct {
 func (x *DeadMessage) Reset() {
 	*x = DeadMessage{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[0]
+		mi := &file_o5_dante_v1_dead_message_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -111,7 +111,7 @@ func (x *DeadMessage) String() string {
 func (*DeadMessage) ProtoMessage() {}
 
 func (x *DeadMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[0]
+	mi := &file_o5_dante_v1_dead_message_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,7 +124,7 @@ func (x *DeadMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeadMessage.ProtoReflect.Descriptor instead.
 func (*DeadMessage) Descriptor() ([]byte, []int) {
-	return file_o5_dempe_v1_dead_message_proto_rawDescGZIP(), []int{0}
+	return file_o5_dante_v1_dead_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *DeadMessage) GetInfraMessageId() string {
@@ -220,13 +220,13 @@ type InvariantViolation struct {
 
 	Description string  `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
 	Error       *Any    `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
-	Urgency     Urgency `protobuf:"varint,3,opt,name=urgency,proto3,enum=o5.dempe.v1.Urgency" json:"urgency,omitempty"`
+	Urgency     Urgency `protobuf:"varint,3,opt,name=urgency,proto3,enum=o5.dante.v1.Urgency" json:"urgency,omitempty"`
 }
 
 func (x *InvariantViolation) Reset() {
 	*x = InvariantViolation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[1]
+		mi := &file_o5_dante_v1_dead_message_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -239,7 +239,7 @@ func (x *InvariantViolation) String() string {
 func (*InvariantViolation) ProtoMessage() {}
 
 func (x *InvariantViolation) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[1]
+	mi := &file_o5_dante_v1_dead_message_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -252,7 +252,7 @@ func (x *InvariantViolation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InvariantViolation.ProtoReflect.Descriptor instead.
 func (*InvariantViolation) Descriptor() ([]byte, []int) {
-	return file_o5_dempe_v1_dead_message_proto_rawDescGZIP(), []int{1}
+	return file_o5_dante_v1_dead_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *InvariantViolation) GetDescription() string {
@@ -287,7 +287,7 @@ type UnhandledError struct {
 func (x *UnhandledError) Reset() {
 	*x = UnhandledError{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[2]
+		mi := &file_o5_dante_v1_dead_message_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -300,7 +300,7 @@ func (x *UnhandledError) String() string {
 func (*UnhandledError) ProtoMessage() {}
 
 func (x *UnhandledError) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[2]
+	mi := &file_o5_dante_v1_dead_message_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -313,7 +313,7 @@ func (x *UnhandledError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnhandledError.ProtoReflect.Descriptor instead.
 func (*UnhandledError) Descriptor() ([]byte, []int) {
-	return file_o5_dempe_v1_dead_message_proto_rawDescGZIP(), []int{2}
+	return file_o5_dante_v1_dead_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UnhandledError) GetError() string {
@@ -336,7 +336,7 @@ type Any struct {
 func (x *Any) Reset() {
 	*x = Any{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[3]
+		mi := &file_o5_dante_v1_dead_message_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -349,7 +349,7 @@ func (x *Any) String() string {
 func (*Any) ProtoMessage() {}
 
 func (x *Any) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_dempe_v1_dead_message_proto_msgTypes[3]
+	mi := &file_o5_dante_v1_dead_message_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -362,7 +362,7 @@ func (x *Any) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Any.ProtoReflect.Descriptor instead.
 func (*Any) Descriptor() ([]byte, []int) {
-	return file_o5_dempe_v1_dead_message_proto_rawDescGZIP(), []int{3}
+	return file_o5_dante_v1_dead_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Any) GetProto() *anypb.Any {
@@ -379,12 +379,12 @@ func (x *Any) GetJson() string {
 	return ""
 }
 
-var File_o5_dempe_v1_dead_message_proto protoreflect.FileDescriptor
+var File_o5_dante_v1_dead_message_proto protoreflect.FileDescriptor
 
-var file_o5_dempe_v1_dead_message_proto_rawDesc = []byte{
-	0x0a, 0x1e, 0x6f, 0x35, 0x2f, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65,
+var file_o5_dante_v1_dead_message_proto_rawDesc = []byte{
+	0x0a, 0x1e, 0x6f, 0x35, 0x2f, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65,
 	0x61, 0x64, 0x5f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x0b, 0x6f, 0x35, 0x2e, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x1f, 0x67,
+	0x12, 0x0b, 0x6f, 0x35, 0x2e, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x1f, 0x67,
 	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74,
 	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x19,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
@@ -411,16 +411,16 @@ var file_o5_dempe_v1_dead_message_proto_rawDesc = []byte{
 	0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x14, 0x69, 0x6e,
 	0x69, 0x74, 0x69, 0x61, 0x6c, 0x53, 0x65, 0x6e, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
 	0x6d, 0x70, 0x12, 0x2a, 0x0a, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x07, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2e, 0x76,
+	0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2e, 0x76,
 	0x31, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x07, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x52,
 	0x0a, 0x13, 0x69, 0x6e, 0x76, 0x61, 0x72, 0x69, 0x61, 0x6e, 0x74, 0x5f, 0x76, 0x69, 0x6f, 0x6c,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6f, 0x35,
-	0x2e, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e, 0x76, 0x61, 0x72, 0x69,
+	0x2e, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e, 0x76, 0x61, 0x72, 0x69,
 	0x61, 0x6e, 0x74, 0x56, 0x69, 0x6f, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x12,
 	0x69, 0x6e, 0x76, 0x61, 0x72, 0x69, 0x61, 0x6e, 0x74, 0x56, 0x69, 0x6f, 0x6c, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x12, 0x46, 0x0a, 0x0f, 0x75, 0x6e, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x64, 0x5f,
 	0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x6f, 0x35,
-	0x2e, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x68, 0x61, 0x6e, 0x64,
+	0x2e, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x68, 0x61, 0x6e, 0x64,
 	0x6c, 0x65, 0x64, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x0e, 0x75, 0x6e, 0x68, 0x61,
 	0x6e, 0x64, 0x6c, 0x65, 0x64, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x42, 0x09, 0x0a, 0x07, 0x70, 0x72,
 	0x6f, 0x62, 0x6c, 0x65, 0x6d, 0x22, 0x8e, 0x01, 0x0a, 0x12, 0x49, 0x6e, 0x76, 0x61, 0x72, 0x69,
@@ -428,10 +428,10 @@ var file_o5_dempe_v1_dead_message_proto_rawDesc = []byte{
 	0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x26,
 	0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e,
-	0x6f, 0x35, 0x2e, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x6e, 0x79, 0x52,
+	0x6f, 0x35, 0x2e, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x6e, 0x79, 0x52,
 	0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x2e, 0x0a, 0x07, 0x75, 0x72, 0x67, 0x65, 0x6e, 0x63,
-	0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x14, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x65, 0x6d,
-	0x70, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x72, 0x67, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x07, 0x75,
+	0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x14, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x61, 0x6e,
+	0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x72, 0x67, 0x65, 0x6e, 0x63, 0x79, 0x52, 0x07, 0x75,
 	0x72, 0x67, 0x65, 0x6e, 0x63, 0x79, 0x22, 0x26, 0x0a, 0x0e, 0x55, 0x6e, 0x68, 0x61, 0x6e, 0x64,
 	0x6c, 0x65, 0x64, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f,
 	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x45,
@@ -446,43 +446,43 @@ var file_o5_dempe_v1_dead_message_proto_rawDesc = []byte{
 	0x47, 0x45, 0x4e, 0x43, 0x59, 0x5f, 0x4d, 0x45, 0x44, 0x49, 0x55, 0x4d, 0x10, 0x02, 0x12, 0x10,
 	0x0a, 0x0c, 0x55, 0x52, 0x47, 0x45, 0x4e, 0x43, 0x59, 0x5f, 0x48, 0x49, 0x47, 0x48, 0x10, 0x03,
 	0x42, 0x2c, 0x5a, 0x2a, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70,
-	0x65, 0x6e, 0x74, 0x6f, 0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x64, 0x65, 0x6d,
-	0x70, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x6d, 0x70, 0x65, 0x5f, 0x70, 0x62, 0x62, 0x06,
+	0x65, 0x6e, 0x74, 0x6f, 0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x64, 0x61, 0x6e,
+	0x74, 0x65, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x61, 0x6e, 0x74, 0x65, 0x5f, 0x70, 0x62, 0x62, 0x06,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_o5_dempe_v1_dead_message_proto_rawDescOnce sync.Once
-	file_o5_dempe_v1_dead_message_proto_rawDescData = file_o5_dempe_v1_dead_message_proto_rawDesc
+	file_o5_dante_v1_dead_message_proto_rawDescOnce sync.Once
+	file_o5_dante_v1_dead_message_proto_rawDescData = file_o5_dante_v1_dead_message_proto_rawDesc
 )
 
-func file_o5_dempe_v1_dead_message_proto_rawDescGZIP() []byte {
-	file_o5_dempe_v1_dead_message_proto_rawDescOnce.Do(func() {
-		file_o5_dempe_v1_dead_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_o5_dempe_v1_dead_message_proto_rawDescData)
+func file_o5_dante_v1_dead_message_proto_rawDescGZIP() []byte {
+	file_o5_dante_v1_dead_message_proto_rawDescOnce.Do(func() {
+		file_o5_dante_v1_dead_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_o5_dante_v1_dead_message_proto_rawDescData)
 	})
-	return file_o5_dempe_v1_dead_message_proto_rawDescData
+	return file_o5_dante_v1_dead_message_proto_rawDescData
 }
 
-var file_o5_dempe_v1_dead_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_o5_dempe_v1_dead_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_o5_dempe_v1_dead_message_proto_goTypes = []interface{}{
-	(Urgency)(0),                  // 0: o5.dempe.v1.Urgency
-	(*DeadMessage)(nil),           // 1: o5.dempe.v1.DeadMessage
-	(*InvariantViolation)(nil),    // 2: o5.dempe.v1.InvariantViolation
-	(*UnhandledError)(nil),        // 3: o5.dempe.v1.UnhandledError
-	(*Any)(nil),                   // 4: o5.dempe.v1.Any
+var file_o5_dante_v1_dead_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_o5_dante_v1_dead_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_o5_dante_v1_dead_message_proto_goTypes = []interface{}{
+	(Urgency)(0),                  // 0: o5.dante.v1.Urgency
+	(*DeadMessage)(nil),           // 1: o5.dante.v1.DeadMessage
+	(*InvariantViolation)(nil),    // 2: o5.dante.v1.InvariantViolation
+	(*UnhandledError)(nil),        // 3: o5.dante.v1.UnhandledError
+	(*Any)(nil),                   // 4: o5.dante.v1.Any
 	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 	(*anypb.Any)(nil),             // 6: google.protobuf.Any
 }
-var file_o5_dempe_v1_dead_message_proto_depIdxs = []int32{
-	5, // 0: o5.dempe.v1.DeadMessage.rejected_timestamp:type_name -> google.protobuf.Timestamp
-	5, // 1: o5.dempe.v1.DeadMessage.initial_sent_timestamp:type_name -> google.protobuf.Timestamp
-	4, // 2: o5.dempe.v1.DeadMessage.payload:type_name -> o5.dempe.v1.Any
-	2, // 3: o5.dempe.v1.DeadMessage.invariant_violation:type_name -> o5.dempe.v1.InvariantViolation
-	3, // 4: o5.dempe.v1.DeadMessage.unhandled_error:type_name -> o5.dempe.v1.UnhandledError
-	4, // 5: o5.dempe.v1.InvariantViolation.error:type_name -> o5.dempe.v1.Any
-	0, // 6: o5.dempe.v1.InvariantViolation.urgency:type_name -> o5.dempe.v1.Urgency
-	6, // 7: o5.dempe.v1.Any.proto:type_name -> google.protobuf.Any
+var file_o5_dante_v1_dead_message_proto_depIdxs = []int32{
+	5, // 0: o5.dante.v1.DeadMessage.rejected_timestamp:type_name -> google.protobuf.Timestamp
+	5, // 1: o5.dante.v1.DeadMessage.initial_sent_timestamp:type_name -> google.protobuf.Timestamp
+	4, // 2: o5.dante.v1.DeadMessage.payload:type_name -> o5.dante.v1.Any
+	2, // 3: o5.dante.v1.DeadMessage.invariant_violation:type_name -> o5.dante.v1.InvariantViolation
+	3, // 4: o5.dante.v1.DeadMessage.unhandled_error:type_name -> o5.dante.v1.UnhandledError
+	4, // 5: o5.dante.v1.InvariantViolation.error:type_name -> o5.dante.v1.Any
+	0, // 6: o5.dante.v1.InvariantViolation.urgency:type_name -> o5.dante.v1.Urgency
+	6, // 7: o5.dante.v1.Any.proto:type_name -> google.protobuf.Any
 	8, // [8:8] is the sub-list for method output_type
 	8, // [8:8] is the sub-list for method input_type
 	8, // [8:8] is the sub-list for extension type_name
@@ -490,13 +490,13 @@ var file_o5_dempe_v1_dead_message_proto_depIdxs = []int32{
 	0, // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_o5_dempe_v1_dead_message_proto_init() }
-func file_o5_dempe_v1_dead_message_proto_init() {
-	if File_o5_dempe_v1_dead_message_proto != nil {
+func init() { file_o5_dante_v1_dead_message_proto_init() }
+func file_o5_dante_v1_dead_message_proto_init() {
+	if File_o5_dante_v1_dead_message_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_o5_dempe_v1_dead_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_o5_dante_v1_dead_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeadMessage); i {
 			case 0:
 				return &v.state
@@ -508,7 +508,7 @@ func file_o5_dempe_v1_dead_message_proto_init() {
 				return nil
 			}
 		}
-		file_o5_dempe_v1_dead_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_o5_dante_v1_dead_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InvariantViolation); i {
 			case 0:
 				return &v.state
@@ -520,7 +520,7 @@ func file_o5_dempe_v1_dead_message_proto_init() {
 				return nil
 			}
 		}
-		file_o5_dempe_v1_dead_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_o5_dante_v1_dead_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UnhandledError); i {
 			case 0:
 				return &v.state
@@ -532,7 +532,7 @@ func file_o5_dempe_v1_dead_message_proto_init() {
 				return nil
 			}
 		}
-		file_o5_dempe_v1_dead_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_o5_dante_v1_dead_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Any); i {
 			case 0:
 				return &v.state
@@ -545,7 +545,7 @@ func file_o5_dempe_v1_dead_message_proto_init() {
 			}
 		}
 	}
-	file_o5_dempe_v1_dead_message_proto_msgTypes[0].OneofWrappers = []interface{}{
+	file_o5_dante_v1_dead_message_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*DeadMessage_InvariantViolation)(nil),
 		(*DeadMessage_UnhandledError)(nil),
 	}
@@ -553,19 +553,19 @@ func file_o5_dempe_v1_dead_message_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_o5_dempe_v1_dead_message_proto_rawDesc,
+			RawDescriptor: file_o5_dante_v1_dead_message_proto_rawDesc,
 			NumEnums:      1,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_o5_dempe_v1_dead_message_proto_goTypes,
-		DependencyIndexes: file_o5_dempe_v1_dead_message_proto_depIdxs,
-		EnumInfos:         file_o5_dempe_v1_dead_message_proto_enumTypes,
-		MessageInfos:      file_o5_dempe_v1_dead_message_proto_msgTypes,
+		GoTypes:           file_o5_dante_v1_dead_message_proto_goTypes,
+		DependencyIndexes: file_o5_dante_v1_dead_message_proto_depIdxs,
+		EnumInfos:         file_o5_dante_v1_dead_message_proto_enumTypes,
+		MessageInfos:      file_o5_dante_v1_dead_message_proto_msgTypes,
 	}.Build()
-	File_o5_dempe_v1_dead_message_proto = out.File
-	file_o5_dempe_v1_dead_message_proto_rawDesc = nil
-	file_o5_dempe_v1_dead_message_proto_goTypes = nil
-	file_o5_dempe_v1_dead_message_proto_depIdxs = nil
+	File_o5_dante_v1_dead_message_proto = out.File
+	file_o5_dante_v1_dead_message_proto_rawDesc = nil
+	file_o5_dante_v1_dead_message_proto_goTypes = nil
+	file_o5_dante_v1_dead_message_proto_depIdxs = nil
 }
