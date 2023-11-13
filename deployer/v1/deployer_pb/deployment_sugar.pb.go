@@ -163,6 +163,7 @@ const (
 	DeploymentStatus_SCALING_UP     DeploymentStatus = 11
 	DeploymentStatus_SCALED_UP      DeploymentStatus = 12
 	DeploymentStatus_CREATING       DeploymentStatus = 13
+	DeploymentStatus_NEW            DeploymentStatus = 14
 	DeploymentStatus_DONE           DeploymentStatus = 100
 	DeploymentStatus_FAILED         DeploymentStatus = 101
 )
@@ -183,6 +184,7 @@ var (
 		11:  "SCALING_UP",
 		12:  "SCALED_UP",
 		13:  "CREATING",
+		14:  "NEW",
 		100: "DONE",
 		101: "FAILED",
 	}
@@ -201,6 +203,7 @@ var (
 		"SCALING_UP":     11,
 		"SCALED_UP":      12,
 		"CREATING":       13,
+		"NEW":            14,
 		"DONE":           100,
 		"FAILED":         101,
 	}
@@ -233,6 +236,8 @@ var (
 		"DEPLOYMENT_STATUS_SCALED_UP":      12,
 		"CREATING":                         13,
 		"DEPLOYMENT_STATUS_CREATING":       13,
+		"NEW":                              14,
+		"DEPLOYMENT_STATUS_NEW":            14,
 		"DONE":                             100,
 		"DEPLOYMENT_STATUS_DONE":           100,
 		"FAILED":                           101,
@@ -270,6 +275,7 @@ const (
 	StackLifecycle_ROLLING_BACK  StackLifecycle = 3
 	StackLifecycle_CREATE_FAILED StackLifecycle = 4
 	StackLifecycle_TERMINAL      StackLifecycle = 5
+	StackLifecycle_MISSING       StackLifecycle = 6
 )
 
 var (
@@ -280,6 +286,7 @@ var (
 		3: "ROLLING_BACK",
 		4: "CREATE_FAILED",
 		5: "TERMINAL",
+		6: "MISSING",
 	}
 	StackLifecycle_value_short = map[string]int32{
 		"UNSPECIFIED":   0,
@@ -288,6 +295,7 @@ var (
 		"ROLLING_BACK":  3,
 		"CREATE_FAILED": 4,
 		"TERMINAL":      5,
+		"MISSING":       6,
 	}
 	StackLifecycle_value_either = map[string]int32{
 		"UNSPECIFIED":                   0,
@@ -302,6 +310,8 @@ var (
 		"STACK_LIFECYCLE_CREATE_FAILED": 4,
 		"TERMINAL":                      5,
 		"STACK_LIFECYCLE_TERMINAL":      5,
+		"MISSING":                       6,
+		"STACK_LIFECYCLE_MISSING":       6,
 	}
 )
 

@@ -28,6 +28,7 @@ type AWSCommandTopicClient interface {
 	DeleteStack(ctx context.Context, in *DeleteStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ScaleStack(ctx context.Context, in *ScaleStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	CancelStackUpdate(ctx context.Context, in *CancelStackUpdateMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	StabalizeStack(ctx context.Context, in *StabalizeStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UpsertSNSTopics(ctx context.Context, in *UpsertSNSTopicsMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RunDatabaseMigration(ctx context.Context, in *RunDatabaseMigrationMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -85,6 +86,15 @@ func (c *aWSCommandTopicClient) CancelStackUpdate(ctx context.Context, in *Cance
 	return out, nil
 }
 
+func (c *aWSCommandTopicClient) StabalizeStack(ctx context.Context, in *StabalizeStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.AWSCommandTopic/StabalizeStack", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *aWSCommandTopicClient) UpsertSNSTopics(ctx context.Context, in *UpsertSNSTopicsMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.AWSCommandTopic/UpsertSNSTopics", in, out, opts...)
@@ -112,6 +122,7 @@ type AWSCommandTopicServer interface {
 	DeleteStack(context.Context, *DeleteStackMessage) (*emptypb.Empty, error)
 	ScaleStack(context.Context, *ScaleStackMessage) (*emptypb.Empty, error)
 	CancelStackUpdate(context.Context, *CancelStackUpdateMessage) (*emptypb.Empty, error)
+	StabalizeStack(context.Context, *StabalizeStackMessage) (*emptypb.Empty, error)
 	UpsertSNSTopics(context.Context, *UpsertSNSTopicsMessage) (*emptypb.Empty, error)
 	RunDatabaseMigration(context.Context, *RunDatabaseMigrationMessage) (*emptypb.Empty, error)
 	mustEmbedUnimplementedAWSCommandTopicServer()
@@ -135,6 +146,9 @@ func (UnimplementedAWSCommandTopicServer) ScaleStack(context.Context, *ScaleStac
 }
 func (UnimplementedAWSCommandTopicServer) CancelStackUpdate(context.Context, *CancelStackUpdateMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelStackUpdate not implemented")
+}
+func (UnimplementedAWSCommandTopicServer) StabalizeStack(context.Context, *StabalizeStackMessage) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StabalizeStack not implemented")
 }
 func (UnimplementedAWSCommandTopicServer) UpsertSNSTopics(context.Context, *UpsertSNSTopicsMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpsertSNSTopics not implemented")
@@ -245,6 +259,24 @@ func _AWSCommandTopic_CancelStackUpdate_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AWSCommandTopic_StabalizeStack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StabalizeStackMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AWSCommandTopicServer).StabalizeStack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/o5.deployer.v1.topic.AWSCommandTopic/StabalizeStack",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AWSCommandTopicServer).StabalizeStack(ctx, req.(*StabalizeStackMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AWSCommandTopic_UpsertSNSTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpsertSNSTopicsMessage)
 	if err := dec(in); err != nil {
@@ -307,6 +339,10 @@ var AWSCommandTopic_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelStackUpdate",
 			Handler:    _AWSCommandTopic_CancelStackUpdate_Handler,
+		},
+		{
+			MethodName: "StabalizeStack",
+			Handler:    _AWSCommandTopic_StabalizeStack_Handler,
 		},
 		{
 			MethodName: "UpsertSNSTopics",

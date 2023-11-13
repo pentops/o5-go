@@ -53,6 +53,16 @@ func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 	return headers
 }
 
+// Method: StabalizeStack
+
+func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/StabalizeStack",
+		"grpc-message": "o5.deployer.v1.topic.StabalizeStackMessage",
+	}
+	return headers
+}
+
 // Method: UpsertSNSTopics
 
 func (msg *UpsertSNSTopicsMessage) MessagingHeaders() map[string]string {
