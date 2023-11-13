@@ -402,6 +402,176 @@ func (x *KeyValue) GetValue() string {
 	return ""
 }
 
+type CloudFormationStackParameter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Types that are assignable to Source:
+	//
+	//	*CloudFormationStackParameter_Value
+	//	*CloudFormationStackParameter_Resolve
+	Source isCloudFormationStackParameter_Source `protobuf_oneof:"source"`
+}
+
+func (x *CloudFormationStackParameter) Reset() {
+	*x = CloudFormationStackParameter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloudFormationStackParameter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudFormationStackParameter) ProtoMessage() {}
+
+func (x *CloudFormationStackParameter) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudFormationStackParameter.ProtoReflect.Descriptor instead.
+func (*CloudFormationStackParameter) Descriptor() ([]byte, []int) {
+	return file_o5_deployer_v1_application_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CloudFormationStackParameter) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (m *CloudFormationStackParameter) GetSource() isCloudFormationStackParameter_Source {
+	if m != nil {
+		return m.Source
+	}
+	return nil
+}
+
+func (x *CloudFormationStackParameter) GetValue() string {
+	if x, ok := x.GetSource().(*CloudFormationStackParameter_Value); ok {
+		return x.Value
+	}
+	return ""
+}
+
+func (x *CloudFormationStackParameter) GetResolve() *CloudFormationStackParameterType {
+	if x, ok := x.GetSource().(*CloudFormationStackParameter_Resolve); ok {
+		return x.Resolve
+	}
+	return nil
+}
+
+type isCloudFormationStackParameter_Source interface {
+	isCloudFormationStackParameter_Source()
+}
+
+type CloudFormationStackParameter_Value struct {
+	Value string `protobuf:"bytes,2,opt,name=value,proto3,oneof"`
+}
+
+type CloudFormationStackParameter_Resolve struct {
+	Resolve *CloudFormationStackParameterType `protobuf:"bytes,3,opt,name=resolve,proto3,oneof"`
+}
+
+func (*CloudFormationStackParameter_Value) isCloudFormationStackParameter_Source() {}
+
+func (*CloudFormationStackParameter_Resolve) isCloudFormationStackParameter_Source() {}
+
+type CloudFormationStackParameterType struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Type:
+	//
+	//	*CloudFormationStackParameterType_RulePriority_
+	//	*CloudFormationStackParameterType_DesiredCount_
+	Type isCloudFormationStackParameterType_Type `protobuf_oneof:"type"`
+}
+
+func (x *CloudFormationStackParameterType) Reset() {
+	*x = CloudFormationStackParameterType{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloudFormationStackParameterType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudFormationStackParameterType) ProtoMessage() {}
+
+func (x *CloudFormationStackParameterType) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudFormationStackParameterType.ProtoReflect.Descriptor instead.
+func (*CloudFormationStackParameterType) Descriptor() ([]byte, []int) {
+	return file_o5_deployer_v1_application_proto_rawDescGZIP(), []int{6}
+}
+
+func (m *CloudFormationStackParameterType) GetType() isCloudFormationStackParameterType_Type {
+	if m != nil {
+		return m.Type
+	}
+	return nil
+}
+
+func (x *CloudFormationStackParameterType) GetRulePriority() *CloudFormationStackParameterType_RulePriority {
+	if x, ok := x.GetType().(*CloudFormationStackParameterType_RulePriority_); ok {
+		return x.RulePriority
+	}
+	return nil
+}
+
+func (x *CloudFormationStackParameterType) GetDesiredCount() *CloudFormationStackParameterType_DesiredCount {
+	if x, ok := x.GetType().(*CloudFormationStackParameterType_DesiredCount_); ok {
+		return x.DesiredCount
+	}
+	return nil
+}
+
+type isCloudFormationStackParameterType_Type interface {
+	isCloudFormationStackParameterType_Type()
+}
+
+type CloudFormationStackParameterType_RulePriority_ struct {
+	RulePriority *CloudFormationStackParameterType_RulePriority `protobuf:"bytes,3,opt,name=rule_priority,json=rulePriority,proto3,oneof"`
+}
+
+type CloudFormationStackParameterType_DesiredCount_ struct {
+	DesiredCount *CloudFormationStackParameterType_DesiredCount `protobuf:"bytes,4,opt,name=desired_count,json=desiredCount,proto3,oneof"`
+}
+
+func (*CloudFormationStackParameterType_RulePriority_) isCloudFormationStackParameterType_Type() {}
+
+func (*CloudFormationStackParameterType_DesiredCount_) isCloudFormationStackParameterType_Type() {}
+
 type ParameterSourceType_Static struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -413,7 +583,7 @@ type ParameterSourceType_Static struct {
 func (x *ParameterSourceType_Static) Reset() {
 	*x = ParameterSourceType_Static{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[5]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -426,7 +596,7 @@ func (x *ParameterSourceType_Static) String() string {
 func (*ParameterSourceType_Static) ProtoMessage() {}
 
 func (x *ParameterSourceType_Static) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[5]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +630,7 @@ type ParameterSourceType_WellKnown struct {
 func (x *ParameterSourceType_WellKnown) Reset() {
 	*x = ParameterSourceType_WellKnown{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[6]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -473,7 +643,7 @@ func (x *ParameterSourceType_WellKnown) String() string {
 func (*ParameterSourceType_WellKnown) ProtoMessage() {}
 
 func (x *ParameterSourceType_WellKnown) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[6]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -507,7 +677,7 @@ type ParameterSourceType_RulePriority struct {
 func (x *ParameterSourceType_RulePriority) Reset() {
 	*x = ParameterSourceType_RulePriority{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[7]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -520,7 +690,7 @@ func (x *ParameterSourceType_RulePriority) String() string {
 func (*ParameterSourceType_RulePriority) ProtoMessage() {}
 
 func (x *ParameterSourceType_RulePriority) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[7]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -552,7 +722,7 @@ type ParameterSourceType_DesiredCount struct {
 func (x *ParameterSourceType_DesiredCount) Reset() {
 	*x = ParameterSourceType_DesiredCount{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[8]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -565,7 +735,7 @@ func (x *ParameterSourceType_DesiredCount) String() string {
 func (*ParameterSourceType_DesiredCount) ProtoMessage() {}
 
 func (x *ParameterSourceType_DesiredCount) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[8]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +762,7 @@ type ParameterSourceType_CrossEnvSns struct {
 func (x *ParameterSourceType_CrossEnvSns) Reset() {
 	*x = ParameterSourceType_CrossEnvSns{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[9]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -605,7 +775,7 @@ func (x *ParameterSourceType_CrossEnvSns) String() string {
 func (*ParameterSourceType_CrossEnvSns) ProtoMessage() {}
 
 func (x *ParameterSourceType_CrossEnvSns) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[9]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -639,7 +809,7 @@ type ParameterSourceType_EnvVar struct {
 func (x *ParameterSourceType_EnvVar) Reset() {
 	*x = ParameterSourceType_EnvVar{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_o5_deployer_v1_application_proto_msgTypes[10]
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -652,7 +822,7 @@ func (x *ParameterSourceType_EnvVar) String() string {
 func (*ParameterSourceType_EnvVar) ProtoMessage() {}
 
 func (x *ParameterSourceType_EnvVar) ProtoReflect() protoreflect.Message {
-	mi := &file_o5_deployer_v1_application_proto_msgTypes[10]
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -673,6 +843,91 @@ func (x *ParameterSourceType_EnvVar) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+type CloudFormationStackParameterType_RulePriority struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RouteGroup application_pb.RouteGroup `protobuf:"varint,1,opt,name=route_group,json=routeGroup,proto3,enum=o5.application.v1.RouteGroup" json:"route_group,omitempty"`
+}
+
+func (x *CloudFormationStackParameterType_RulePriority) Reset() {
+	*x = CloudFormationStackParameterType_RulePriority{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloudFormationStackParameterType_RulePriority) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudFormationStackParameterType_RulePriority) ProtoMessage() {}
+
+func (x *CloudFormationStackParameterType_RulePriority) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudFormationStackParameterType_RulePriority.ProtoReflect.Descriptor instead.
+func (*CloudFormationStackParameterType_RulePriority) Descriptor() ([]byte, []int) {
+	return file_o5_deployer_v1_application_proto_rawDescGZIP(), []int{6, 0}
+}
+
+func (x *CloudFormationStackParameterType_RulePriority) GetRouteGroup() application_pb.RouteGroup {
+	if x != nil {
+		return x.RouteGroup
+	}
+	return application_pb.RouteGroup(0)
+}
+
+type CloudFormationStackParameterType_DesiredCount struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CloudFormationStackParameterType_DesiredCount) Reset() {
+	*x = CloudFormationStackParameterType_DesiredCount{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_deployer_v1_application_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloudFormationStackParameterType_DesiredCount) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudFormationStackParameterType_DesiredCount) ProtoMessage() {}
+
+func (x *CloudFormationStackParameterType_DesiredCount) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_deployer_v1_application_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudFormationStackParameterType_DesiredCount.ProtoReflect.Descriptor instead.
+func (*CloudFormationStackParameterType_DesiredCount) Descriptor() ([]byte, []int) {
+	return file_o5_deployer_v1_application_proto_rawDescGZIP(), []int{6, 1}
 }
 
 var File_o5_deployer_v1_application_proto protoreflect.FileDescriptor
@@ -761,11 +1016,43 @@ var file_o5_deployer_v1_application_proto_rawDesc = []byte{
 	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x34, 0x0a, 0x08, 0x4b, 0x65, 0x79, 0x56,
 	0x61, 0x6c, 0x75, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x42, 0x32,
-	0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70, 0x65, 0x6e,
-	0x74, 0x6f, 0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f,
-	0x79, 0x65, 0x72, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x72, 0x5f,
-	0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xa2,
+	0x01, 0x0a, 0x1c, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x12,
+	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x48, 0x00, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x4c, 0x0a, 0x07, 0x72,
+	0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x6f,
+	0x35, 0x2e, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c,
+	0x6f, 0x75, 0x64, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x63,
+	0x6b, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x48, 0x00,
+	0x52, 0x07, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x42, 0x08, 0x0a, 0x06, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x22, 0xd6, 0x02, 0x0a, 0x20, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x46, 0x6f, 0x72,
+	0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x50, 0x61, 0x72, 0x61, 0x6d,
+	0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x64, 0x0a, 0x0d, 0x72, 0x75, 0x6c, 0x65,
+	0x5f, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x3d, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x72, 0x2e, 0x76, 0x31,
+	0x2e, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53,
+	0x74, 0x61, 0x63, 0x6b, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65, 0x74, 0x65, 0x72, 0x54, 0x79, 0x70,
+	0x65, 0x2e, 0x52, 0x75, 0x6c, 0x65, 0x50, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x48, 0x00,
+	0x52, 0x0c, 0x72, 0x75, 0x6c, 0x65, 0x50, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x12, 0x64,
+	0x0a, 0x0d, 0x64, 0x65, 0x73, 0x69, 0x72, 0x65, 0x64, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3d, 0x2e, 0x6f, 0x35, 0x2e, 0x64, 0x65, 0x70, 0x6c, 0x6f,
+	0x79, 0x65, 0x72, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x46, 0x6f, 0x72, 0x6d,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x63, 0x6b, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x65,
+	0x74, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x2e, 0x44, 0x65, 0x73, 0x69, 0x72, 0x65, 0x64, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x0c, 0x64, 0x65, 0x73, 0x69, 0x72, 0x65, 0x64, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x1a, 0x4e, 0x0a, 0x0c, 0x52, 0x75, 0x6c, 0x65, 0x50, 0x72, 0x69, 0x6f,
+	0x72, 0x69, 0x74, 0x79, 0x12, 0x3e, 0x0a, 0x0b, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x5f, 0x67, 0x72,
+	0x6f, 0x75, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x6f, 0x35, 0x2e, 0x61,
+	0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x6f,
+	0x75, 0x74, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x0a, 0x72, 0x6f, 0x75, 0x74, 0x65, 0x47,
+	0x72, 0x6f, 0x75, 0x70, 0x1a, 0x0e, 0x0a, 0x0c, 0x44, 0x65, 0x73, 0x69, 0x72, 0x65, 0x64, 0x43,
+	0x6f, 0x75, 0x6e, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x42, 0x32, 0x5a, 0x30,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70, 0x65, 0x6e, 0x74, 0x6f,
+	0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x65,
+	0x72, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x72, 0x5f, 0x70, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -780,37 +1067,45 @@ func file_o5_deployer_v1_application_proto_rawDescGZIP() []byte {
 	return file_o5_deployer_v1_application_proto_rawDescData
 }
 
-var file_o5_deployer_v1_application_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_o5_deployer_v1_application_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_o5_deployer_v1_application_proto_goTypes = []interface{}{
-	(*PostgresDatabase)(nil),                 // 0: o5.deployer.v1.PostgresDatabase
-	(*Parameter)(nil),                        // 1: o5.deployer.v1.Parameter
-	(*ParameterSourceType)(nil),              // 2: o5.deployer.v1.ParameterSourceType
-	(*SNSTopic)(nil),                         // 3: o5.deployer.v1.SNSTopic
-	(*KeyValue)(nil),                         // 4: o5.deployer.v1.KeyValue
-	(*ParameterSourceType_Static)(nil),       // 5: o5.deployer.v1.ParameterSourceType.Static
-	(*ParameterSourceType_WellKnown)(nil),    // 6: o5.deployer.v1.ParameterSourceType.WellKnown
-	(*ParameterSourceType_RulePriority)(nil), // 7: o5.deployer.v1.ParameterSourceType.RulePriority
-	(*ParameterSourceType_DesiredCount)(nil), // 8: o5.deployer.v1.ParameterSourceType.DesiredCount
-	(*ParameterSourceType_CrossEnvSns)(nil),  // 9: o5.deployer.v1.ParameterSourceType.CrossEnvSns
-	(*ParameterSourceType_EnvVar)(nil),       // 10: o5.deployer.v1.ParameterSourceType.EnvVar
-	(*application_pb.Database)(nil),          // 11: o5.application.v1.Database
-	(application_pb.RouteGroup)(0),           // 12: o5.application.v1.RouteGroup
+	(*PostgresDatabase)(nil),                              // 0: o5.deployer.v1.PostgresDatabase
+	(*Parameter)(nil),                                     // 1: o5.deployer.v1.Parameter
+	(*ParameterSourceType)(nil),                           // 2: o5.deployer.v1.ParameterSourceType
+	(*SNSTopic)(nil),                                      // 3: o5.deployer.v1.SNSTopic
+	(*KeyValue)(nil),                                      // 4: o5.deployer.v1.KeyValue
+	(*CloudFormationStackParameter)(nil),                  // 5: o5.deployer.v1.CloudFormationStackParameter
+	(*CloudFormationStackParameterType)(nil),              // 6: o5.deployer.v1.CloudFormationStackParameterType
+	(*ParameterSourceType_Static)(nil),                    // 7: o5.deployer.v1.ParameterSourceType.Static
+	(*ParameterSourceType_WellKnown)(nil),                 // 8: o5.deployer.v1.ParameterSourceType.WellKnown
+	(*ParameterSourceType_RulePriority)(nil),              // 9: o5.deployer.v1.ParameterSourceType.RulePriority
+	(*ParameterSourceType_DesiredCount)(nil),              // 10: o5.deployer.v1.ParameterSourceType.DesiredCount
+	(*ParameterSourceType_CrossEnvSns)(nil),               // 11: o5.deployer.v1.ParameterSourceType.CrossEnvSns
+	(*ParameterSourceType_EnvVar)(nil),                    // 12: o5.deployer.v1.ParameterSourceType.EnvVar
+	(*CloudFormationStackParameterType_RulePriority)(nil), // 13: o5.deployer.v1.CloudFormationStackParameterType.RulePriority
+	(*CloudFormationStackParameterType_DesiredCount)(nil), // 14: o5.deployer.v1.CloudFormationStackParameterType.DesiredCount
+	(*application_pb.Database)(nil),                       // 15: o5.application.v1.Database
+	(application_pb.RouteGroup)(0),                        // 16: o5.application.v1.RouteGroup
 }
 var file_o5_deployer_v1_application_proto_depIdxs = []int32{
-	11, // 0: o5.deployer.v1.PostgresDatabase.database:type_name -> o5.application.v1.Database
+	15, // 0: o5.deployer.v1.PostgresDatabase.database:type_name -> o5.application.v1.Database
 	2,  // 1: o5.deployer.v1.Parameter.source:type_name -> o5.deployer.v1.ParameterSourceType
-	5,  // 2: o5.deployer.v1.ParameterSourceType.static:type_name -> o5.deployer.v1.ParameterSourceType.Static
-	6,  // 3: o5.deployer.v1.ParameterSourceType.well_known:type_name -> o5.deployer.v1.ParameterSourceType.WellKnown
-	7,  // 4: o5.deployer.v1.ParameterSourceType.rule_priority:type_name -> o5.deployer.v1.ParameterSourceType.RulePriority
-	8,  // 5: o5.deployer.v1.ParameterSourceType.desired_count:type_name -> o5.deployer.v1.ParameterSourceType.DesiredCount
-	9,  // 6: o5.deployer.v1.ParameterSourceType.cross_env_sns:type_name -> o5.deployer.v1.ParameterSourceType.CrossEnvSns
-	10, // 7: o5.deployer.v1.ParameterSourceType.env_var:type_name -> o5.deployer.v1.ParameterSourceType.EnvVar
-	12, // 8: o5.deployer.v1.ParameterSourceType.RulePriority.route_group:type_name -> o5.application.v1.RouteGroup
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	7,  // 2: o5.deployer.v1.ParameterSourceType.static:type_name -> o5.deployer.v1.ParameterSourceType.Static
+	8,  // 3: o5.deployer.v1.ParameterSourceType.well_known:type_name -> o5.deployer.v1.ParameterSourceType.WellKnown
+	9,  // 4: o5.deployer.v1.ParameterSourceType.rule_priority:type_name -> o5.deployer.v1.ParameterSourceType.RulePriority
+	10, // 5: o5.deployer.v1.ParameterSourceType.desired_count:type_name -> o5.deployer.v1.ParameterSourceType.DesiredCount
+	11, // 6: o5.deployer.v1.ParameterSourceType.cross_env_sns:type_name -> o5.deployer.v1.ParameterSourceType.CrossEnvSns
+	12, // 7: o5.deployer.v1.ParameterSourceType.env_var:type_name -> o5.deployer.v1.ParameterSourceType.EnvVar
+	6,  // 8: o5.deployer.v1.CloudFormationStackParameter.resolve:type_name -> o5.deployer.v1.CloudFormationStackParameterType
+	13, // 9: o5.deployer.v1.CloudFormationStackParameterType.rule_priority:type_name -> o5.deployer.v1.CloudFormationStackParameterType.RulePriority
+	14, // 10: o5.deployer.v1.CloudFormationStackParameterType.desired_count:type_name -> o5.deployer.v1.CloudFormationStackParameterType.DesiredCount
+	16, // 11: o5.deployer.v1.ParameterSourceType.RulePriority.route_group:type_name -> o5.application.v1.RouteGroup
+	16, // 12: o5.deployer.v1.CloudFormationStackParameterType.RulePriority.route_group:type_name -> o5.application.v1.RouteGroup
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_o5_deployer_v1_application_proto_init() }
@@ -880,7 +1175,7 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterSourceType_Static); i {
+			switch v := v.(*CloudFormationStackParameter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -892,7 +1187,7 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterSourceType_WellKnown); i {
+			switch v := v.(*CloudFormationStackParameterType); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -904,7 +1199,7 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterSourceType_RulePriority); i {
+			switch v := v.(*ParameterSourceType_Static); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -916,7 +1211,7 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterSourceType_DesiredCount); i {
+			switch v := v.(*ParameterSourceType_WellKnown); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -928,7 +1223,7 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterSourceType_CrossEnvSns); i {
+			switch v := v.(*ParameterSourceType_RulePriority); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -940,7 +1235,55 @@ func file_o5_deployer_v1_application_proto_init() {
 			}
 		}
 		file_o5_deployer_v1_application_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ParameterSourceType_DesiredCount); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_deployer_v1_application_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ParameterSourceType_CrossEnvSns); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_deployer_v1_application_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ParameterSourceType_EnvVar); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_deployer_v1_application_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CloudFormationStackParameterType_RulePriority); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_o5_deployer_v1_application_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CloudFormationStackParameterType_DesiredCount); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -961,13 +1304,21 @@ func file_o5_deployer_v1_application_proto_init() {
 		(*ParameterSourceType_CrossEnvSns_)(nil),
 		(*ParameterSourceType_EnvVar_)(nil),
 	}
+	file_o5_deployer_v1_application_proto_msgTypes[5].OneofWrappers = []interface{}{
+		(*CloudFormationStackParameter_Value)(nil),
+		(*CloudFormationStackParameter_Resolve)(nil),
+	}
+	file_o5_deployer_v1_application_proto_msgTypes[6].OneofWrappers = []interface{}{
+		(*CloudFormationStackParameterType_RulePriority_)(nil),
+		(*CloudFormationStackParameterType_DesiredCount_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_o5_deployer_v1_application_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
