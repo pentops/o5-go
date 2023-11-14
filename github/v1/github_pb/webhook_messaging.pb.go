@@ -6,7 +6,7 @@ package github_pb
 // Method: Push
 
 func (msg *PushMessage) MessagingTopic() string {
-	return "topic/github-webhook"
+	return "github-webhook"
 }
 func (msg *PushMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{

@@ -6,7 +6,7 @@ package deployer_tpb
 // Method: TriggerDeployment
 
 func (msg *TriggerDeploymentMessage) MessagingTopic() string {
-	return "queue/o5-deployer-input"
+	return "o5-deployer-input"
 }
 func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -19,7 +19,7 @@ func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
 // Method: StackStatusChanged
 
 func (msg *StackStatusChangedMessage) MessagingTopic() string {
-	return "queue/o5-deployer-input"
+	return "o5-deployer-input"
 }
 func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -32,7 +32,7 @@ func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
 // Method: MigrationStatusChanged
 
 func (msg *MigrationStatusChangedMessage) MessagingTopic() string {
-	return "queue/o5-deployer-input"
+	return "o5-deployer-input"
 }
 func (msg *MigrationStatusChangedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
