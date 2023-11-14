@@ -7,7 +7,7 @@
 package deployer_pb
 
 import (
-	v1 "github.com/pentops/listify/v1"
+	v1 "github.com/pentops/protoc-gen-listify/listify/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
