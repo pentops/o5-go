@@ -81,19 +81,6 @@ func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 	return headers
 }
 
-// Method: UpsertSNSTopics
-
-func (msg *UpsertSNSTopicsMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
-}
-func (msg *UpsertSNSTopicsMessage) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/UpsertSNSTopics",
-		"grpc-message": "o5.deployer.v1.topic.UpsertSNSTopicsMessage",
-	}
-	return headers
-}
-
 // Method: RunDatabaseMigration
 
 func (msg *RunDatabaseMigrationMessage) MessagingTopic() string {

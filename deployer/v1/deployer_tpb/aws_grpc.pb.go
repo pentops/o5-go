@@ -29,7 +29,6 @@ type AWSCommandTopicClient interface {
 	ScaleStack(ctx context.Context, in *ScaleStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	CancelStackUpdate(ctx context.Context, in *CancelStackUpdateMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	StabalizeStack(ctx context.Context, in *StabalizeStackMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	UpsertSNSTopics(ctx context.Context, in *UpsertSNSTopicsMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RunDatabaseMigration(ctx context.Context, in *RunDatabaseMigrationMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -95,15 +94,6 @@ func (c *aWSCommandTopicClient) StabalizeStack(ctx context.Context, in *Stabaliz
 	return out, nil
 }
 
-func (c *aWSCommandTopicClient) UpsertSNSTopics(ctx context.Context, in *UpsertSNSTopicsMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.AWSCommandTopic/UpsertSNSTopics", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *aWSCommandTopicClient) RunDatabaseMigration(ctx context.Context, in *RunDatabaseMigrationMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.AWSCommandTopic/RunDatabaseMigration", in, out, opts...)
@@ -123,7 +113,6 @@ type AWSCommandTopicServer interface {
 	ScaleStack(context.Context, *ScaleStackMessage) (*emptypb.Empty, error)
 	CancelStackUpdate(context.Context, *CancelStackUpdateMessage) (*emptypb.Empty, error)
 	StabalizeStack(context.Context, *StabalizeStackMessage) (*emptypb.Empty, error)
-	UpsertSNSTopics(context.Context, *UpsertSNSTopicsMessage) (*emptypb.Empty, error)
 	RunDatabaseMigration(context.Context, *RunDatabaseMigrationMessage) (*emptypb.Empty, error)
 	mustEmbedUnimplementedAWSCommandTopicServer()
 }
@@ -149,9 +138,6 @@ func (UnimplementedAWSCommandTopicServer) CancelStackUpdate(context.Context, *Ca
 }
 func (UnimplementedAWSCommandTopicServer) StabalizeStack(context.Context, *StabalizeStackMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StabalizeStack not implemented")
-}
-func (UnimplementedAWSCommandTopicServer) UpsertSNSTopics(context.Context, *UpsertSNSTopicsMessage) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpsertSNSTopics not implemented")
 }
 func (UnimplementedAWSCommandTopicServer) RunDatabaseMigration(context.Context, *RunDatabaseMigrationMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunDatabaseMigration not implemented")
@@ -277,24 +263,6 @@ func _AWSCommandTopic_StabalizeStack_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AWSCommandTopic_UpsertSNSTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpsertSNSTopicsMessage)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AWSCommandTopicServer).UpsertSNSTopics(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/o5.deployer.v1.topic.AWSCommandTopic/UpsertSNSTopics",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AWSCommandTopicServer).UpsertSNSTopics(ctx, req.(*UpsertSNSTopicsMessage))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AWSCommandTopic_RunDatabaseMigration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RunDatabaseMigrationMessage)
 	if err := dec(in); err != nil {
@@ -343,10 +311,6 @@ var AWSCommandTopic_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StabalizeStack",
 			Handler:    _AWSCommandTopic_StabalizeStack_Handler,
-		},
-		{
-			MethodName: "UpsertSNSTopics",
-			Handler:    _AWSCommandTopic_UpsertSNSTopics_Handler,
 		},
 		{
 			MethodName: "RunDatabaseMigration",
