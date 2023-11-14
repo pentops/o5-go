@@ -2,12 +2,12 @@
 
 package dante_pb
 
-// Service: DempeService
+// Service: DanteQueryService
 // Method: ListMessages
 
 func (msg *ListMessagesRequest) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service": "/o5.dante.v1.service.DempeService/ListMessages",
+		"grpc-service": "/o5.dante.v1.service.DanteQueryService/ListMessages",
 		"grpc-message": "o5.dante.v1.service.ListMessagesRequest",
 	}
 	return headers
@@ -17,7 +17,7 @@ func (msg *ListMessagesRequest) MessagingHeaders() map[string]string {
 
 func (msg *GetMessageRequest) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service": "/o5.dante.v1.service.DempeService/GetMessage",
+		"grpc-service": "/o5.dante.v1.service.DanteQueryService/GetMessage",
 		"grpc-message": "o5.dante.v1.service.GetMessageRequest",
 	}
 	return headers
@@ -27,7 +27,7 @@ func (msg *GetMessageRequest) MessagingHeaders() map[string]string {
 
 func (msg *MessagesActionRequest) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service": "/o5.dante.v1.service.DempeService/MessagesAction",
+		"grpc-service": "/o5.dante.v1.service.DanteQueryService/MessagesAction",
 		"grpc-message": "o5.dante.v1.service.MessagesActionRequest",
 	}
 	return headers
