@@ -5,6 +5,9 @@ package deployer_tpb
 // Service: AWSCommandTopic
 // Method: CreateNewStack
 
+func (msg *CreateNewStackMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *CreateNewStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/CreateNewStack",
@@ -15,6 +18,9 @@ func (msg *CreateNewStackMessage) MessagingHeaders() map[string]string {
 
 // Method: UpdateStack
 
+func (msg *UpdateStackMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *UpdateStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/UpdateStack",
@@ -25,6 +31,9 @@ func (msg *UpdateStackMessage) MessagingHeaders() map[string]string {
 
 // Method: DeleteStack
 
+func (msg *DeleteStackMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *DeleteStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/DeleteStack",
@@ -35,6 +44,9 @@ func (msg *DeleteStackMessage) MessagingHeaders() map[string]string {
 
 // Method: ScaleStack
 
+func (msg *ScaleStackMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *ScaleStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/ScaleStack",
@@ -45,6 +57,9 @@ func (msg *ScaleStackMessage) MessagingHeaders() map[string]string {
 
 // Method: CancelStackUpdate
 
+func (msg *CancelStackUpdateMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/CancelStackUpdate",
@@ -55,6 +70,9 @@ func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 
 // Method: StabalizeStack
 
+func (msg *StabalizeStackMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/StabalizeStack",
@@ -65,6 +83,9 @@ func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 
 // Method: UpsertSNSTopics
 
+func (msg *UpsertSNSTopicsMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *UpsertSNSTopicsMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/UpsertSNSTopics",
@@ -75,6 +96,9 @@ func (msg *UpsertSNSTopicsMessage) MessagingHeaders() map[string]string {
 
 // Method: RunDatabaseMigration
 
+func (msg *RunDatabaseMigrationMessage) MessagingTopic() string {
+	return "queue/o5-aws-command"
+}
 func (msg *RunDatabaseMigrationMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.AWSCommandTopic/RunDatabaseMigration",

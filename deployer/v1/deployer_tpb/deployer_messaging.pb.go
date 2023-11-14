@@ -5,6 +5,9 @@ package deployer_tpb
 // Service: DeployerTopic
 // Method: TriggerDeployment
 
+func (msg *TriggerDeploymentMessage) MessagingTopic() string {
+	return "queue/o5-deployer-input"
+}
 func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment",
@@ -15,6 +18,9 @@ func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
 
 // Method: StackStatusChanged
 
+func (msg *StackStatusChangedMessage) MessagingTopic() string {
+	return "queue/o5-deployer-input"
+}
 func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/StackStatusChanged",
@@ -25,6 +31,9 @@ func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
 
 // Method: MigrationStatusChanged
 
+func (msg *MigrationStatusChangedMessage) MessagingTopic() string {
+	return "queue/o5-deployer-input"
+}
 func (msg *MigrationStatusChangedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/MigrationStatusChanged",
