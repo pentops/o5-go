@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: o5/dante/v1/service.proto
+// source: o5/dante/v1/service/service.proto
 
 package dante_pb
 
@@ -37,7 +37,7 @@ func NewDempeServiceClient(cc grpc.ClientConnInterface) DempeServiceClient {
 
 func (c *dempeServiceClient) ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error) {
 	out := new(ListMessagesResponse)
-	err := c.cc.Invoke(ctx, "/o5.dante.v1.DempeService/ListMessages", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/o5.dante.v1.service.DempeService/ListMessages", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *dempeServiceClient) ListMessages(ctx context.Context, in *ListMessagesR
 
 func (c *dempeServiceClient) GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error) {
 	out := new(GetMessageResponse)
-	err := c.cc.Invoke(ctx, "/o5.dante.v1.DempeService/GetMessage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/o5.dante.v1.service.DempeService/GetMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (c *dempeServiceClient) GetMessage(ctx context.Context, in *GetMessageReque
 
 func (c *dempeServiceClient) MessagesAction(ctx context.Context, in *MessagesActionRequest, opts ...grpc.CallOption) (*MessagesActionResponse, error) {
 	out := new(MessagesActionResponse)
-	err := c.cc.Invoke(ctx, "/o5.dante.v1.DempeService/MessagesAction", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/o5.dante.v1.service.DempeService/MessagesAction", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func _DempeService_ListMessages_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/o5.dante.v1.DempeService/ListMessages",
+		FullMethod: "/o5.dante.v1.service.DempeService/ListMessages",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DempeServiceServer).ListMessages(ctx, req.(*ListMessagesRequest))
@@ -126,7 +126,7 @@ func _DempeService_GetMessage_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/o5.dante.v1.DempeService/GetMessage",
+		FullMethod: "/o5.dante.v1.service.DempeService/GetMessage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DempeServiceServer).GetMessage(ctx, req.(*GetMessageRequest))
@@ -144,7 +144,7 @@ func _DempeService_MessagesAction_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/o5.dante.v1.DempeService/MessagesAction",
+		FullMethod: "/o5.dante.v1.service.DempeService/MessagesAction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DempeServiceServer).MessagesAction(ctx, req.(*MessagesActionRequest))
@@ -156,7 +156,7 @@ func _DempeService_MessagesAction_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DempeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "o5.dante.v1.DempeService",
+	ServiceName: "o5.dante.v1.service.DempeService",
 	HandlerType: (*DempeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -173,5 +173,5 @@ var DempeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "o5/dante/v1/service.proto",
+	Metadata: "o5/dante/v1/service/service.proto",
 }
