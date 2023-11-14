@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: o5/messaging/v1/topic/raw.proto
 
-package deployer_tpb
+package messaging_tpb
 
 import (
 	context "context"
