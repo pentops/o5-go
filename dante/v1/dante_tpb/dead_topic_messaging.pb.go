@@ -6,7 +6,7 @@ package dante_tpb
 // Method: Dead
 
 func (msg *DeadMessage) MessagingTopic() string {
-	return "dead-letter"
+	return "queue/dead-letter"
 }
 func (msg *DeadMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{

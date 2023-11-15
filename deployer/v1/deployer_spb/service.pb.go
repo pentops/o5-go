@@ -4,10 +4,11 @@
 // 	protoc        (unknown)
 // source: o5/deployer/v1/service/service.proto
 
-package deployer_pb
+package deployer_spb
 
 import (
 	v1 "github.com/pentops/listify-go/query/v1"
+	deployer_pb "github.com/pentops/o5-go/deployer/v1/deployer_pb"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -74,7 +75,7 @@ type GetDeploymentResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Deployment *DeploymentState              `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
+	Deployment *deployer_pb.DeploymentState  `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	Events     *ListDeploymentEventsResponse `protobuf:"bytes,2,opt,name=events,proto3" json:"events,omitempty"`
 }
 
@@ -110,7 +111,7 @@ func (*GetDeploymentResponse) Descriptor() ([]byte, []int) {
 	return file_o5_deployer_v1_service_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetDeploymentResponse) GetDeployment() *DeploymentState {
+func (x *GetDeploymentResponse) GetDeployment() *deployer_pb.DeploymentState {
 	if x != nil {
 		return x.Deployment
 	}
@@ -208,8 +209,8 @@ type ListDeploymentEventsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Events []*DeploymentEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
-	Page   *v1.PageResponse   `protobuf:"bytes,100,opt,name=page,proto3" json:"page,omitempty"`
+	Events []*deployer_pb.DeploymentEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   *v1.PageResponse               `protobuf:"bytes,100,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListDeploymentEventsResponse) Reset() {
@@ -244,7 +245,7 @@ func (*ListDeploymentEventsResponse) Descriptor() ([]byte, []int) {
 	return file_o5_deployer_v1_service_service_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ListDeploymentEventsResponse) GetEvents() []*DeploymentEvent {
+func (x *ListDeploymentEventsResponse) GetEvents() []*deployer_pb.DeploymentEvent {
 	if x != nil {
 		return x.Events
 	}
@@ -334,8 +335,8 @@ type ListDeploymentsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Deployments []*DeploymentState `protobuf:"bytes,1,rep,name=deployments,proto3" json:"deployments,omitempty"`
-	Page        *v1.PageResponse   `protobuf:"bytes,100,opt,name=page,proto3" json:"page,omitempty"`
+	Deployments []*deployer_pb.DeploymentState `protobuf:"bytes,1,rep,name=deployments,proto3" json:"deployments,omitempty"`
+	Page        *v1.PageResponse               `protobuf:"bytes,100,opt,name=page,proto3" json:"page,omitempty"`
 }
 
 func (x *ListDeploymentsResponse) Reset() {
@@ -370,7 +371,7 @@ func (*ListDeploymentsResponse) Descriptor() ([]byte, []int) {
 	return file_o5_deployer_v1_service_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ListDeploymentsResponse) GetDeployments() []*DeploymentState {
+func (x *ListDeploymentsResponse) GetDeployments() []*deployer_pb.DeploymentState {
 	if x != nil {
 		return x.Deployments
 	}
@@ -495,10 +496,10 @@ var file_o5_deployer_v1_service_service_proto_rawDesc = []byte{
 	0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3,
 	0xe4, 0x93, 0x02, 0x1d, 0x3a, 0x01, 0x2a, 0x22, 0x18, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79,
 	0x65, 0x72, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x6d, 0x65, 0x6e, 0x74,
-	0x73, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x73, 0x42, 0x33, 0x5a, 0x31, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
 	0x70, 0x65, 0x6e, 0x74, 0x6f, 0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x64, 0x65,
 	0x70, 0x6c, 0x6f, 0x79, 0x65, 0x72, 0x2f, 0x76, 0x31, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79,
-	0x65, 0x72, 0x5f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x72, 0x5f, 0x73, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -521,12 +522,12 @@ var file_o5_deployer_v1_service_service_proto_goTypes = []interface{}{
 	(*ListDeploymentEventsResponse)(nil), // 3: o5.deployer.v1.service.ListDeploymentEventsResponse
 	(*ListDeploymentsRequest)(nil),       // 4: o5.deployer.v1.service.ListDeploymentsRequest
 	(*ListDeploymentsResponse)(nil),      // 5: o5.deployer.v1.service.ListDeploymentsResponse
-	(*DeploymentState)(nil),              // 6: o5.deployer.v1.DeploymentState
+	(*deployer_pb.DeploymentState)(nil),  // 6: o5.deployer.v1.DeploymentState
 	(*v1.PageRequest)(nil),               // 7: listify.query.v1.PageRequest
 	(*v1.Search)(nil),                    // 8: listify.query.v1.Search
 	(*v1.Sort)(nil),                      // 9: listify.query.v1.Sort
 	(*v1.Filter)(nil),                    // 10: listify.query.v1.Filter
-	(*DeploymentEvent)(nil),              // 11: o5.deployer.v1.DeploymentEvent
+	(*deployer_pb.DeploymentEvent)(nil),  // 11: o5.deployer.v1.DeploymentEvent
 	(*v1.PageResponse)(nil),              // 12: listify.query.v1.PageResponse
 }
 var file_o5_deployer_v1_service_service_proto_depIdxs = []int32{
@@ -562,7 +563,6 @@ func file_o5_deployer_v1_service_service_proto_init() {
 	if File_o5_deployer_v1_service_service_proto != nil {
 		return
 	}
-	file_o5_deployer_v1_deployment_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_o5_deployer_v1_service_service_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetDeploymentRequest); i {
