@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: o5/dante/v1/topic/dead_topic.proto
 
-package deployer_tpb
+package dante_tpb
 
 import (
 	context "context"
