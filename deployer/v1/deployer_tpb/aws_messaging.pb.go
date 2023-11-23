@@ -6,7 +6,7 @@ package deployer_tpb
 // Method: CreateNewStack
 
 func (msg *CreateNewStackMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *CreateNewStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -19,7 +19,7 @@ func (msg *CreateNewStackMessage) MessagingHeaders() map[string]string {
 // Method: UpdateStack
 
 func (msg *UpdateStackMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *UpdateStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -32,7 +32,7 @@ func (msg *UpdateStackMessage) MessagingHeaders() map[string]string {
 // Method: DeleteStack
 
 func (msg *DeleteStackMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *DeleteStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -45,7 +45,7 @@ func (msg *DeleteStackMessage) MessagingHeaders() map[string]string {
 // Method: ScaleStack
 
 func (msg *ScaleStackMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *ScaleStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -58,7 +58,7 @@ func (msg *ScaleStackMessage) MessagingHeaders() map[string]string {
 // Method: CancelStackUpdate
 
 func (msg *CancelStackUpdateMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -71,7 +71,7 @@ func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 // Method: StabalizeStack
 
 func (msg *StabalizeStackMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -84,7 +84,7 @@ func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 // Method: RunDatabaseMigration
 
 func (msg *RunDatabaseMigrationMessage) MessagingTopic() string {
-	return "queue/o5-aws-command"
+	return "o5-aws-command"
 }
 func (msg *RunDatabaseMigrationMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
