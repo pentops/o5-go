@@ -3,15 +3,15 @@
 package deployer_tpb
 
 // Service: DeployerTopic
-// Method: TriggerDeployment
+// Method: RequestDeployment
 
-func (msg *TriggerDeploymentMessage) MessagingTopic() string {
+func (msg *RequestDeploymentMessage) MessagingTopic() string {
 	return "o5-deployer-input"
 }
-func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
+func (msg *RequestDeploymentMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment",
-		"grpc-message": "o5.deployer.v1.topic.TriggerDeploymentMessage",
+		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/RequestDeployment",
+		"grpc-message": "o5.deployer.v1.topic.RequestDeploymentMessage",
 	}
 	return headers
 }
@@ -38,6 +38,19 @@ func (msg *DeploymentFailedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
 		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/DeploymentFailed",
 		"grpc-message": "o5.deployer.v1.topic.DeploymentFailedMessage",
+	}
+	return headers
+}
+
+// Method: TriggerDeployment
+
+func (msg *TriggerDeploymentMessage) MessagingTopic() string {
+	return "o5-deployer-input"
+}
+func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment",
+		"grpc-message": "o5.deployer.v1.topic.TriggerDeploymentMessage",
 	}
 	return headers
 }

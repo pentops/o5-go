@@ -24,9 +24,11 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DeployerTopicClient interface {
 	// Handled by the Stack side
-	TriggerDeployment(ctx context.Context, in *TriggerDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RequestDeployment(ctx context.Context, in *RequestDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeploymentComplete(ctx context.Context, in *DeploymentCompleteMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeploymentFailed(ctx context.Context, in *DeploymentFailedMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// Unlocks the Deployment
+	TriggerDeployment(ctx context.Context, in *TriggerDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Returns from AWS Infra
 	StackStatusChanged(ctx context.Context, in *StackStatusChangedMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	MigrationStatusChanged(ctx context.Context, in *MigrationStatusChangedMessage, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -40,9 +42,9 @@ func NewDeployerTopicClient(cc grpc.ClientConnInterface) DeployerTopicClient {
 	return &deployerTopicClient{cc}
 }
 
-func (c *deployerTopicClient) TriggerDeployment(ctx context.Context, in *TriggerDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *deployerTopicClient) RequestDeployment(ctx context.Context, in *RequestDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.DeployerTopic/RequestDeployment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +63,15 @@ func (c *deployerTopicClient) DeploymentComplete(ctx context.Context, in *Deploy
 func (c *deployerTopicClient) DeploymentFailed(ctx context.Context, in *DeploymentFailedMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.DeployerTopic/DeploymentFailed", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *deployerTopicClient) TriggerDeployment(ctx context.Context, in *TriggerDeploymentMessage, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +101,11 @@ func (c *deployerTopicClient) MigrationStatusChanged(ctx context.Context, in *Mi
 // for forward compatibility
 type DeployerTopicServer interface {
 	// Handled by the Stack side
-	TriggerDeployment(context.Context, *TriggerDeploymentMessage) (*emptypb.Empty, error)
+	RequestDeployment(context.Context, *RequestDeploymentMessage) (*emptypb.Empty, error)
 	DeploymentComplete(context.Context, *DeploymentCompleteMessage) (*emptypb.Empty, error)
 	DeploymentFailed(context.Context, *DeploymentFailedMessage) (*emptypb.Empty, error)
+	// Unlocks the Deployment
+	TriggerDeployment(context.Context, *TriggerDeploymentMessage) (*emptypb.Empty, error)
 	// Returns from AWS Infra
 	StackStatusChanged(context.Context, *StackStatusChangedMessage) (*emptypb.Empty, error)
 	MigrationStatusChanged(context.Context, *MigrationStatusChangedMessage) (*emptypb.Empty, error)
@@ -103,14 +116,17 @@ type DeployerTopicServer interface {
 type UnimplementedDeployerTopicServer struct {
 }
 
-func (UnimplementedDeployerTopicServer) TriggerDeployment(context.Context, *TriggerDeploymentMessage) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TriggerDeployment not implemented")
+func (UnimplementedDeployerTopicServer) RequestDeployment(context.Context, *RequestDeploymentMessage) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestDeployment not implemented")
 }
 func (UnimplementedDeployerTopicServer) DeploymentComplete(context.Context, *DeploymentCompleteMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeploymentComplete not implemented")
 }
 func (UnimplementedDeployerTopicServer) DeploymentFailed(context.Context, *DeploymentFailedMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeploymentFailed not implemented")
+}
+func (UnimplementedDeployerTopicServer) TriggerDeployment(context.Context, *TriggerDeploymentMessage) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TriggerDeployment not implemented")
 }
 func (UnimplementedDeployerTopicServer) StackStatusChanged(context.Context, *StackStatusChangedMessage) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StackStatusChanged not implemented")
@@ -131,20 +147,20 @@ func RegisterDeployerTopicServer(s grpc.ServiceRegistrar, srv DeployerTopicServe
 	s.RegisterService(&DeployerTopic_ServiceDesc, srv)
 }
 
-func _DeployerTopic_TriggerDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TriggerDeploymentMessage)
+func _DeployerTopic_RequestDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestDeploymentMessage)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DeployerTopicServer).TriggerDeployment(ctx, in)
+		return srv.(DeployerTopicServer).RequestDeployment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment",
+		FullMethod: "/o5.deployer.v1.topic.DeployerTopic/RequestDeployment",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DeployerTopicServer).TriggerDeployment(ctx, req.(*TriggerDeploymentMessage))
+		return srv.(DeployerTopicServer).RequestDeployment(ctx, req.(*RequestDeploymentMessage))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -181,6 +197,24 @@ func _DeployerTopic_DeploymentFailed_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DeployerTopicServer).DeploymentFailed(ctx, req.(*DeploymentFailedMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DeployerTopic_TriggerDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TriggerDeploymentMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeployerTopicServer).TriggerDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/o5.deployer.v1.topic.DeployerTopic/TriggerDeployment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeployerTopicServer).TriggerDeployment(ctx, req.(*TriggerDeploymentMessage))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -229,8 +263,8 @@ var DeployerTopic_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DeployerTopicServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "TriggerDeployment",
-			Handler:    _DeployerTopic_TriggerDeployment_Handler,
+			MethodName: "RequestDeployment",
+			Handler:    _DeployerTopic_RequestDeployment_Handler,
 		},
 		{
 			MethodName: "DeploymentComplete",
@@ -239,6 +273,10 @@ var DeployerTopic_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeploymentFailed",
 			Handler:    _DeployerTopic_DeploymentFailed_Handler,
+		},
+		{
+			MethodName: "TriggerDeployment",
+			Handler:    _DeployerTopic_TriggerDeployment_Handler,
 		},
 		{
 			MethodName: "StackStatusChanged",
