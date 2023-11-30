@@ -14,6 +14,7 @@ const (
 	StackEvent_Triggered           StackEventTypeKey = "triggered"
 	StackEvent_DeploymentCompleted StackEventTypeKey = "deploymentCompleted"
 	StackEvent_DeploymentFailed    StackEventTypeKey = "deploymentFailed"
+	StackEvent_Available           StackEventTypeKey = "available"
 )
 
 func (x *StackEventType) TypeKey() (StackEventTypeKey, bool) {
@@ -24,6 +25,8 @@ func (x *StackEventType) TypeKey() (StackEventTypeKey, bool) {
 		return StackEvent_DeploymentCompleted, true
 	case *StackEventType_DeploymentFailed_:
 		return StackEvent_DeploymentFailed, true
+	case *StackEventType_Available_:
+		return StackEvent_Available, true
 	default:
 		return "", false
 	}
@@ -41,6 +44,8 @@ func (x *StackEventType) Set(val IsStackEventTypeWrappedType) {
 		x.Type = &StackEventType_DeploymentCompleted_{DeploymentCompleted: v}
 	case *StackEventType_DeploymentFailed:
 		x.Type = &StackEventType_DeploymentFailed_{DeploymentFailed: v}
+	case *StackEventType_Available:
+		x.Type = &StackEventType_Available_{Available: v}
 	}
 }
 func (x *StackEventType) Get() IsStackEventTypeWrappedType {
@@ -51,6 +56,8 @@ func (x *StackEventType) Get() IsStackEventTypeWrappedType {
 		return v.DeploymentCompleted
 	case *StackEventType_DeploymentFailed_:
 		return v.DeploymentFailed
+	case *StackEventType_Available_:
+		return v.Available
 	default:
 		return nil
 	}
@@ -63,6 +70,9 @@ func (x *StackEventType_DeploymentCompleted) TypeKey() StackEventTypeKey {
 }
 func (x *StackEventType_DeploymentFailed) TypeKey() StackEventTypeKey {
 	return StackEvent_DeploymentFailed
+}
+func (x *StackEventType_Available) TypeKey() StackEventTypeKey {
+	return StackEvent_Available
 }
 
 type IsStackEventType_Type = isStackEventType_Type
