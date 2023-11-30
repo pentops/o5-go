@@ -72,8 +72,9 @@ const (
 	StackStatus_UNSPECIFIED StackStatus = 0
 	StackStatus_CREATING    StackStatus = 1
 	StackStatus_STABLE      StackStatus = 2
-	StackStatus_MIGRATING   StackStatus = 3
-	StackStatus_BROKEN      StackStatus = 4
+	StackStatus_AVAILABLE   StackStatus = 3
+	StackStatus_MIGRATING   StackStatus = 4
+	StackStatus_BROKEN      StackStatus = 5
 )
 
 var (
@@ -81,15 +82,17 @@ var (
 		0: "UNSPECIFIED",
 		1: "CREATING",
 		2: "STABLE",
-		3: "MIGRATING",
-		4: "BROKEN",
+		3: "AVAILABLE",
+		4: "MIGRATING",
+		5: "BROKEN",
 	}
 	StackStatus_value_short = map[string]int32{
 		"UNSPECIFIED": 0,
 		"CREATING":    1,
 		"STABLE":      2,
-		"MIGRATING":   3,
-		"BROKEN":      4,
+		"AVAILABLE":   3,
+		"MIGRATING":   4,
+		"BROKEN":      5,
 	}
 	StackStatus_value_either = map[string]int32{
 		"UNSPECIFIED":              0,
@@ -98,10 +101,12 @@ var (
 		"STACK_STATUS_CREATING":    1,
 		"STABLE":                   2,
 		"STACK_STATUS_STABLE":      2,
-		"MIGRATING":                3,
-		"STACK_STATUS_MIGRATING":   3,
-		"BROKEN":                   4,
-		"STACK_STATUS_BROKEN":      4,
+		"AVAILABLE":                3,
+		"STACK_STATUS_AVAILABLE":   3,
+		"MIGRATING":                4,
+		"STACK_STATUS_MIGRATING":   4,
+		"BROKEN":                   5,
+		"STACK_STATUS_BROKEN":      5,
 	}
 )
 
