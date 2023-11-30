@@ -7,6 +7,66 @@ import (
 	fmt "fmt"
 )
 
+// StackEventType is a oneof wrapper
+type StackEventTypeKey string
+
+const (
+	StackEvent_Triggered           StackEventTypeKey = "triggered"
+	StackEvent_DeploymentCompleted StackEventTypeKey = "deploymentCompleted"
+	StackEvent_DeploymentFailed    StackEventTypeKey = "deploymentFailed"
+)
+
+func (x *StackEventType) TypeKey() (StackEventTypeKey, bool) {
+	switch x.Type.(type) {
+	case *StackEventType_Triggered_:
+		return StackEvent_Triggered, true
+	case *StackEventType_DeploymentCompleted_:
+		return StackEvent_DeploymentCompleted, true
+	case *StackEventType_DeploymentFailed_:
+		return StackEvent_DeploymentFailed, true
+	default:
+		return "", false
+	}
+}
+
+type IsStackEventTypeWrappedType interface {
+	TypeKey() StackEventTypeKey
+}
+
+func (x *StackEventType) Set(val IsStackEventTypeWrappedType) {
+	switch v := val.(type) {
+	case *StackEventType_Triggered:
+		x.Type = &StackEventType_Triggered_{Triggered: v}
+	case *StackEventType_DeploymentCompleted:
+		x.Type = &StackEventType_DeploymentCompleted_{DeploymentCompleted: v}
+	case *StackEventType_DeploymentFailed:
+		x.Type = &StackEventType_DeploymentFailed_{DeploymentFailed: v}
+	}
+}
+func (x *StackEventType) Get() IsStackEventTypeWrappedType {
+	switch v := x.Type.(type) {
+	case *StackEventType_Triggered_:
+		return v.Triggered
+	case *StackEventType_DeploymentCompleted_:
+		return v.DeploymentCompleted
+	case *StackEventType_DeploymentFailed_:
+		return v.DeploymentFailed
+	default:
+		return nil
+	}
+}
+func (x *StackEventType_Triggered) TypeKey() StackEventTypeKey {
+	return StackEvent_Triggered
+}
+func (x *StackEventType_DeploymentCompleted) TypeKey() StackEventTypeKey {
+	return StackEvent_DeploymentCompleted
+}
+func (x *StackEventType_DeploymentFailed) TypeKey() StackEventTypeKey {
+	return StackEvent_DeploymentFailed
+}
+
+type IsStackEventType_Type = isStackEventType_Type
+
 // StackStatus
 const (
 	StackStatus_UNSPECIFIED StackStatus = 0

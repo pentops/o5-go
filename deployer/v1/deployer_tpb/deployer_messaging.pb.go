@@ -16,6 +16,32 @@ func (msg *TriggerDeploymentMessage) MessagingHeaders() map[string]string {
 	return headers
 }
 
+// Method: DeploymentComplete
+
+func (msg *DeploymentCompleteMessage) MessagingTopic() string {
+	return "o5-deployer-input"
+}
+func (msg *DeploymentCompleteMessage) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/DeploymentComplete",
+		"grpc-message": "o5.deployer.v1.topic.DeploymentCompleteMessage",
+	}
+	return headers
+}
+
+// Method: DeploymentFailed
+
+func (msg *DeploymentFailedMessage) MessagingTopic() string {
+	return "o5-deployer-input"
+}
+func (msg *DeploymentFailedMessage) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.deployer.v1.topic.DeployerTopic/DeploymentFailed",
+		"grpc-message": "o5.deployer.v1.topic.DeploymentFailedMessage",
+	}
+	return headers
+}
+
 // Method: StackStatusChanged
 
 func (msg *StackStatusChangedMessage) MessagingTopic() string {

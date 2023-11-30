@@ -11,8 +11,8 @@ import (
 type DeploymentEventTypeKey string
 
 const (
+	DeploymentEvent_Created         DeploymentEventTypeKey = "created"
 	DeploymentEvent_Triggered       DeploymentEventTypeKey = "triggered"
-	DeploymentEvent_GotLock         DeploymentEventTypeKey = "gotLock"
 	DeploymentEvent_StackCreate     DeploymentEventTypeKey = "stackCreate"
 	DeploymentEvent_StackWait       DeploymentEventTypeKey = "stackWait"
 	DeploymentEvent_StackScale      DeploymentEventTypeKey = "stackScale"
@@ -28,10 +28,10 @@ const (
 
 func (x *DeploymentEventType) TypeKey() (DeploymentEventTypeKey, bool) {
 	switch x.Type.(type) {
+	case *DeploymentEventType_Created_:
+		return DeploymentEvent_Created, true
 	case *DeploymentEventType_Triggered_:
 		return DeploymentEvent_Triggered, true
-	case *DeploymentEventType_GotLock_:
-		return DeploymentEvent_GotLock, true
 	case *DeploymentEventType_StackCreate_:
 		return DeploymentEvent_StackCreate, true
 	case *DeploymentEventType_StackWait_:
@@ -65,10 +65,10 @@ type IsDeploymentEventTypeWrappedType interface {
 
 func (x *DeploymentEventType) Set(val IsDeploymentEventTypeWrappedType) {
 	switch v := val.(type) {
+	case *DeploymentEventType_Created:
+		x.Type = &DeploymentEventType_Created_{Created: v}
 	case *DeploymentEventType_Triggered:
 		x.Type = &DeploymentEventType_Triggered_{Triggered: v}
-	case *DeploymentEventType_GotLock:
-		x.Type = &DeploymentEventType_GotLock_{GotLock: v}
 	case *DeploymentEventType_StackCreate:
 		x.Type = &DeploymentEventType_StackCreate_{StackCreate: v}
 	case *DeploymentEventType_StackWait:
@@ -95,10 +95,10 @@ func (x *DeploymentEventType) Set(val IsDeploymentEventTypeWrappedType) {
 }
 func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
 	switch v := x.Type.(type) {
+	case *DeploymentEventType_Created_:
+		return v.Created
 	case *DeploymentEventType_Triggered_:
 		return v.Triggered
-	case *DeploymentEventType_GotLock_:
-		return v.GotLock
 	case *DeploymentEventType_StackCreate_:
 		return v.StackCreate
 	case *DeploymentEventType_StackWait_:
@@ -125,11 +125,11 @@ func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
 		return nil
 	}
 }
+func (x *DeploymentEventType_Created) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_Created
+}
 func (x *DeploymentEventType_Triggered) TypeKey() DeploymentEventTypeKey {
 	return DeploymentEvent_Triggered
-}
-func (x *DeploymentEventType_GotLock) TypeKey() DeploymentEventTypeKey {
-	return DeploymentEvent_GotLock
 }
 func (x *DeploymentEventType_StackCreate) TypeKey() DeploymentEventTypeKey {
 	return DeploymentEvent_StackCreate
@@ -171,7 +171,7 @@ type IsDeploymentEventType_Type = isDeploymentEventType_Type
 const (
 	DeploymentStatus_UNSPECIFIED    DeploymentStatus = 0
 	DeploymentStatus_QUEUED         DeploymentStatus = 1
-	DeploymentStatus_LOCKED         DeploymentStatus = 2
+	DeploymentStatus_TRIGGERED      DeploymentStatus = 2
 	DeploymentStatus_WAITING        DeploymentStatus = 3
 	DeploymentStatus_AVAILABLE      DeploymentStatus = 4
 	DeploymentStatus_SCALING_DOWN   DeploymentStatus = 5
@@ -193,7 +193,7 @@ var (
 	DeploymentStatus_name_short = map[int32]string{
 		0:   "UNSPECIFIED",
 		1:   "QUEUED",
-		2:   "LOCKED",
+		2:   "TRIGGERED",
 		3:   "WAITING",
 		4:   "AVAILABLE",
 		5:   "SCALING_DOWN",
@@ -213,7 +213,7 @@ var (
 	DeploymentStatus_value_short = map[string]int32{
 		"UNSPECIFIED":    0,
 		"QUEUED":         1,
-		"LOCKED":         2,
+		"TRIGGERED":      2,
 		"WAITING":        3,
 		"AVAILABLE":      4,
 		"SCALING_DOWN":   5,
@@ -235,8 +235,8 @@ var (
 		"DEPLOYMENT_STATUS_UNSPECIFIED":    0,
 		"QUEUED":                           1,
 		"DEPLOYMENT_STATUS_QUEUED":         1,
-		"LOCKED":                           2,
-		"DEPLOYMENT_STATUS_LOCKED":         2,
+		"TRIGGERED":                        2,
+		"DEPLOYMENT_STATUS_TRIGGERED":      2,
 		"WAITING":                          3,
 		"DEPLOYMENT_STATUS_WAITING":        3,
 		"AVAILABLE":                        4,
