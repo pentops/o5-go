@@ -17,6 +17,7 @@ const (
 	DeploymentEvent_StackWait       DeploymentEventTypeKey = "stackWait"
 	DeploymentEvent_StackScale      DeploymentEventTypeKey = "stackScale"
 	DeploymentEvent_StackTrigger    DeploymentEventTypeKey = "stackTrigger"
+	DeploymentEvent_StackUpsert     DeploymentEventTypeKey = "stackUpsert"
 	DeploymentEvent_StackStatus     DeploymentEventTypeKey = "stackStatus"
 	DeploymentEvent_MigrateData     DeploymentEventTypeKey = "migrateData"
 	DeploymentEvent_DbMigrateStatus DeploymentEventTypeKey = "dbMigrateStatus"
@@ -39,6 +40,8 @@ func (x *DeploymentEventType) TypeKey() (DeploymentEventTypeKey, bool) {
 		return DeploymentEvent_StackScale, true
 	case *DeploymentEventType_StackTrigger_:
 		return DeploymentEvent_StackTrigger, true
+	case *DeploymentEventType_StackUpsert_:
+		return DeploymentEvent_StackUpsert, true
 	case *DeploymentEventType_StackStatus_:
 		return DeploymentEvent_StackStatus, true
 	case *DeploymentEventType_MigrateData_:
@@ -74,6 +77,8 @@ func (x *DeploymentEventType) Set(val IsDeploymentEventTypeWrappedType) {
 		x.Type = &DeploymentEventType_StackScale_{StackScale: v}
 	case *DeploymentEventType_StackTrigger:
 		x.Type = &DeploymentEventType_StackTrigger_{StackTrigger: v}
+	case *DeploymentEventType_StackUpsert:
+		x.Type = &DeploymentEventType_StackUpsert_{StackUpsert: v}
 	case *DeploymentEventType_StackStatus:
 		x.Type = &DeploymentEventType_StackStatus_{StackStatus: v}
 	case *DeploymentEventType_MigrateData:
@@ -102,6 +107,8 @@ func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
 		return v.StackScale
 	case *DeploymentEventType_StackTrigger_:
 		return v.StackTrigger
+	case *DeploymentEventType_StackUpsert_:
+		return v.StackUpsert
 	case *DeploymentEventType_StackStatus_:
 		return v.StackStatus
 	case *DeploymentEventType_MigrateData_:
@@ -135,6 +142,9 @@ func (x *DeploymentEventType_StackScale) TypeKey() DeploymentEventTypeKey {
 }
 func (x *DeploymentEventType_StackTrigger) TypeKey() DeploymentEventTypeKey {
 	return DeploymentEvent_StackTrigger
+}
+func (x *DeploymentEventType_StackUpsert) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_StackUpsert
 }
 func (x *DeploymentEventType_StackStatus) TypeKey() DeploymentEventTypeKey {
 	return DeploymentEvent_StackStatus
@@ -173,7 +183,8 @@ const (
 	DeploymentStatus_SCALING_UP     DeploymentStatus = 11
 	DeploymentStatus_SCALED_UP      DeploymentStatus = 12
 	DeploymentStatus_CREATING       DeploymentStatus = 13
-	DeploymentStatus_NEW            DeploymentStatus = 14
+	DeploymentStatus_UPSERTING      DeploymentStatus = 15
+	DeploymentStatus_UPSERTED       DeploymentStatus = 16
 	DeploymentStatus_DONE           DeploymentStatus = 100
 	DeploymentStatus_FAILED         DeploymentStatus = 101
 )
@@ -194,7 +205,8 @@ var (
 		11:  "SCALING_UP",
 		12:  "SCALED_UP",
 		13:  "CREATING",
-		14:  "NEW",
+		15:  "UPSERTING",
+		16:  "UPSERTED",
 		100: "DONE",
 		101: "FAILED",
 	}
@@ -213,7 +225,8 @@ var (
 		"SCALING_UP":     11,
 		"SCALED_UP":      12,
 		"CREATING":       13,
-		"NEW":            14,
+		"UPSERTING":      15,
+		"UPSERTED":       16,
 		"DONE":           100,
 		"FAILED":         101,
 	}
@@ -246,8 +259,10 @@ var (
 		"DEPLOYMENT_STATUS_SCALED_UP":      12,
 		"CREATING":                         13,
 		"DEPLOYMENT_STATUS_CREATING":       13,
-		"NEW":                              14,
-		"DEPLOYMENT_STATUS_NEW":            14,
+		"UPSERTING":                        15,
+		"DEPLOYMENT_STATUS_UPSERTING":      15,
+		"UPSERTED":                         16,
+		"DEPLOYMENT_STATUS_UPSERTED":       16,
 		"DONE":                             100,
 		"DEPLOYMENT_STATUS_DONE":           100,
 		"FAILED":                           101,
