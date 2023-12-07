@@ -16,3 +16,6 @@ plugins:
     out: .
     opt: paths=import,module=github.com/pentops/o5-go
 
+  - name: go-psm
+    out: .
+    opt: paths=import,module=github.com/pentops/o5-go
