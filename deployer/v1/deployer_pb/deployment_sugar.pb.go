@@ -300,6 +300,7 @@ const (
 	StackLifecycle_ROLLING_BACK  StackLifecycle = 3
 	StackLifecycle_CREATE_FAILED StackLifecycle = 4
 	StackLifecycle_TERMINAL      StackLifecycle = 5
+	StackLifecycle_ROLLED_BACK   StackLifecycle = 7
 	StackLifecycle_MISSING       StackLifecycle = 6
 )
 
@@ -311,6 +312,7 @@ var (
 		3: "ROLLING_BACK",
 		4: "CREATE_FAILED",
 		5: "TERMINAL",
+		7: "ROLLED_BACK",
 		6: "MISSING",
 	}
 	StackLifecycle_value_short = map[string]int32{
@@ -320,6 +322,7 @@ var (
 		"ROLLING_BACK":  3,
 		"CREATE_FAILED": 4,
 		"TERMINAL":      5,
+		"ROLLED_BACK":   7,
 		"MISSING":       6,
 	}
 	StackLifecycle_value_either = map[string]int32{
@@ -335,6 +338,8 @@ var (
 		"STACK_LIFECYCLE_CREATE_FAILED": 4,
 		"TERMINAL":                      5,
 		"STACK_LIFECYCLE_TERMINAL":      5,
+		"ROLLED_BACK":                   7,
+		"STACK_LIFECYCLE_ROLLED_BACK":   7,
 		"MISSING":                       6,
 		"STACK_LIFECYCLE_MISSING":       6,
 	}
