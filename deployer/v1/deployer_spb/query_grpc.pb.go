@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: o5/deployer/v1/service/service.proto
+// source: o5/deployer/v1/service/query.proto
 
 package deployer_spb
 
@@ -282,5 +282,5 @@ var DeploymentQueryService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "o5/deployer/v1/service/service.proto",
+	Metadata: "o5/deployer/v1/service/query.proto",
 }
