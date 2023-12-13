@@ -654,7 +654,7 @@ type Subscription struct {
 	Name            string  `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	EnvName         *string `protobuf:"bytes,2,opt,name=env_name,json=envName,proto3,oneof" json:"env_name,omitempty"`
 	TargetContainer string  `protobuf:"bytes,3,opt,name=target_container,json=targetContainer,proto3" json:"target_container,omitempty"` // Default: first defined container
-	Port            int64   `protobuf:"varint,4,opt,name=port,proto3" json:"port,omitempty"`                                             // Default: 8081
+	Port            int64   `protobuf:"varint,4,opt,name=port,proto3" json:"port,omitempty"`                                             // Default: 8080
 }
 
 func (x *Subscription) Reset() {
