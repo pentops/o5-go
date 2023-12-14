@@ -6,25 +6,6 @@ import (
 	psm "github.com/pentops/protostate/psm"
 )
 
-// State Query Service for %sdeployment
-type DeploymentPSMStateQuerySet = psm.StateQuerySet[
-	*GetDeploymentRequest,
-	*GetDeploymentResponse,
-	*ListDeploymentsRequest,
-	*ListDeploymentsResponse,
-	*ListDeploymentEventsRequest,
-	*ListDeploymentEventsResponse,
-]
-
-type DeploymentPSMStateQuerySpec = psm.StateQuerySpec[
-	*GetDeploymentRequest,
-	*GetDeploymentResponse,
-	*ListDeploymentsRequest,
-	*ListDeploymentsResponse,
-	*ListDeploymentEventsRequest,
-	*ListDeploymentEventsResponse,
-]
-
 // State Query Service for %sstack
 type StackPSMStateQuerySet = psm.StateQuerySet[
 	*GetStackRequest,
@@ -42,4 +23,23 @@ type StackPSMStateQuerySpec = psm.StateQuerySpec[
 	*ListStacksResponse,
 	*ListStackEventsRequest,
 	*ListStackEventsResponse,
+]
+
+// State Query Service for %sdeployment
+type DeploymentPSMStateQuerySet = psm.StateQuerySet[
+	*GetDeploymentRequest,
+	*GetDeploymentResponse,
+	*ListDeploymentsRequest,
+	*ListDeploymentsResponse,
+	*ListDeploymentEventsRequest,
+	*ListDeploymentEventsResponse,
+]
+
+type DeploymentPSMStateQuerySpec = psm.StateQuerySpec[
+	*GetDeploymentRequest,
+	*GetDeploymentResponse,
+	*ListDeploymentsRequest,
+	*ListDeploymentsResponse,
+	*ListDeploymentEventsRequest,
+	*ListDeploymentEventsResponse,
 ]
