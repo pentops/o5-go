@@ -4,6 +4,7 @@ package deployer_pb
 
 import (
 	context "context"
+	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
 	proto "google.golang.org/protobuf/proto"
 )
@@ -112,6 +113,12 @@ func (c StackPSMConverter) EmptyState(e *StackEvent) *StackState {
 	return &StackState{
 		StackId: e.StackId,
 	}
+}
+func (c StackPSMConverter) CheckStateKeys(s *StackState, e *StackEvent) error {
+	if s.StackId != e.StackId {
+		return fmt.Errorf("state field 'StackId' %q does not match event field %q", s.StackId, e.StackId)
+	}
+	return nil
 }
 
 func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {

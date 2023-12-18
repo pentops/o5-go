@@ -4,6 +4,7 @@ package deployer_pb
 
 import (
 	context "context"
+	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
 	proto "google.golang.org/protobuf/proto"
 )
@@ -121,6 +122,12 @@ func (c DeploymentPSMConverter) EmptyState(e *DeploymentEvent) *DeploymentState 
 	return &DeploymentState{
 		DeploymentId: e.DeploymentId,
 	}
+}
+func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *DeploymentEvent) error {
+	if s.DeploymentId != e.DeploymentId {
+		return fmt.Errorf("state field 'DeploymentId' %q does not match event field %q", s.DeploymentId, e.DeploymentId)
+	}
+	return nil
 }
 
 func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
