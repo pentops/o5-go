@@ -6,7 +6,7 @@ package deployer_epb
 // Method: DeploymentEvent
 
 func (msg *DeploymentEventMessage) MessagingTopic() string {
-	return "o5-deployer-output"
+	return "o5-deployer-event"
 }
 func (msg *DeploymentEventMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
@@ -19,7 +19,7 @@ func (msg *DeploymentEventMessage) MessagingHeaders() map[string]string {
 // Method: StackEvent
 
 func (msg *StackEventMessage) MessagingTopic() string {
-	return "o5-deployer-output"
+	return "o5-deployer-event"
 }
 func (msg *StackEventMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
