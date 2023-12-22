@@ -130,8 +130,8 @@ func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *Deployment
 	return nil
 }
 
-func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
-	switch v := ee.Event.Type.(type) {
+func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
+	switch v := ee.Type.(type) {
 	case *DeploymentEventType_Created_:
 		return v.Created
 	case *DeploymentEventType_Triggered_:
@@ -161,6 +161,16 @@ func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
 	default:
 		return nil
 	}
+}
+func (ee *DeploymentEventType) PSMEventKey() DeploymentPSMEventKey {
+	tt := ee.UnwrapPSMEvent()
+	if tt == nil {
+		return "<nil>"
+	}
+	return tt.PSMEventKey()
+}
+func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
+	return ee.Event.UnwrapPSMEvent()
 }
 func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
 	switch v := inner.(type) {

@@ -121,8 +121,8 @@ func (c StackPSMConverter) CheckStateKeys(s *StackState, e *StackEvent) error {
 	return nil
 }
 
-func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {
-	switch v := ee.Event.Type.(type) {
+func (ee *StackEventType) UnwrapPSMEvent() StackPSMEvent {
+	switch v := ee.Type.(type) {
 	case *StackEventType_Triggered_:
 		return v.Triggered
 	case *StackEventType_DeploymentCompleted_:
@@ -134,6 +134,16 @@ func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {
 	default:
 		return nil
 	}
+}
+func (ee *StackEventType) PSMEventKey() StackPSMEventKey {
+	tt := ee.UnwrapPSMEvent()
+	if tt == nil {
+		return "<nil>"
+	}
+	return tt.PSMEventKey()
+}
+func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {
+	return ee.Event.UnwrapPSMEvent()
 }
 func (ee *StackEvent) SetPSMEvent(inner StackPSMEvent) {
 	switch v := inner.(type) {
