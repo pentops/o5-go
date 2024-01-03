@@ -7,7 +7,68 @@ import (
 	fmt "fmt"
 )
 
-type IsDeadMessage_Problem = isDeadMessage_Problem
+type IsDeadMessageSpec_Problem = isDeadMessageSpec_Problem
+type IsDeadMessageEventType_Type = isDeadMessageEventType_Type
+
+// MessageStatus
+const (
+	MessageStatus_UNSPECIFIED MessageStatus = 0
+	MessageStatus_CREATED     MessageStatus = 1
+	MessageStatus_UPDATED     MessageStatus = 2
+	MessageStatus_REPLAYED    MessageStatus = 3
+	MessageStatus_REJECTED    MessageStatus = 4
+)
+
+var (
+	MessageStatus_name_short = map[int32]string{
+		0: "UNSPECIFIED",
+		1: "CREATED",
+		2: "UPDATED",
+		3: "REPLAYED",
+		4: "REJECTED",
+	}
+	MessageStatus_value_short = map[string]int32{
+		"UNSPECIFIED": 0,
+		"CREATED":     1,
+		"UPDATED":     2,
+		"REPLAYED":    3,
+		"REJECTED":    4,
+	}
+	MessageStatus_value_either = map[string]int32{
+		"UNSPECIFIED":                0,
+		"MESSAGE_STATUS_UNSPECIFIED": 0,
+		"CREATED":                    1,
+		"MESSAGE_STATUS_CREATED":     1,
+		"UPDATED":                    2,
+		"MESSAGE_STATUS_UPDATED":     2,
+		"REPLAYED":                   3,
+		"MESSAGE_STATUS_REPLAYED":    3,
+		"REJECTED":                   4,
+		"MESSAGE_STATUS_REJECTED":    4,
+	}
+)
+
+// ShortString returns the un-prefixed string representation of the enum value
+func (x MessageStatus) ShortString() string {
+	return MessageStatus_name_short[int32(x)]
+}
+func (x MessageStatus) Value() (driver.Value, error) {
+	return []uint8(x.ShortString()), nil
+}
+func (x *MessageStatus) Scan(value interface{}) error {
+	var strVal string
+	switch vt := value.(type) {
+	case []uint8:
+		strVal = string(vt)
+	case string:
+		strVal = vt
+	default:
+		return fmt.Errorf("invalid type %T", value)
+	}
+	val := MessageStatus_value_either[strVal]
+	*x = MessageStatus(val)
+	return nil
+}
 
 // Urgency
 const (
