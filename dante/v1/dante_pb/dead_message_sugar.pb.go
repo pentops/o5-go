@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 )
 
-type IsDeadMessageSpec_Problem = isDeadMessageSpec_Problem
+type IsProblem_Type = isProblem_Type
 
 // DeadMessageEventType is a oneof wrapper
 type DeadMessageEventTypeKey string
