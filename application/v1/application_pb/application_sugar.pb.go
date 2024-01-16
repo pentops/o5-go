@@ -171,3 +171,48 @@ func (x *Demand) Scan(value interface{}) error {
 	*x = Demand(val)
 	return nil
 }
+
+// O5Var
+const (
+	O5Var_UNSPECIFIED      O5Var = 0
+	O5Var_ADAPTER_ENDPOINT O5Var = 1
+)
+
+var (
+	O5Var_name_short = map[int32]string{
+		0: "UNSPECIFIED",
+		1: "ADAPTER_ENDPOINT",
+	}
+	O5Var_value_short = map[string]int32{
+		"UNSPECIFIED":      0,
+		"ADAPTER_ENDPOINT": 1,
+	}
+	O5Var_value_either = map[string]int32{
+		"UNSPECIFIED":             0,
+		"O5_VAR_UNSPECIFIED":      0,
+		"ADAPTER_ENDPOINT":        1,
+		"O5_VAR_ADAPTER_ENDPOINT": 1,
+	}
+)
+
+// ShortString returns the un-prefixed string representation of the enum value
+func (x O5Var) ShortString() string {
+	return O5Var_name_short[int32(x)]
+}
+func (x O5Var) Value() (driver.Value, error) {
+	return []uint8(x.ShortString()), nil
+}
+func (x *O5Var) Scan(value interface{}) error {
+	var strVal string
+	switch vt := value.(type) {
+	case []uint8:
+		strVal = string(vt)
+	case string:
+		strVal = vt
+	default:
+		return fmt.Errorf("invalid type %T", value)
+	}
+	val := O5Var_value_either[strVal]
+	*x = O5Var(val)
+	return nil
+}
