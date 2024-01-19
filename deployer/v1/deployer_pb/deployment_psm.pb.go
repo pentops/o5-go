@@ -62,6 +62,12 @@ var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
 			"deployment_id": event.DeploymentId,
 		}, nil
 	},
+	EventPrimaryKeyFieldPaths: []string{
+		"metadata.event_id",
+	},
+	StatePrimaryKeyFieldPaths: []string{
+		"deployment_id",
+	},
 }
 
 type DeploymentPSMTransitionBaton = psm.TransitionBaton[*DeploymentEvent, DeploymentPSMEvent]
@@ -121,16 +127,6 @@ func (c DeploymentPSMConverter) EventLabel(e DeploymentPSMEvent) string {
 func (c DeploymentPSMConverter) EmptyState(e *DeploymentEvent) *DeploymentState {
 	return &DeploymentState{
 		DeploymentId: e.DeploymentId,
-	}
-}
-
-func (c DeploymentPSMConverter) EventPrimaryKeyFieldPaths() []string {
-	return []string{"metadata.event_id"}
-}
-
-func (c DeploymentPSMConverter) StatePrimaryKeyFieldPaths() []string {
-	return []string{
-		"deployment_id",
 	}
 }
 func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *DeploymentEvent) error {

@@ -62,6 +62,12 @@ var DefaultStackPSMTableSpec = StackPSMTableSpec{
 			"stack_id":  event.StackId,
 		}, nil
 	},
+	EventPrimaryKeyFieldPaths: []string{
+		"metadata.event_id",
+	},
+	StatePrimaryKeyFieldPaths: []string{
+		"stack_id",
+	},
 }
 
 type StackPSMTransitionBaton = psm.TransitionBaton[*StackEvent, StackPSMEvent]
@@ -112,16 +118,6 @@ func (c StackPSMConverter) EventLabel(e StackPSMEvent) string {
 func (c StackPSMConverter) EmptyState(e *StackEvent) *StackState {
 	return &StackState{
 		StackId: e.StackId,
-	}
-}
-
-func (c StackPSMConverter) EventPrimaryKeyFieldPaths() []string {
-	return []string{"metadata.event_id"}
-}
-
-func (c StackPSMConverter) StatePrimaryKeyFieldPaths() []string {
-	return []string{
-		"stack_id",
 	}
 }
 func (c StackPSMConverter) CheckStateKeys(s *StackState, e *StackEvent) error {
