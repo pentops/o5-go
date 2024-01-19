@@ -4,7 +4,7 @@ go 1.21.4
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20231115204500-e097f827e652.2
-	github.com/pentops/protostate v0.0.0-20240105003357-a960043b46e7
+	github.com/pentops/protostate v0.0.0-20240119005036-84ba3b72e953
 	google.golang.org/genproto/googleapis/api v0.0.0-20231127180814-3a041ad873d4
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.1-0.20231027082548-f4a6c1f6e5c1
@@ -20,7 +20,7 @@ require (
 	github.com/google/uuid v1.4.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/pentops/log.go v0.0.0-20230815045424-6ebbd9ef2576 // indirect
-	github.com/pentops/outbox.pg.go v0.0.0-20231212041111-be5dfe6bec65 // indirect
+	github.com/pentops/outbox.pg.go v0.0.0-20231222014950-493c01cfbcc7 // indirect
 	github.com/pentops/sqrlx.go v0.0.0-20231212035131-ba083cf9eeb0 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
