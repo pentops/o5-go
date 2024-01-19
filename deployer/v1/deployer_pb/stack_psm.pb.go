@@ -114,6 +114,16 @@ func (c StackPSMConverter) EmptyState(e *StackEvent) *StackState {
 		StackId: e.StackId,
 	}
 }
+
+func (c StackPSMConverter) EventPrimaryKeyFieldPaths() []string {
+	return []string{"metadata.event_id"}
+}
+
+func (c StackPSMConverter) StatePrimaryKeyFieldPaths() []string {
+	return []string{
+		"stack_id",
+	}
+}
 func (c StackPSMConverter) CheckStateKeys(s *StackState, e *StackEvent) error {
 	if s.StackId != e.StackId {
 		return fmt.Errorf("state field 'StackId' %q does not match event field %q", s.StackId, e.StackId)

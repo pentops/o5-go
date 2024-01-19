@@ -7,7 +7,7 @@ import (
 )
 
 // State Query Service for %sdeployment
-type DeploymentPSMStateQuerySet = psm.StateQuerySet[
+type DeploymentPSMQuerySet = psm.StateQuerySet[
 	*GetDeploymentRequest,
 	*GetDeploymentResponse,
 	*ListDeploymentsRequest,
@@ -16,17 +16,22 @@ type DeploymentPSMStateQuerySet = psm.StateQuerySet[
 	*ListDeploymentEventsResponse,
 ]
 
-type DeploymentPSMStateQuerySpec = psm.StateQuerySpec[
-	*GetDeploymentRequest,
-	*GetDeploymentResponse,
-	*ListDeploymentsRequest,
-	*ListDeploymentsResponse,
-	*ListDeploymentEventsRequest,
-	*ListDeploymentEventsResponse,
-]
+func NewDeploymentPSMQuerySet(
+	smSpec psm.QuerySpec,
+	options psm.StateQueryOptions,
+) (*DeploymentPSMQuerySet, error) {
+	return psm.BuildStateQuerySet[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
+	](smSpec, options)
+}
 
 // State Query Service for %sstack
-type StackPSMStateQuerySet = psm.StateQuerySet[
+type StackPSMQuerySet = psm.StateQuerySet[
 	*GetStackRequest,
 	*GetStackResponse,
 	*ListStacksRequest,
@@ -35,11 +40,16 @@ type StackPSMStateQuerySet = psm.StateQuerySet[
 	*ListStackEventsResponse,
 ]
 
-type StackPSMStateQuerySpec = psm.StateQuerySpec[
-	*GetStackRequest,
-	*GetStackResponse,
-	*ListStacksRequest,
-	*ListStacksResponse,
-	*ListStackEventsRequest,
-	*ListStackEventsResponse,
-]
+func NewStackPSMQuerySet(
+	smSpec psm.QuerySpec,
+	options psm.StateQueryOptions,
+) (*StackPSMQuerySet, error) {
+	return psm.BuildStateQuerySet[
+		*GetStackRequest,
+		*GetStackResponse,
+		*ListStacksRequest,
+		*ListStacksResponse,
+		*ListStackEventsRequest,
+		*ListStackEventsResponse,
+	](smSpec, options)
+}

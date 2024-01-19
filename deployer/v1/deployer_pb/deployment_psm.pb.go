@@ -123,6 +123,16 @@ func (c DeploymentPSMConverter) EmptyState(e *DeploymentEvent) *DeploymentState 
 		DeploymentId: e.DeploymentId,
 	}
 }
+
+func (c DeploymentPSMConverter) EventPrimaryKeyFieldPaths() []string {
+	return []string{"metadata.event_id"}
+}
+
+func (c DeploymentPSMConverter) StatePrimaryKeyFieldPaths() []string {
+	return []string{
+		"deployment_id",
+	}
+}
 func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *DeploymentEvent) error {
 	if s.DeploymentId != e.DeploymentId {
 		return fmt.Errorf("state field 'DeploymentId' %q does not match event field %q", s.DeploymentId, e.DeploymentId)
