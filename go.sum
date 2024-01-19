@@ -37,6 +37,8 @@ github.com/pentops/protostate v0.0.0-20240119005036-84ba3b72e953 h1:y2ivuYHaWICb
 github.com/pentops/protostate v0.0.0-20240119005036-84ba3b72e953/go.mod h1:T5GPosG0uV34Z8MB4aSA5rWCWhGkTabbcXh94r/vfTE=
 github.com/pentops/protostate v0.0.0-20240119195604-e134f01ca1b0 h1:fXNM+YI8IEzmZI5C2qoIfgDQrDPuPznj2bRzMFMXSRA=
 github.com/pentops/protostate v0.0.0-20240119195604-e134f01ca1b0/go.mod h1:T5GPosG0uV34Z8MB4aSA5rWCWhGkTabbcXh94r/vfTE=
+github.com/pentops/protostate v0.0.0-20240119200340-2268e85845ec h1:KfGuIYthjyqxGP8+SVEWvcjUJd63OETAeIjQ9jx9UxU=
+github.com/pentops/protostate v0.0.0-20240119200340-2268e85845ec/go.mod h1:T5GPosG0uV34Z8MB4aSA5rWCWhGkTabbcXh94r/vfTE=
 github.com/pentops/sqrlx.go v0.0.0-20231212035131-ba083cf9eeb0 h1:34Tf5f+LsimhIHfvwbhvJXoT0ECKchPvKWFhW+G1Zy8=
 github.com/pentops/sqrlx.go v0.0.0-20231212035131-ba083cf9eeb0/go.mod h1:vsbqLseAWIPZAzGk4hGMiHi8hwqpcxil702GknI95/w=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

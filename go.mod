@@ -4,7 +4,7 @@ go 1.21.4
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20231115204500-e097f827e652.2
-	github.com/pentops/protostate v0.0.0-20240119195604-e134f01ca1b0
+	github.com/pentops/protostate v0.0.0-20240119200340-2268e85845ec
 	google.golang.org/genproto/googleapis/api v0.0.0-20231127180814-3a041ad873d4
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.1-0.20231027082548-f4a6c1f6e5c1
