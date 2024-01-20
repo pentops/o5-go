@@ -7,6 +7,8 @@ import (
 )
 
 // State Query Service for %sdeployment
+// QuerySet is the query set for the Deployment service.
+
 type DeploymentPSMQuerySet = psm.StateQuerySet[
 	*GetDeploymentRequest,
 	*GetDeploymentResponse,
@@ -17,7 +19,14 @@ type DeploymentPSMQuerySet = psm.StateQuerySet[
 ]
 
 func NewDeploymentPSMQuerySet(
-	smSpec psm.QuerySpec,
+	smSpec psm.QuerySpec[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
+	],
 	options psm.StateQueryOptions,
 ) (*DeploymentPSMQuerySet, error) {
 	return psm.BuildStateQuerySet[
@@ -30,7 +39,31 @@ func NewDeploymentPSMQuerySet(
 	](smSpec, options)
 }
 
+type DeploymentPSMQuerySpec = psm.QuerySpec[
+	*GetDeploymentRequest,
+	*GetDeploymentResponse,
+	*ListDeploymentsRequest,
+	*ListDeploymentsResponse,
+	*ListDeploymentEventsRequest,
+	*ListDeploymentEventsResponse,
+]
+
+func DefaultDeploymentPSMQuerySpec(tableSpec psm.StateTableSpec) DeploymentPSMQuerySpec {
+	return psm.QuerySpec[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
+	]{
+		StateTableSpec: tableSpec,
+	}
+}
+
 // State Query Service for %sstack
+// QuerySet is the query set for the Stack service.
+
 type StackPSMQuerySet = psm.StateQuerySet[
 	*GetStackRequest,
 	*GetStackResponse,
@@ -41,7 +74,14 @@ type StackPSMQuerySet = psm.StateQuerySet[
 ]
 
 func NewStackPSMQuerySet(
-	smSpec psm.QuerySpec,
+	smSpec psm.QuerySpec[
+		*GetStackRequest,
+		*GetStackResponse,
+		*ListStacksRequest,
+		*ListStacksResponse,
+		*ListStackEventsRequest,
+		*ListStackEventsResponse,
+	],
 	options psm.StateQueryOptions,
 ) (*StackPSMQuerySet, error) {
 	return psm.BuildStateQuerySet[
@@ -52,4 +92,26 @@ func NewStackPSMQuerySet(
 		*ListStackEventsRequest,
 		*ListStackEventsResponse,
 	](smSpec, options)
+}
+
+type StackPSMQuerySpec = psm.QuerySpec[
+	*GetStackRequest,
+	*GetStackResponse,
+	*ListStacksRequest,
+	*ListStacksResponse,
+	*ListStackEventsRequest,
+	*ListStackEventsResponse,
+]
+
+func DefaultStackPSMQuerySpec(tableSpec psm.StateTableSpec) StackPSMQuerySpec {
+	return psm.QuerySpec[
+		*GetStackRequest,
+		*GetStackResponse,
+		*ListStacksRequest,
+		*ListStacksResponse,
+		*ListStackEventsRequest,
+		*ListStackEventsResponse,
+	]{
+		StateTableSpec: tableSpec,
+	}
 }
