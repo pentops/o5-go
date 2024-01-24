@@ -228,7 +228,9 @@ type AWS struct {
 	// The roles which a deployer service (e.g. o5 itself) should be allowed to
 	// assume, when grant_meta_deploy_permissions is set in the application config
 	O5DeployerGrantRoles []string `protobuf:"bytes,10,rep,name=o5_deployer_grant_roles,json=o5DeployerGrantRoles,proto3" json:"o5_deployer_grant_roles,omitempty"`
-	// when set, adds a host header rule exactly as defined to all listener rules.
+	// when set, adds a host header rule to all listener rules. For routes with
+	// specified subdomains, the subdomain value is added as a prefix to this
+	// value.
 	// This allows re-use of the same listener for multiple (related) environments.
 	HostHeader       *string    `protobuf:"bytes,6,opt,name=host_header,json=hostHeader,proto3,oneof" json:"host_header,omitempty"`
 	RdsHosts         []*RDSHost `protobuf:"bytes,7,rep,name=rds_hosts,json=rdsHosts,proto3" json:"rds_hosts,omitempty"`
