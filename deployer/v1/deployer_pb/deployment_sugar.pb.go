@@ -24,6 +24,7 @@ const (
 	DeploymentEvent_DataMigrated    DeploymentEventTypeKey = "dataMigrated"
 	DeploymentEvent_Error           DeploymentEventTypeKey = "error"
 	DeploymentEvent_Done            DeploymentEventTypeKey = "done"
+	DeploymentEvent_Terminated      DeploymentEventTypeKey = "terminated"
 )
 
 func (x *DeploymentEventType) TypeKey() (DeploymentEventTypeKey, bool) {
@@ -54,6 +55,8 @@ func (x *DeploymentEventType) TypeKey() (DeploymentEventTypeKey, bool) {
 		return DeploymentEvent_Error, true
 	case *DeploymentEventType_Done_:
 		return DeploymentEvent_Done, true
+	case *DeploymentEventType_Terminated_:
+		return DeploymentEvent_Terminated, true
 	default:
 		return "", false
 	}
@@ -91,6 +94,8 @@ func (x *DeploymentEventType) Set(val IsDeploymentEventTypeWrappedType) {
 		x.Type = &DeploymentEventType_Error_{Error: v}
 	case *DeploymentEventType_Done:
 		x.Type = &DeploymentEventType_Done_{Done: v}
+	case *DeploymentEventType_Terminated:
+		x.Type = &DeploymentEventType_Terminated_{Terminated: v}
 	}
 }
 func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
@@ -121,6 +126,8 @@ func (x *DeploymentEventType) Get() IsDeploymentEventTypeWrappedType {
 		return v.Error
 	case *DeploymentEventType_Done_:
 		return v.Done
+	case *DeploymentEventType_Terminated_:
+		return v.Terminated
 	default:
 		return nil
 	}
@@ -164,6 +171,9 @@ func (x *DeploymentEventType_Error) TypeKey() DeploymentEventTypeKey {
 func (x *DeploymentEventType_Done) TypeKey() DeploymentEventTypeKey {
 	return DeploymentEvent_Done
 }
+func (x *DeploymentEventType_Terminated) TypeKey() DeploymentEventTypeKey {
+	return DeploymentEvent_Terminated
+}
 
 type IsDeploymentEventType_Type = isDeploymentEventType_Type
 
@@ -187,6 +197,7 @@ const (
 	DeploymentStatus_UPSERTED       DeploymentStatus = 16
 	DeploymentStatus_DONE           DeploymentStatus = 100
 	DeploymentStatus_FAILED         DeploymentStatus = 101
+	DeploymentStatus_TERMINATED     DeploymentStatus = 102
 )
 
 var (
@@ -209,6 +220,7 @@ var (
 		16:  "UPSERTED",
 		100: "DONE",
 		101: "FAILED",
+		102: "TERMINATED",
 	}
 	DeploymentStatus_value_short = map[string]int32{
 		"UNSPECIFIED":    0,
@@ -229,6 +241,7 @@ var (
 		"UPSERTED":       16,
 		"DONE":           100,
 		"FAILED":         101,
+		"TERMINATED":     102,
 	}
 	DeploymentStatus_value_either = map[string]int32{
 		"UNSPECIFIED":                      0,
@@ -267,6 +280,8 @@ var (
 		"DEPLOYMENT_STATUS_DONE":           100,
 		"FAILED":                           101,
 		"DEPLOYMENT_STATUS_FAILED":         101,
+		"TERMINATED":                       102,
+		"DEPLOYMENT_STATUS_TERMINATED":     102,
 	}
 )
 

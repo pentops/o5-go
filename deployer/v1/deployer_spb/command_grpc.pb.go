@@ -27,6 +27,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DeploymentCommandServiceClient interface {
 	TriggerDeployment(ctx context.Context, in *TriggerDeploymentRequest, opts ...grpc.CallOption) (*TriggerDeploymentResponse, error)
+	TerminateDeployment(ctx context.Context, in *TerminateDeploymentRequest, opts ...grpc.CallOption) (*TerminateDeploymentResponse, error)
 }
 
 type deploymentCommandServiceClient struct {
@@ -46,11 +47,21 @@ func (c *deploymentCommandServiceClient) TriggerDeployment(ctx context.Context, 
 	return out, nil
 }
 
+func (c *deploymentCommandServiceClient) TerminateDeployment(ctx context.Context, in *TerminateDeploymentRequest, opts ...grpc.CallOption) (*TerminateDeploymentResponse, error) {
+	out := new(TerminateDeploymentResponse)
+	err := c.cc.Invoke(ctx, "/o5.deployer.v1.service.DeploymentCommandService/TerminateDeployment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DeploymentCommandServiceServer is the server API for DeploymentCommandService service.
 // All implementations must embed UnimplementedDeploymentCommandServiceServer
 // for forward compatibility
 type DeploymentCommandServiceServer interface {
 	TriggerDeployment(context.Context, *TriggerDeploymentRequest) (*TriggerDeploymentResponse, error)
+	TerminateDeployment(context.Context, *TerminateDeploymentRequest) (*TerminateDeploymentResponse, error)
 	mustEmbedUnimplementedDeploymentCommandServiceServer()
 }
 
@@ -60,6 +71,9 @@ type UnimplementedDeploymentCommandServiceServer struct {
 
 func (UnimplementedDeploymentCommandServiceServer) TriggerDeployment(context.Context, *TriggerDeploymentRequest) (*TriggerDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TriggerDeployment not implemented")
+}
+func (UnimplementedDeploymentCommandServiceServer) TerminateDeployment(context.Context, *TerminateDeploymentRequest) (*TerminateDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TerminateDeployment not implemented")
 }
 func (UnimplementedDeploymentCommandServiceServer) mustEmbedUnimplementedDeploymentCommandServiceServer() {
 }
@@ -93,6 +107,24 @@ func _DeploymentCommandService_TriggerDeployment_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DeploymentCommandService_TerminateDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TerminateDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeploymentCommandServiceServer).TerminateDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/o5.deployer.v1.service.DeploymentCommandService/TerminateDeployment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeploymentCommandServiceServer).TerminateDeployment(ctx, req.(*TerminateDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DeploymentCommandService_ServiceDesc is the grpc.ServiceDesc for DeploymentCommandService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -103,6 +135,10 @@ var DeploymentCommandService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TriggerDeployment",
 			Handler:    _DeploymentCommandService_TriggerDeployment_Handler,
+		},
+		{
+			MethodName: "TerminateDeployment",
+			Handler:    _DeploymentCommandService_TerminateDeployment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

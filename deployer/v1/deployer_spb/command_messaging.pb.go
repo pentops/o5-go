@@ -12,3 +12,13 @@ func (msg *TriggerDeploymentRequest) MessagingHeaders() map[string]string {
 	}
 	return headers
 }
+
+// Method: TerminateDeployment
+
+func (msg *TerminateDeploymentRequest) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.deployer.v1.service.DeploymentCommandService/TerminateDeployment",
+		"grpc-message": "o5.deployer.v1.service.TerminateDeploymentRequest",
+	}
+	return headers
+}

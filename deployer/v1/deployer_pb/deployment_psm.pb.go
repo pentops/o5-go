@@ -108,6 +108,7 @@ const (
 	DeploymentPSMEventDataMigrated    DeploymentPSMEventKey = "data_migrated"
 	DeploymentPSMEventError           DeploymentPSMEventKey = "error"
 	DeploymentPSMEventDone            DeploymentPSMEventKey = "done"
+	DeploymentPSMEventTerminated      DeploymentPSMEventKey = "terminated"
 )
 
 type DeploymentPSMEvent interface {
@@ -171,6 +172,8 @@ func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
 		return v.Error
 	case *DeploymentEventType_Done_:
 		return v.Done
+	case *DeploymentEventType_Terminated_:
+		return v.Terminated
 	default:
 		return nil
 	}
@@ -219,6 +222,8 @@ func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
 		ee.Event.Type = &DeploymentEventType_Error_{Error: v}
 	case *DeploymentEventType_Done:
 		ee.Event.Type = &DeploymentEventType_Done_{Done: v}
+	case *DeploymentEventType_Terminated:
+		ee.Event.Type = &DeploymentEventType_Terminated_{Terminated: v}
 	default:
 		panic("invalid type")
 	}
@@ -261,4 +266,7 @@ func (*DeploymentEventType_Error) PSMEventKey() DeploymentPSMEventKey {
 }
 func (*DeploymentEventType_Done) PSMEventKey() DeploymentPSMEventKey {
 	return DeploymentPSMEventDone
+}
+func (*DeploymentEventType_Terminated) PSMEventKey() DeploymentPSMEventKey {
+	return DeploymentPSMEventTerminated
 }
