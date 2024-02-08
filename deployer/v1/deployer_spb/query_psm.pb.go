@@ -6,61 +6,6 @@ import (
 	psm "github.com/pentops/protostate/psm"
 )
 
-// State Query Service for %sdeployment
-// QuerySet is the query set for the Deployment service.
-
-type DeploymentPSMQuerySet = psm.StateQuerySet[
-	*GetDeploymentRequest,
-	*GetDeploymentResponse,
-	*ListDeploymentsRequest,
-	*ListDeploymentsResponse,
-	*ListDeploymentEventsRequest,
-	*ListDeploymentEventsResponse,
-]
-
-func NewDeploymentPSMQuerySet(
-	smSpec psm.QuerySpec[
-		*GetDeploymentRequest,
-		*GetDeploymentResponse,
-		*ListDeploymentsRequest,
-		*ListDeploymentsResponse,
-		*ListDeploymentEventsRequest,
-		*ListDeploymentEventsResponse,
-	],
-	options psm.StateQueryOptions,
-) (*DeploymentPSMQuerySet, error) {
-	return psm.BuildStateQuerySet[
-		*GetDeploymentRequest,
-		*GetDeploymentResponse,
-		*ListDeploymentsRequest,
-		*ListDeploymentsResponse,
-		*ListDeploymentEventsRequest,
-		*ListDeploymentEventsResponse,
-	](smSpec, options)
-}
-
-type DeploymentPSMQuerySpec = psm.QuerySpec[
-	*GetDeploymentRequest,
-	*GetDeploymentResponse,
-	*ListDeploymentsRequest,
-	*ListDeploymentsResponse,
-	*ListDeploymentEventsRequest,
-	*ListDeploymentEventsResponse,
-]
-
-func DefaultDeploymentPSMQuerySpec(tableSpec psm.StateTableSpec) DeploymentPSMQuerySpec {
-	return psm.QuerySpec[
-		*GetDeploymentRequest,
-		*GetDeploymentResponse,
-		*ListDeploymentsRequest,
-		*ListDeploymentsResponse,
-		*ListDeploymentEventsRequest,
-		*ListDeploymentEventsResponse,
-	]{
-		StateTableSpec: tableSpec,
-	}
-}
-
 // State Query Service for %sstack
 // QuerySet is the query set for the Stack service.
 
@@ -111,6 +56,61 @@ func DefaultStackPSMQuerySpec(tableSpec psm.StateTableSpec) StackPSMQuerySpec {
 		*ListStacksResponse,
 		*ListStackEventsRequest,
 		*ListStackEventsResponse,
+	]{
+		StateTableSpec: tableSpec,
+	}
+}
+
+// State Query Service for %sdeployment
+// QuerySet is the query set for the Deployment service.
+
+type DeploymentPSMQuerySet = psm.StateQuerySet[
+	*GetDeploymentRequest,
+	*GetDeploymentResponse,
+	*ListDeploymentsRequest,
+	*ListDeploymentsResponse,
+	*ListDeploymentEventsRequest,
+	*ListDeploymentEventsResponse,
+]
+
+func NewDeploymentPSMQuerySet(
+	smSpec psm.QuerySpec[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
+	],
+	options psm.StateQueryOptions,
+) (*DeploymentPSMQuerySet, error) {
+	return psm.BuildStateQuerySet[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
+	](smSpec, options)
+}
+
+type DeploymentPSMQuerySpec = psm.QuerySpec[
+	*GetDeploymentRequest,
+	*GetDeploymentResponse,
+	*ListDeploymentsRequest,
+	*ListDeploymentsResponse,
+	*ListDeploymentEventsRequest,
+	*ListDeploymentEventsResponse,
+]
+
+func DefaultDeploymentPSMQuerySpec(tableSpec psm.StateTableSpec) DeploymentPSMQuerySpec {
+	return psm.QuerySpec[
+		*GetDeploymentRequest,
+		*GetDeploymentResponse,
+		*ListDeploymentsRequest,
+		*ListDeploymentsResponse,
+		*ListDeploymentEventsRequest,
+		*ListDeploymentEventsResponse,
 	]{
 		StateTableSpec: tableSpec,
 	}

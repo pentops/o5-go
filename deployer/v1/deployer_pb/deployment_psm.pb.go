@@ -53,9 +53,6 @@ var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
 			"id": event.DeploymentId,
 		}, nil
 	},
-	StateColumns: func(state *DeploymentState) (map[string]interface{}, error) {
-		return map[string]interface{}{}, nil
-	},
 	EventColumns: func(event *DeploymentEvent) (map[string]interface{}, error) {
 		metadata := event.Metadata
 		return map[string]interface{}{
@@ -94,7 +91,6 @@ func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, Deploymen
 type DeploymentPSMEventKey string
 
 const (
-	DeploymentPSMEventNil             DeploymentPSMEventKey = "<nil>"
 	DeploymentPSMEventCreated         DeploymentPSMEventKey = "created"
 	DeploymentPSMEventTriggered       DeploymentPSMEventKey = "triggered"
 	DeploymentPSMEventStackCreate     DeploymentPSMEventKey = "stack_create"
@@ -142,9 +138,6 @@ func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *Deployment
 }
 
 func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
-	if ee == nil {
-		return nil
-	}
 	switch v := ee.Type.(type) {
 	case *DeploymentEventType_Created_:
 		return v.Created
@@ -181,20 +174,14 @@ func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
 func (ee *DeploymentEventType) PSMEventKey() DeploymentPSMEventKey {
 	tt := ee.UnwrapPSMEvent()
 	if tt == nil {
-		return DeploymentPSMEventNil
+		return "<nil>"
 	}
 	return tt.PSMEventKey()
-}
-func (ee *DeploymentEvent) PSMEventKey() DeploymentPSMEventKey {
-	return ee.Event.PSMEventKey()
 }
 func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
 	return ee.Event.UnwrapPSMEvent()
 }
 func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
-	if ee.Event == nil {
-		ee.Event = &DeploymentEventType{}
-	}
 	switch v := inner.(type) {
 	case *DeploymentEventType_Created:
 		ee.Event.Type = &DeploymentEventType_Created_{Created: v}
