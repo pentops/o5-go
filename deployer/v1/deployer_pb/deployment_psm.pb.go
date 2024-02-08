@@ -7,6 +7,7 @@ import (
 	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
 	proto "google.golang.org/protobuf/proto"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // StateObjectOptions: DeploymentPSM
@@ -24,7 +25,28 @@ type DeploymentPSM = psm.StateMachine[
 	DeploymentPSMEvent,
 ]
 
-func NewDeploymentPSM(db psm.Transactor, options ...psm.StateMachineOption[
+type DeploymentPSMDB = psm.DBStateMachine[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+]
+
+func DefaultDeploymentPSMConfig() *psm.StateMachineConfig[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+] {
+	return psm.NewStateMachineConfig[
+		*DeploymentState,
+		DeploymentStatus,
+		*DeploymentEvent,
+		DeploymentPSMEvent,
+	](DeploymentPSMConverter{}, DefaultDeploymentPSMTableSpec)
+}
+
+func NewDeploymentPSM(config *psm.StateMachineConfig[
 	*DeploymentState,
 	DeploymentStatus,
 	*DeploymentEvent,
@@ -35,7 +57,7 @@ func NewDeploymentPSM(db psm.Transactor, options ...psm.StateMachineOption[
 		DeploymentStatus,
 		*DeploymentEvent,
 		DeploymentPSMEvent,
-	](db, DeploymentPSMConverter{}, DefaultDeploymentPSMTableSpec, options...)
+	](config)
 }
 
 type DeploymentPSMTableSpec = psm.TableSpec[
@@ -52,6 +74,9 @@ var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
 		return map[string]interface{}{
 			"id": event.DeploymentId,
 		}, nil
+	},
+	StateColumns: func(state *DeploymentState) (map[string]interface{}, error) {
+		return map[string]interface{}{}, nil
 	},
 	EventColumns: func(event *DeploymentEvent) (map[string]interface{}, error) {
 		metadata := event.Metadata
@@ -91,6 +116,7 @@ func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, Deploymen
 type DeploymentPSMEventKey string
 
 const (
+	DeploymentPSMEventNil             DeploymentPSMEventKey = "<nil>"
 	DeploymentPSMEventCreated         DeploymentPSMEventKey = "created"
 	DeploymentPSMEventTriggered       DeploymentPSMEventKey = "triggered"
 	DeploymentPSMEventStackCreate     DeploymentPSMEventKey = "stack_create"
@@ -130,6 +156,21 @@ func (c DeploymentPSMConverter) EmptyState(e *DeploymentEvent) *DeploymentState 
 		DeploymentId: e.DeploymentId,
 	}
 }
+
+func (c DeploymentPSMConverter) DeriveChainEvent(e *DeploymentEvent, systemActor psm.SystemActor, eventKey string) *DeploymentEvent {
+	metadata := &EventMetadata{
+		EventId:   systemActor.NewEventID(e.Metadata.EventId, eventKey),
+		Timestamp: timestamppb.Now(),
+	}
+	actorProto := systemActor.ActorProto()
+	refl := metadata.ProtoReflect()
+	refl.Set(refl.Descriptor().Fields().ByName("actor"), actorProto)
+	return &DeploymentEvent{
+		Metadata:     metadata,
+		DeploymentId: e.DeploymentId,
+	}
+}
+
 func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *DeploymentEvent) error {
 	if s.DeploymentId != e.DeploymentId {
 		return fmt.Errorf("state field 'DeploymentId' %q does not match event field %q", s.DeploymentId, e.DeploymentId)
@@ -138,6 +179,9 @@ func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *Deployment
 }
 
 func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
+	if ee == nil {
+		return nil
+	}
 	switch v := ee.Type.(type) {
 	case *DeploymentEventType_Created_:
 		return v.Created
@@ -174,14 +218,20 @@ func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
 func (ee *DeploymentEventType) PSMEventKey() DeploymentPSMEventKey {
 	tt := ee.UnwrapPSMEvent()
 	if tt == nil {
-		return "<nil>"
+		return DeploymentPSMEventNil
 	}
 	return tt.PSMEventKey()
+}
+func (ee *DeploymentEvent) PSMEventKey() DeploymentPSMEventKey {
+	return ee.Event.PSMEventKey()
 }
 func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
 	return ee.Event.UnwrapPSMEvent()
 }
 func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
+	if ee.Event == nil {
+		ee.Event = &DeploymentEventType{}
+	}
 	switch v := inner.(type) {
 	case *DeploymentEventType_Created:
 		ee.Event.Type = &DeploymentEventType_Created_{Created: v}
