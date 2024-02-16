@@ -7,10 +7,51 @@ import (
 	fmt "fmt"
 )
 
+// CodeSourceType is a oneof wrapper
+type CodeSourceTypeKey string
+
+const (
+	CodeSource_Github CodeSourceTypeKey = "github"
+)
+
+func (x *CodeSourceType) TypeKey() (CodeSourceTypeKey, bool) {
+	switch x.Type.(type) {
+	case *CodeSourceType_Github_:
+		return CodeSource_Github, true
+	default:
+		return "", false
+	}
+}
+
+type IsCodeSourceTypeWrappedType interface {
+	TypeKey() CodeSourceTypeKey
+}
+
+func (x *CodeSourceType) Set(val IsCodeSourceTypeWrappedType) {
+	switch v := val.(type) {
+	case *CodeSourceType_Github:
+		x.Type = &CodeSourceType_Github_{Github: v}
+	}
+}
+func (x *CodeSourceType) Get() IsCodeSourceTypeWrappedType {
+	switch v := x.Type.(type) {
+	case *CodeSourceType_Github_:
+		return v.Github
+	default:
+		return nil
+	}
+}
+func (x *CodeSourceType_Github) TypeKey() CodeSourceTypeKey {
+	return CodeSource_Github
+}
+
+type IsCodeSourceType_Type = isCodeSourceType_Type
+
 // StackEventType is a oneof wrapper
 type StackEventTypeKey string
 
 const (
+	StackEvent_Configured          StackEventTypeKey = "configured"
 	StackEvent_Triggered           StackEventTypeKey = "triggered"
 	StackEvent_DeploymentCompleted StackEventTypeKey = "deploymentCompleted"
 	StackEvent_DeploymentFailed    StackEventTypeKey = "deploymentFailed"
@@ -19,6 +60,8 @@ const (
 
 func (x *StackEventType) TypeKey() (StackEventTypeKey, bool) {
 	switch x.Type.(type) {
+	case *StackEventType_Configured_:
+		return StackEvent_Configured, true
 	case *StackEventType_Triggered_:
 		return StackEvent_Triggered, true
 	case *StackEventType_DeploymentCompleted_:
@@ -38,6 +81,8 @@ type IsStackEventTypeWrappedType interface {
 
 func (x *StackEventType) Set(val IsStackEventTypeWrappedType) {
 	switch v := val.(type) {
+	case *StackEventType_Configured:
+		x.Type = &StackEventType_Configured_{Configured: v}
 	case *StackEventType_Triggered:
 		x.Type = &StackEventType_Triggered_{Triggered: v}
 	case *StackEventType_DeploymentCompleted:
@@ -50,6 +95,8 @@ func (x *StackEventType) Set(val IsStackEventTypeWrappedType) {
 }
 func (x *StackEventType) Get() IsStackEventTypeWrappedType {
 	switch v := x.Type.(type) {
+	case *StackEventType_Configured_:
+		return v.Configured
 	case *StackEventType_Triggered_:
 		return v.Triggered
 	case *StackEventType_DeploymentCompleted_:
@@ -61,6 +108,9 @@ func (x *StackEventType) Get() IsStackEventTypeWrappedType {
 	default:
 		return nil
 	}
+}
+func (x *StackEventType_Configured) TypeKey() StackEventTypeKey {
+	return StackEvent_Configured
 }
 func (x *StackEventType_Triggered) TypeKey() StackEventTypeKey {
 	return StackEvent_Triggered

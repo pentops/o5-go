@@ -133,3 +133,67 @@ func DefaultStackPSMQuerySpec(tableSpec psm.StateTableSpec) StackPSMQuerySpec {
 		},
 	}
 }
+
+// State Query Service for %senvironment
+// QuerySet is the query set for the Environment service.
+
+type EnvironmentPSMQuerySet = psm.StateQuerySet[
+	*GetEnvironmentRequest,
+	*GetEnvironmentResponse,
+	*ListEnvironmentsRequest,
+	*ListEnvironmentsResponse,
+	*ListEnvironmentEventsRequest,
+	*ListEnvironmentEventsResponse,
+]
+
+func NewEnvironmentPSMQuerySet(
+	smSpec psm.QuerySpec[
+		*GetEnvironmentRequest,
+		*GetEnvironmentResponse,
+		*ListEnvironmentsRequest,
+		*ListEnvironmentsResponse,
+		*ListEnvironmentEventsRequest,
+		*ListEnvironmentEventsResponse,
+	],
+	options psm.StateQueryOptions,
+) (*EnvironmentPSMQuerySet, error) {
+	return psm.BuildStateQuerySet[
+		*GetEnvironmentRequest,
+		*GetEnvironmentResponse,
+		*ListEnvironmentsRequest,
+		*ListEnvironmentsResponse,
+		*ListEnvironmentEventsRequest,
+		*ListEnvironmentEventsResponse,
+	](smSpec, options)
+}
+
+type EnvironmentPSMQuerySpec = psm.QuerySpec[
+	*GetEnvironmentRequest,
+	*GetEnvironmentResponse,
+	*ListEnvironmentsRequest,
+	*ListEnvironmentsResponse,
+	*ListEnvironmentEventsRequest,
+	*ListEnvironmentEventsResponse,
+]
+
+func DefaultEnvironmentPSMQuerySpec(tableSpec psm.StateTableSpec) EnvironmentPSMQuerySpec {
+	return psm.QuerySpec[
+		*GetEnvironmentRequest,
+		*GetEnvironmentResponse,
+		*ListEnvironmentsRequest,
+		*ListEnvironmentsResponse,
+		*ListEnvironmentEventsRequest,
+		*ListEnvironmentEventsResponse,
+	]{
+		StateTableSpec: tableSpec,
+		ListRequestFilter: func(req *ListEnvironmentsRequest) (map[string]interface{}, error) {
+			filter := map[string]interface{}{}
+			return filter, nil
+		},
+		ListEventsRequestFilter: func(req *ListEnvironmentEventsRequest) (map[string]interface{}, error) {
+			filter := map[string]interface{}{}
+			filter["environment_id"] = req.EnvironmentId
+			return filter, nil
+		},
+	}
+}

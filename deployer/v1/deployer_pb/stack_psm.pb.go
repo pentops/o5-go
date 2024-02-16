@@ -117,6 +117,7 @@ type StackPSMEventKey string
 
 const (
 	StackPSMEventNil                 StackPSMEventKey = "<nil>"
+	StackPSMEventConfigured          StackPSMEventKey = "configured"
 	StackPSMEventTriggered           StackPSMEventKey = "triggered"
 	StackPSMEventDeploymentCompleted StackPSMEventKey = "deployment_completed"
 	StackPSMEventDeploymentFailed    StackPSMEventKey = "deployment_failed"
@@ -173,6 +174,8 @@ func (ee *StackEventType) UnwrapPSMEvent() StackPSMEvent {
 		return nil
 	}
 	switch v := ee.Type.(type) {
+	case *StackEventType_Configured_:
+		return v.Configured
 	case *StackEventType_Triggered_:
 		return v.Triggered
 	case *StackEventType_DeploymentCompleted_:
@@ -203,6 +206,8 @@ func (ee *StackEvent) SetPSMEvent(inner StackPSMEvent) {
 		ee.Event = &StackEventType{}
 	}
 	switch v := inner.(type) {
+	case *StackEventType_Configured:
+		ee.Event.Type = &StackEventType_Configured_{Configured: v}
 	case *StackEventType_Triggered:
 		ee.Event.Type = &StackEventType_Triggered_{Triggered: v}
 	case *StackEventType_DeploymentCompleted:
@@ -214,6 +219,9 @@ func (ee *StackEvent) SetPSMEvent(inner StackPSMEvent) {
 	default:
 		panic("invalid type")
 	}
+}
+func (*StackEventType_Configured) PSMEventKey() StackPSMEventKey {
+	return StackPSMEventConfigured
 }
 func (*StackEventType_Triggered) PSMEventKey() StackPSMEventKey {
 	return StackPSMEventTriggered
