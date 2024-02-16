@@ -116,21 +116,17 @@ func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, Deploymen
 type DeploymentPSMEventKey string
 
 const (
-	DeploymentPSMEventNil             DeploymentPSMEventKey = "<nil>"
-	DeploymentPSMEventCreated         DeploymentPSMEventKey = "created"
-	DeploymentPSMEventTriggered       DeploymentPSMEventKey = "triggered"
-	DeploymentPSMEventStackCreate     DeploymentPSMEventKey = "stack_create"
-	DeploymentPSMEventStackWait       DeploymentPSMEventKey = "stack_wait"
-	DeploymentPSMEventStackScale      DeploymentPSMEventKey = "stack_scale"
-	DeploymentPSMEventStackTrigger    DeploymentPSMEventKey = "stack_trigger"
-	DeploymentPSMEventStackUpsert     DeploymentPSMEventKey = "stack_upsert"
-	DeploymentPSMEventStackStatus     DeploymentPSMEventKey = "stack_status"
-	DeploymentPSMEventMigrateData     DeploymentPSMEventKey = "migrate_data"
-	DeploymentPSMEventDbMigrateStatus DeploymentPSMEventKey = "db_migrate_status"
-	DeploymentPSMEventDataMigrated    DeploymentPSMEventKey = "data_migrated"
-	DeploymentPSMEventError           DeploymentPSMEventKey = "error"
-	DeploymentPSMEventDone            DeploymentPSMEventKey = "done"
-	DeploymentPSMEventTerminated      DeploymentPSMEventKey = "terminated"
+	DeploymentPSMEventNil              DeploymentPSMEventKey = "<nil>"
+	DeploymentPSMEventCreated          DeploymentPSMEventKey = "created"
+	DeploymentPSMEventTriggered        DeploymentPSMEventKey = "triggered"
+	DeploymentPSMEventStackWait        DeploymentPSMEventKey = "stack_wait"
+	DeploymentPSMEventStackWaitFailure DeploymentPSMEventKey = "stack_wait_failure"
+	DeploymentPSMEventStackAvailable   DeploymentPSMEventKey = "stack_available"
+	DeploymentPSMEventRunSteps         DeploymentPSMEventKey = "run_steps"
+	DeploymentPSMEventStepResult       DeploymentPSMEventKey = "step_result"
+	DeploymentPSMEventError            DeploymentPSMEventKey = "error"
+	DeploymentPSMEventDone             DeploymentPSMEventKey = "done"
+	DeploymentPSMEventTerminated       DeploymentPSMEventKey = "terminated"
 )
 
 type DeploymentPSMEvent interface {
@@ -187,24 +183,16 @@ func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
 		return v.Created
 	case *DeploymentEventType_Triggered_:
 		return v.Triggered
-	case *DeploymentEventType_StackCreate_:
-		return v.StackCreate
 	case *DeploymentEventType_StackWait_:
 		return v.StackWait
-	case *DeploymentEventType_StackScale_:
-		return v.StackScale
-	case *DeploymentEventType_StackTrigger_:
-		return v.StackTrigger
-	case *DeploymentEventType_StackUpsert_:
-		return v.StackUpsert
-	case *DeploymentEventType_StackStatus_:
-		return v.StackStatus
-	case *DeploymentEventType_MigrateData_:
-		return v.MigrateData
-	case *DeploymentEventType_DbMigrateStatus:
-		return v.DbMigrateStatus
-	case *DeploymentEventType_DataMigrated_:
-		return v.DataMigrated
+	case *DeploymentEventType_StackWaitFailure_:
+		return v.StackWaitFailure
+	case *DeploymentEventType_StackAvailable_:
+		return v.StackAvailable
+	case *DeploymentEventType_RunSteps_:
+		return v.RunSteps
+	case *DeploymentEventType_StepResult_:
+		return v.StepResult
 	case *DeploymentEventType_Error_:
 		return v.Error
 	case *DeploymentEventType_Done_:
@@ -237,24 +225,16 @@ func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
 		ee.Event.Type = &DeploymentEventType_Created_{Created: v}
 	case *DeploymentEventType_Triggered:
 		ee.Event.Type = &DeploymentEventType_Triggered_{Triggered: v}
-	case *DeploymentEventType_StackCreate:
-		ee.Event.Type = &DeploymentEventType_StackCreate_{StackCreate: v}
 	case *DeploymentEventType_StackWait:
 		ee.Event.Type = &DeploymentEventType_StackWait_{StackWait: v}
-	case *DeploymentEventType_StackScale:
-		ee.Event.Type = &DeploymentEventType_StackScale_{StackScale: v}
-	case *DeploymentEventType_StackTrigger:
-		ee.Event.Type = &DeploymentEventType_StackTrigger_{StackTrigger: v}
-	case *DeploymentEventType_StackUpsert:
-		ee.Event.Type = &DeploymentEventType_StackUpsert_{StackUpsert: v}
-	case *DeploymentEventType_StackStatus:
-		ee.Event.Type = &DeploymentEventType_StackStatus_{StackStatus: v}
-	case *DeploymentEventType_MigrateData:
-		ee.Event.Type = &DeploymentEventType_MigrateData_{MigrateData: v}
-	case *DeploymentEventType_DBMigrateStatus:
-		ee.Event.Type = &DeploymentEventType_DbMigrateStatus{DbMigrateStatus: v}
-	case *DeploymentEventType_DataMigrated:
-		ee.Event.Type = &DeploymentEventType_DataMigrated_{DataMigrated: v}
+	case *DeploymentEventType_StackWaitFailure:
+		ee.Event.Type = &DeploymentEventType_StackWaitFailure_{StackWaitFailure: v}
+	case *DeploymentEventType_StackAvailable:
+		ee.Event.Type = &DeploymentEventType_StackAvailable_{StackAvailable: v}
+	case *DeploymentEventType_RunSteps:
+		ee.Event.Type = &DeploymentEventType_RunSteps_{RunSteps: v}
+	case *DeploymentEventType_StepResult:
+		ee.Event.Type = &DeploymentEventType_StepResult_{StepResult: v}
 	case *DeploymentEventType_Error:
 		ee.Event.Type = &DeploymentEventType_Error_{Error: v}
 	case *DeploymentEventType_Done:
@@ -271,32 +251,20 @@ func (*DeploymentEventType_Created) PSMEventKey() DeploymentPSMEventKey {
 func (*DeploymentEventType_Triggered) PSMEventKey() DeploymentPSMEventKey {
 	return DeploymentPSMEventTriggered
 }
-func (*DeploymentEventType_StackCreate) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventStackCreate
-}
 func (*DeploymentEventType_StackWait) PSMEventKey() DeploymentPSMEventKey {
 	return DeploymentPSMEventStackWait
 }
-func (*DeploymentEventType_StackScale) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventStackScale
+func (*DeploymentEventType_StackWaitFailure) PSMEventKey() DeploymentPSMEventKey {
+	return DeploymentPSMEventStackWaitFailure
 }
-func (*DeploymentEventType_StackTrigger) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventStackTrigger
+func (*DeploymentEventType_StackAvailable) PSMEventKey() DeploymentPSMEventKey {
+	return DeploymentPSMEventStackAvailable
 }
-func (*DeploymentEventType_StackUpsert) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventStackUpsert
+func (*DeploymentEventType_RunSteps) PSMEventKey() DeploymentPSMEventKey {
+	return DeploymentPSMEventRunSteps
 }
-func (*DeploymentEventType_StackStatus) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventStackStatus
-}
-func (*DeploymentEventType_MigrateData) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventMigrateData
-}
-func (*DeploymentEventType_DBMigrateStatus) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventDbMigrateStatus
-}
-func (*DeploymentEventType_DataMigrated) PSMEventKey() DeploymentPSMEventKey {
-	return DeploymentPSMEventDataMigrated
+func (*DeploymentEventType_StepResult) PSMEventKey() DeploymentPSMEventKey {
+	return DeploymentPSMEventStepResult
 }
 func (*DeploymentEventType_Error) PSMEventKey() DeploymentPSMEventKey {
 	return DeploymentPSMEventError

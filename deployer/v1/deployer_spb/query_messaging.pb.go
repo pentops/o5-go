@@ -5,60 +5,18 @@ package deployer_spb
 // Service: DeploymentQueryService
 // Method: GetDeployment
 
-func (msg *GetDeploymentRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/GetDeployment",
-		"grpc-message": "o5.deployer.v1.service.GetDeploymentRequest",
-	}
-	return headers
-}
-
 // Method: ListDeploymentEvents
-
-func (msg *ListDeploymentEventsRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/ListDeploymentEvents",
-		"grpc-message": "o5.deployer.v1.service.ListDeploymentEventsRequest",
-	}
-	return headers
-}
 
 // Method: ListDeployments
 
-func (msg *ListDeploymentsRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/ListDeployments",
-		"grpc-message": "o5.deployer.v1.service.ListDeploymentsRequest",
-	}
-	return headers
-}
-
 // Method: GetStack
-
-func (msg *GetStackRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/GetStack",
-		"grpc-message": "o5.deployer.v1.service.GetStackRequest",
-	}
-	return headers
-}
 
 // Method: ListStacks
 
-func (msg *ListStacksRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/ListStacks",
-		"grpc-message": "o5.deployer.v1.service.ListStacksRequest",
-	}
-	return headers
-}
-
 // Method: ListStackEvents
 
-func (msg *ListStackEventsRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentQueryService/ListStackEvents",
-		"grpc-message": "o5.deployer.v1.service.ListStackEventsRequest",
-	}
-	return headers
-}
+// Method: ListEnvironments
+
+// Method: GetEnvironment
+
+// Method: ListEnvironmentEvents
