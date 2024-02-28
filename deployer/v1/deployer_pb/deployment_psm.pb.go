@@ -11,13 +11,6 @@ import (
 )
 
 // StateObjectOptions: DeploymentPSM
-type DeploymentPSMEventer = psm.Eventer[
-	*DeploymentState,
-	DeploymentStatus,
-	*DeploymentEvent,
-	DeploymentPSMEvent,
-]
-
 type DeploymentPSM = psm.StateMachine[
 	*DeploymentState,
 	DeploymentStatus,
@@ -26,6 +19,13 @@ type DeploymentPSM = psm.StateMachine[
 ]
 
 type DeploymentPSMDB = psm.DBStateMachine[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+]
+
+type DeploymentPSMEventer = psm.Eventer[
 	*DeploymentState,
 	DeploymentStatus,
 	*DeploymentEvent,
@@ -60,7 +60,7 @@ func NewDeploymentPSM(config *psm.StateMachineConfig[
 	](config)
 }
 
-type DeploymentPSMTableSpec = psm.TableSpec[
+type DeploymentPSMTableSpec = psm.PSMTableSpec[
 	*DeploymentState,
 	DeploymentStatus,
 	*DeploymentEvent,
@@ -68,30 +68,36 @@ type DeploymentPSMTableSpec = psm.TableSpec[
 ]
 
 var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
-	StateTable: "deployment",
-	EventTable: "deployment_event",
+	State: psm.TableSpec[*DeploymentState]{
+		TableName:  "deployment",
+		DataColumn: "state",
+		StoreExtraColumns: func(state *DeploymentState) (map[string]interface{}, error) {
+			return map[string]interface{}{}, nil
+		},
+		PKFieldPaths: []string{
+			"deployment_id",
+		},
+	},
+	Event: psm.TableSpec[*DeploymentEvent]{
+		TableName:  "deployment_event",
+		DataColumn: "data",
+		StoreExtraColumns: func(event *DeploymentEvent) (map[string]interface{}, error) {
+			metadata := event.Metadata
+			return map[string]interface{}{
+				"id":            metadata.EventId,
+				"timestamp":     metadata.Timestamp,
+				"actor":         metadata.Actor,
+				"deployment_id": event.DeploymentId,
+			}, nil
+		},
+		PKFieldPaths: []string{
+			"metadata.event_id",
+		},
+	},
 	PrimaryKey: func(event *DeploymentEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
 			"id": event.DeploymentId,
 		}, nil
-	},
-	StateColumns: func(state *DeploymentState) (map[string]interface{}, error) {
-		return map[string]interface{}{}, nil
-	},
-	EventColumns: func(event *DeploymentEvent) (map[string]interface{}, error) {
-		metadata := event.Metadata
-		return map[string]interface{}{
-			"id":            metadata.EventId,
-			"timestamp":     metadata.Timestamp,
-			"actor":         metadata.Actor,
-			"deployment_id": event.DeploymentId,
-		}, nil
-	},
-	EventPrimaryKeyFieldPaths: []string{
-		"metadata.event_id",
-	},
-	StatePrimaryKeyFieldPaths: []string{
-		"deployment_id",
 	},
 }
 
@@ -113,7 +119,7 @@ func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, Deploymen
 	](cb)
 }
 
-type DeploymentPSMEventKey string
+type DeploymentPSMEventKey = string
 
 const (
 	DeploymentPSMEventNil              DeploymentPSMEventKey = "<nil>"
@@ -133,19 +139,8 @@ type DeploymentPSMEvent interface {
 	proto.Message
 	PSMEventKey() DeploymentPSMEventKey
 }
+
 type DeploymentPSMConverter struct{}
-
-func (c DeploymentPSMConverter) Unwrap(e *DeploymentEvent) DeploymentPSMEvent {
-	return e.UnwrapPSMEvent()
-}
-
-func (c DeploymentPSMConverter) StateLabel(s *DeploymentState) string {
-	return s.Status.String()
-}
-
-func (c DeploymentPSMConverter) EventLabel(e DeploymentPSMEvent) string {
-	return string(e.PSMEventKey())
-}
 
 func (c DeploymentPSMConverter) EmptyState(e *DeploymentEvent) *DeploymentState {
 	return &DeploymentState{
@@ -174,11 +169,11 @@ func (c DeploymentPSMConverter) CheckStateKeys(s *DeploymentState, e *Deployment
 	return nil
 }
 
-func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
-	if ee == nil {
+func (etw *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
+	if etw == nil {
 		return nil
 	}
-	switch v := ee.Type.(type) {
+	switch v := etw.Type.(type) {
 	case *DeploymentEventType_Created_:
 		return v.Created
 	case *DeploymentEventType_Triggered_:
@@ -203,48 +198,55 @@ func (ee *DeploymentEventType) UnwrapPSMEvent() DeploymentPSMEvent {
 		return nil
 	}
 }
-func (ee *DeploymentEventType) PSMEventKey() DeploymentPSMEventKey {
-	tt := ee.UnwrapPSMEvent()
+func (etw *DeploymentEventType) PSMEventKey() DeploymentPSMEventKey {
+	tt := etw.UnwrapPSMEvent()
 	if tt == nil {
 		return DeploymentPSMEventNil
 	}
 	return tt.PSMEventKey()
 }
-func (ee *DeploymentEvent) PSMEventKey() DeploymentPSMEventKey {
-	return ee.Event.PSMEventKey()
-}
-func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
-	return ee.Event.UnwrapPSMEvent()
-}
-func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
-	if ee.Event == nil {
-		ee.Event = &DeploymentEventType{}
-	}
+func (etw *DeploymentEventType) SetPSMEvent(inner DeploymentPSMEvent) {
 	switch v := inner.(type) {
 	case *DeploymentEventType_Created:
-		ee.Event.Type = &DeploymentEventType_Created_{Created: v}
+		etw.Type = &DeploymentEventType_Created_{Created: v}
 	case *DeploymentEventType_Triggered:
-		ee.Event.Type = &DeploymentEventType_Triggered_{Triggered: v}
+		etw.Type = &DeploymentEventType_Triggered_{Triggered: v}
 	case *DeploymentEventType_StackWait:
-		ee.Event.Type = &DeploymentEventType_StackWait_{StackWait: v}
+		etw.Type = &DeploymentEventType_StackWait_{StackWait: v}
 	case *DeploymentEventType_StackWaitFailure:
-		ee.Event.Type = &DeploymentEventType_StackWaitFailure_{StackWaitFailure: v}
+		etw.Type = &DeploymentEventType_StackWaitFailure_{StackWaitFailure: v}
 	case *DeploymentEventType_StackAvailable:
-		ee.Event.Type = &DeploymentEventType_StackAvailable_{StackAvailable: v}
+		etw.Type = &DeploymentEventType_StackAvailable_{StackAvailable: v}
 	case *DeploymentEventType_RunSteps:
-		ee.Event.Type = &DeploymentEventType_RunSteps_{RunSteps: v}
+		etw.Type = &DeploymentEventType_RunSteps_{RunSteps: v}
 	case *DeploymentEventType_StepResult:
-		ee.Event.Type = &DeploymentEventType_StepResult_{StepResult: v}
+		etw.Type = &DeploymentEventType_StepResult_{StepResult: v}
 	case *DeploymentEventType_Error:
-		ee.Event.Type = &DeploymentEventType_Error_{Error: v}
+		etw.Type = &DeploymentEventType_Error_{Error: v}
 	case *DeploymentEventType_Done:
-		ee.Event.Type = &DeploymentEventType_Done_{Done: v}
+		etw.Type = &DeploymentEventType_Done_{Done: v}
 	case *DeploymentEventType_Terminated:
-		ee.Event.Type = &DeploymentEventType_Terminated_{Terminated: v}
+		etw.Type = &DeploymentEventType_Terminated_{Terminated: v}
 	default:
 		panic("invalid type")
 	}
 }
+
+func (ee *DeploymentEvent) PSMEventKey() DeploymentPSMEventKey {
+	return ee.Event.PSMEventKey()
+}
+
+func (ee *DeploymentEvent) UnwrapPSMEvent() DeploymentPSMEvent {
+	return ee.Event.UnwrapPSMEvent()
+}
+
+func (ee *DeploymentEvent) SetPSMEvent(inner DeploymentPSMEvent) {
+	if ee.Event == nil {
+		ee.Event = &DeploymentEventType{}
+	}
+	ee.Event.SetPSMEvent(inner)
+}
+
 func (*DeploymentEventType_Created) PSMEventKey() DeploymentPSMEventKey {
 	return DeploymentPSMEventCreated
 }

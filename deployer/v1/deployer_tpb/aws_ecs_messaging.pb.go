@@ -10,9 +10,8 @@ func (msg *RunECSTaskMessage) MessagingTopic() string {
 }
 func (msg *RunECSTaskMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.ECSRequestTopic/RunECSTask",
-		"grpc-message":        "o5.deployer.v1.topic.RunECSTaskMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.ECSRequestTopic/RunECSTask",
+		"grpc-message": "o5.deployer.v1.topic.RunECSTaskMessage",
 	}
 	return headers
 }
@@ -21,13 +20,12 @@ func (msg *RunECSTaskMessage) MessagingHeaders() map[string]string {
 // Method: ECSTaskStatus
 
 func (msg *ECSTaskStatusMessage) MessagingTopic() string {
-	return "o5-aws-command_reply"
+	return "o5-aws-command_reply_" + msg.Request.ReplyTo
 }
 func (msg *ECSTaskStatusMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":      "/o5.deployer.v1.topic.ECSReplyTopic/ECSTaskStatus",
-		"grpc-message":      "o5.deployer.v1.topic.ECSTaskStatusMessage",
-		"o5-reply-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.ECSReplyTopic/ECSTaskStatus",
+		"grpc-message": "o5.deployer.v1.topic.ECSTaskStatusMessage",
 	}
 	return headers
 }

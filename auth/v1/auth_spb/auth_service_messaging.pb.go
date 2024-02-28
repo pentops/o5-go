@@ -4,3 +4,11 @@ package auth_spb
 
 // Service: AuthService
 // Method: Whoami
+
+func (msg *WhoamiRequest) MessagingHeaders() map[string]string {
+	headers := map[string]string{
+		"grpc-service": "/o5.auth.v1.service.AuthService/Whoami",
+		"grpc-message": "o5.auth.v1.service.WhoamiRequest",
+	}
+	return headers
+}

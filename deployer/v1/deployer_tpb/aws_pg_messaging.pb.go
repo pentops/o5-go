@@ -10,9 +10,8 @@ func (msg *UpsertPostgresDatabaseMessage) MessagingTopic() string {
 }
 func (msg *UpsertPostgresDatabaseMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.PostgresRequestTopic/UpsertPostgresDatabase",
-		"grpc-message":        "o5.deployer.v1.topic.UpsertPostgresDatabaseMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.PostgresRequestTopic/UpsertPostgresDatabase",
+		"grpc-message": "o5.deployer.v1.topic.UpsertPostgresDatabaseMessage",
 	}
 	return headers
 }
@@ -24,9 +23,8 @@ func (msg *MigratePostgresDatabaseMessage) MessagingTopic() string {
 }
 func (msg *MigratePostgresDatabaseMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.PostgresRequestTopic/MigratePostgresDatabase",
-		"grpc-message":        "o5.deployer.v1.topic.MigratePostgresDatabaseMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.PostgresRequestTopic/MigratePostgresDatabase",
+		"grpc-message": "o5.deployer.v1.topic.MigratePostgresDatabaseMessage",
 	}
 	return headers
 }
@@ -38,9 +36,8 @@ func (msg *CleanupPostgresDatabaseMessage) MessagingTopic() string {
 }
 func (msg *CleanupPostgresDatabaseMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.PostgresRequestTopic/CleanupPostgresDatabase",
-		"grpc-message":        "o5.deployer.v1.topic.CleanupPostgresDatabaseMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.PostgresRequestTopic/CleanupPostgresDatabase",
+		"grpc-message": "o5.deployer.v1.topic.CleanupPostgresDatabaseMessage",
 	}
 	return headers
 }
@@ -49,13 +46,12 @@ func (msg *CleanupPostgresDatabaseMessage) MessagingHeaders() map[string]string 
 // Method: PostgresDatabaseStatus
 
 func (msg *PostgresDatabaseStatusMessage) MessagingTopic() string {
-	return "o5-aws-command_reply"
+	return "o5-aws-command_reply_" + msg.Request.ReplyTo
 }
 func (msg *PostgresDatabaseStatusMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":      "/o5.deployer.v1.topic.PostgresReplyTopic/PostgresDatabaseStatus",
-		"grpc-message":      "o5.deployer.v1.topic.PostgresDatabaseStatusMessage",
-		"o5-reply-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.PostgresReplyTopic/PostgresDatabaseStatus",
+		"grpc-message": "o5.deployer.v1.topic.PostgresDatabaseStatusMessage",
 	}
 	return headers
 }

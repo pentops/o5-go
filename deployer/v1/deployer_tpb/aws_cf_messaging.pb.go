@@ -10,9 +10,8 @@ func (msg *CreateNewStackMessage) MessagingTopic() string {
 }
 func (msg *CreateNewStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/CreateNewStack",
-		"grpc-message":        "o5.deployer.v1.topic.CreateNewStackMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/CreateNewStack",
+		"grpc-message": "o5.deployer.v1.topic.CreateNewStackMessage",
 	}
 	return headers
 }
@@ -24,9 +23,8 @@ func (msg *UpdateStackMessage) MessagingTopic() string {
 }
 func (msg *UpdateStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/UpdateStack",
-		"grpc-message":        "o5.deployer.v1.topic.UpdateStackMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/UpdateStack",
+		"grpc-message": "o5.deployer.v1.topic.UpdateStackMessage",
 	}
 	return headers
 }
@@ -38,9 +36,8 @@ func (msg *DeleteStackMessage) MessagingTopic() string {
 }
 func (msg *DeleteStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/DeleteStack",
-		"grpc-message":        "o5.deployer.v1.topic.DeleteStackMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/DeleteStack",
+		"grpc-message": "o5.deployer.v1.topic.DeleteStackMessage",
 	}
 	return headers
 }
@@ -52,9 +49,8 @@ func (msg *ScaleStackMessage) MessagingTopic() string {
 }
 func (msg *ScaleStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/ScaleStack",
-		"grpc-message":        "o5.deployer.v1.topic.ScaleStackMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/ScaleStack",
+		"grpc-message": "o5.deployer.v1.topic.ScaleStackMessage",
 	}
 	return headers
 }
@@ -66,9 +62,8 @@ func (msg *CancelStackUpdateMessage) MessagingTopic() string {
 }
 func (msg *CancelStackUpdateMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/CancelStackUpdate",
-		"grpc-message":        "o5.deployer.v1.topic.CancelStackUpdateMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/CancelStackUpdate",
+		"grpc-message": "o5.deployer.v1.topic.CancelStackUpdateMessage",
 	}
 	return headers
 }
@@ -80,9 +75,8 @@ func (msg *StabalizeStackMessage) MessagingTopic() string {
 }
 func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.CloudFormationRequestTopic/StabalizeStack",
-		"grpc-message":        "o5.deployer.v1.topic.StabalizeStackMessage",
-		"o5-request-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationRequestTopic/StabalizeStack",
+		"grpc-message": "o5.deployer.v1.topic.StabalizeStackMessage",
 	}
 	return headers
 }
@@ -91,13 +85,12 @@ func (msg *StabalizeStackMessage) MessagingHeaders() map[string]string {
 // Method: StackStatusChanged
 
 func (msg *StackStatusChangedMessage) MessagingTopic() string {
-	return "o5-aws-command_reply"
+	return "o5-aws-command_reply_" + msg.Request.ReplyTo
 }
 func (msg *StackStatusChangedMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":      "/o5.deployer.v1.topic.CloudFormationReplyTopic/StackStatusChanged",
-		"grpc-message":      "o5.deployer.v1.topic.StackStatusChangedMessage",
-		"o5-reply-reply-to": msg.Request.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.CloudFormationReplyTopic/StackStatusChanged",
+		"grpc-message": "o5.deployer.v1.topic.StackStatusChangedMessage",
 	}
 	return headers
 }
