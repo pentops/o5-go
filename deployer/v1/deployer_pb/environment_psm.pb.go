@@ -11,13 +11,6 @@ import (
 )
 
 // StateObjectOptions: EnvironmentPSM
-type EnvironmentPSMEventer = psm.Eventer[
-	*EnvironmentState,
-	EnvironmentStatus,
-	*EnvironmentEvent,
-	EnvironmentPSMEvent,
-]
-
 type EnvironmentPSM = psm.StateMachine[
 	*EnvironmentState,
 	EnvironmentStatus,
@@ -26,6 +19,13 @@ type EnvironmentPSM = psm.StateMachine[
 ]
 
 type EnvironmentPSMDB = psm.DBStateMachine[
+	*EnvironmentState,
+	EnvironmentStatus,
+	*EnvironmentEvent,
+	EnvironmentPSMEvent,
+]
+
+type EnvironmentPSMEventer = psm.Eventer[
 	*EnvironmentState,
 	EnvironmentStatus,
 	*EnvironmentEvent,
@@ -60,7 +60,7 @@ func NewEnvironmentPSM(config *psm.StateMachineConfig[
 	](config)
 }
 
-type EnvironmentPSMTableSpec = psm.TableSpec[
+type EnvironmentPSMTableSpec = psm.PSMTableSpec[
 	*EnvironmentState,
 	EnvironmentStatus,
 	*EnvironmentEvent,
@@ -68,30 +68,36 @@ type EnvironmentPSMTableSpec = psm.TableSpec[
 ]
 
 var DefaultEnvironmentPSMTableSpec = EnvironmentPSMTableSpec{
-	StateTable: "environment",
-	EventTable: "environment_event",
+	State: psm.TableSpec[*EnvironmentState]{
+		TableName:  "environment",
+		DataColumn: "state",
+		StoreExtraColumns: func(state *EnvironmentState) (map[string]interface{}, error) {
+			return map[string]interface{}{}, nil
+		},
+		PKFieldPaths: []string{
+			"environment_id",
+		},
+	},
+	Event: psm.TableSpec[*EnvironmentEvent]{
+		TableName:  "environment_event",
+		DataColumn: "data",
+		StoreExtraColumns: func(event *EnvironmentEvent) (map[string]interface{}, error) {
+			metadata := event.Metadata
+			return map[string]interface{}{
+				"id":             metadata.EventId,
+				"timestamp":      metadata.Timestamp,
+				"actor":          metadata.Actor,
+				"environment_id": event.EnvironmentId,
+			}, nil
+		},
+		PKFieldPaths: []string{
+			"metadata.event_id",
+		},
+	},
 	PrimaryKey: func(event *EnvironmentEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
 			"id": event.EnvironmentId,
 		}, nil
-	},
-	StateColumns: func(state *EnvironmentState) (map[string]interface{}, error) {
-		return map[string]interface{}{}, nil
-	},
-	EventColumns: func(event *EnvironmentEvent) (map[string]interface{}, error) {
-		metadata := event.Metadata
-		return map[string]interface{}{
-			"id":             metadata.EventId,
-			"timestamp":      metadata.Timestamp,
-			"actor":          metadata.Actor,
-			"environment_id": event.EnvironmentId,
-		}, nil
-	},
-	EventPrimaryKeyFieldPaths: []string{
-		"metadata.event_id",
-	},
-	StatePrimaryKeyFieldPaths: []string{
-		"environment_id",
 	},
 }
 
@@ -113,7 +119,7 @@ func EnvironmentPSMFunc[SE EnvironmentPSMEvent](cb func(context.Context, Environ
 	](cb)
 }
 
-type EnvironmentPSMEventKey string
+type EnvironmentPSMEventKey = string
 
 const (
 	EnvironmentPSMEventNil        EnvironmentPSMEventKey = "<nil>"
@@ -124,19 +130,8 @@ type EnvironmentPSMEvent interface {
 	proto.Message
 	PSMEventKey() EnvironmentPSMEventKey
 }
+
 type EnvironmentPSMConverter struct{}
-
-func (c EnvironmentPSMConverter) Unwrap(e *EnvironmentEvent) EnvironmentPSMEvent {
-	return e.UnwrapPSMEvent()
-}
-
-func (c EnvironmentPSMConverter) StateLabel(s *EnvironmentState) string {
-	return s.Status.String()
-}
-
-func (c EnvironmentPSMConverter) EventLabel(e EnvironmentPSMEvent) string {
-	return string(e.PSMEventKey())
-}
 
 func (c EnvironmentPSMConverter) EmptyState(e *EnvironmentEvent) *EnvironmentState {
 	return &EnvironmentState{
@@ -165,41 +160,48 @@ func (c EnvironmentPSMConverter) CheckStateKeys(s *EnvironmentState, e *Environm
 	return nil
 }
 
-func (ee *EnvironmentEventType) UnwrapPSMEvent() EnvironmentPSMEvent {
-	if ee == nil {
+func (etw *EnvironmentEventType) UnwrapPSMEvent() EnvironmentPSMEvent {
+	if etw == nil {
 		return nil
 	}
-	switch v := ee.Type.(type) {
+	switch v := etw.Type.(type) {
 	case *EnvironmentEventType_Configured_:
 		return v.Configured
 	default:
 		return nil
 	}
 }
-func (ee *EnvironmentEventType) PSMEventKey() EnvironmentPSMEventKey {
-	tt := ee.UnwrapPSMEvent()
+func (etw *EnvironmentEventType) PSMEventKey() EnvironmentPSMEventKey {
+	tt := etw.UnwrapPSMEvent()
 	if tt == nil {
 		return EnvironmentPSMEventNil
 	}
 	return tt.PSMEventKey()
 }
-func (ee *EnvironmentEvent) PSMEventKey() EnvironmentPSMEventKey {
-	return ee.Event.PSMEventKey()
-}
-func (ee *EnvironmentEvent) UnwrapPSMEvent() EnvironmentPSMEvent {
-	return ee.Event.UnwrapPSMEvent()
-}
-func (ee *EnvironmentEvent) SetPSMEvent(inner EnvironmentPSMEvent) {
-	if ee.Event == nil {
-		ee.Event = &EnvironmentEventType{}
-	}
+func (etw *EnvironmentEventType) SetPSMEvent(inner EnvironmentPSMEvent) {
 	switch v := inner.(type) {
 	case *EnvironmentEventType_Configured:
-		ee.Event.Type = &EnvironmentEventType_Configured_{Configured: v}
+		etw.Type = &EnvironmentEventType_Configured_{Configured: v}
 	default:
 		panic("invalid type")
 	}
 }
+
+func (ee *EnvironmentEvent) PSMEventKey() EnvironmentPSMEventKey {
+	return ee.Event.PSMEventKey()
+}
+
+func (ee *EnvironmentEvent) UnwrapPSMEvent() EnvironmentPSMEvent {
+	return ee.Event.UnwrapPSMEvent()
+}
+
+func (ee *EnvironmentEvent) SetPSMEvent(inner EnvironmentPSMEvent) {
+	if ee.Event == nil {
+		ee.Event = &EnvironmentEventType{}
+	}
+	ee.Event.SetPSMEvent(inner)
+}
+
 func (*EnvironmentEventType_Configured) PSMEventKey() EnvironmentPSMEventKey {
 	return EnvironmentPSMEventConfigured
 }

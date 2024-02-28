@@ -11,13 +11,6 @@ import (
 )
 
 // StateObjectOptions: StackPSM
-type StackPSMEventer = psm.Eventer[
-	*StackState,
-	StackStatus,
-	*StackEvent,
-	StackPSMEvent,
-]
-
 type StackPSM = psm.StateMachine[
 	*StackState,
 	StackStatus,
@@ -26,6 +19,13 @@ type StackPSM = psm.StateMachine[
 ]
 
 type StackPSMDB = psm.DBStateMachine[
+	*StackState,
+	StackStatus,
+	*StackEvent,
+	StackPSMEvent,
+]
+
+type StackPSMEventer = psm.Eventer[
 	*StackState,
 	StackStatus,
 	*StackEvent,
@@ -60,7 +60,7 @@ func NewStackPSM(config *psm.StateMachineConfig[
 	](config)
 }
 
-type StackPSMTableSpec = psm.TableSpec[
+type StackPSMTableSpec = psm.PSMTableSpec[
 	*StackState,
 	StackStatus,
 	*StackEvent,
@@ -68,30 +68,36 @@ type StackPSMTableSpec = psm.TableSpec[
 ]
 
 var DefaultStackPSMTableSpec = StackPSMTableSpec{
-	StateTable: "stack",
-	EventTable: "stack_event",
+	State: psm.TableSpec[*StackState]{
+		TableName:  "stack",
+		DataColumn: "state",
+		StoreExtraColumns: func(state *StackState) (map[string]interface{}, error) {
+			return map[string]interface{}{}, nil
+		},
+		PKFieldPaths: []string{
+			"stack_id",
+		},
+	},
+	Event: psm.TableSpec[*StackEvent]{
+		TableName:  "stack_event",
+		DataColumn: "data",
+		StoreExtraColumns: func(event *StackEvent) (map[string]interface{}, error) {
+			metadata := event.Metadata
+			return map[string]interface{}{
+				"id":        metadata.EventId,
+				"timestamp": metadata.Timestamp,
+				"actor":     metadata.Actor,
+				"stack_id":  event.StackId,
+			}, nil
+		},
+		PKFieldPaths: []string{
+			"metadata.event_id",
+		},
+	},
 	PrimaryKey: func(event *StackEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
 			"id": event.StackId,
 		}, nil
-	},
-	StateColumns: func(state *StackState) (map[string]interface{}, error) {
-		return map[string]interface{}{}, nil
-	},
-	EventColumns: func(event *StackEvent) (map[string]interface{}, error) {
-		metadata := event.Metadata
-		return map[string]interface{}{
-			"id":        metadata.EventId,
-			"timestamp": metadata.Timestamp,
-			"actor":     metadata.Actor,
-			"stack_id":  event.StackId,
-		}, nil
-	},
-	EventPrimaryKeyFieldPaths: []string{
-		"metadata.event_id",
-	},
-	StatePrimaryKeyFieldPaths: []string{
-		"stack_id",
 	},
 }
 
@@ -113,7 +119,7 @@ func StackPSMFunc[SE StackPSMEvent](cb func(context.Context, StackPSMTransitionB
 	](cb)
 }
 
-type StackPSMEventKey string
+type StackPSMEventKey = string
 
 const (
 	StackPSMEventNil                 StackPSMEventKey = "<nil>"
@@ -128,19 +134,8 @@ type StackPSMEvent interface {
 	proto.Message
 	PSMEventKey() StackPSMEventKey
 }
+
 type StackPSMConverter struct{}
-
-func (c StackPSMConverter) Unwrap(e *StackEvent) StackPSMEvent {
-	return e.UnwrapPSMEvent()
-}
-
-func (c StackPSMConverter) StateLabel(s *StackState) string {
-	return s.Status.String()
-}
-
-func (c StackPSMConverter) EventLabel(e StackPSMEvent) string {
-	return string(e.PSMEventKey())
-}
 
 func (c StackPSMConverter) EmptyState(e *StackEvent) *StackState {
 	return &StackState{
@@ -169,11 +164,11 @@ func (c StackPSMConverter) CheckStateKeys(s *StackState, e *StackEvent) error {
 	return nil
 }
 
-func (ee *StackEventType) UnwrapPSMEvent() StackPSMEvent {
-	if ee == nil {
+func (etw *StackEventType) UnwrapPSMEvent() StackPSMEvent {
+	if etw == nil {
 		return nil
 	}
-	switch v := ee.Type.(type) {
+	switch v := etw.Type.(type) {
 	case *StackEventType_Configured_:
 		return v.Configured
 	case *StackEventType_Triggered_:
@@ -188,38 +183,45 @@ func (ee *StackEventType) UnwrapPSMEvent() StackPSMEvent {
 		return nil
 	}
 }
-func (ee *StackEventType) PSMEventKey() StackPSMEventKey {
-	tt := ee.UnwrapPSMEvent()
+func (etw *StackEventType) PSMEventKey() StackPSMEventKey {
+	tt := etw.UnwrapPSMEvent()
 	if tt == nil {
 		return StackPSMEventNil
 	}
 	return tt.PSMEventKey()
 }
-func (ee *StackEvent) PSMEventKey() StackPSMEventKey {
-	return ee.Event.PSMEventKey()
-}
-func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {
-	return ee.Event.UnwrapPSMEvent()
-}
-func (ee *StackEvent) SetPSMEvent(inner StackPSMEvent) {
-	if ee.Event == nil {
-		ee.Event = &StackEventType{}
-	}
+func (etw *StackEventType) SetPSMEvent(inner StackPSMEvent) {
 	switch v := inner.(type) {
 	case *StackEventType_Configured:
-		ee.Event.Type = &StackEventType_Configured_{Configured: v}
+		etw.Type = &StackEventType_Configured_{Configured: v}
 	case *StackEventType_Triggered:
-		ee.Event.Type = &StackEventType_Triggered_{Triggered: v}
+		etw.Type = &StackEventType_Triggered_{Triggered: v}
 	case *StackEventType_DeploymentCompleted:
-		ee.Event.Type = &StackEventType_DeploymentCompleted_{DeploymentCompleted: v}
+		etw.Type = &StackEventType_DeploymentCompleted_{DeploymentCompleted: v}
 	case *StackEventType_DeploymentFailed:
-		ee.Event.Type = &StackEventType_DeploymentFailed_{DeploymentFailed: v}
+		etw.Type = &StackEventType_DeploymentFailed_{DeploymentFailed: v}
 	case *StackEventType_Available:
-		ee.Event.Type = &StackEventType_Available_{Available: v}
+		etw.Type = &StackEventType_Available_{Available: v}
 	default:
 		panic("invalid type")
 	}
 }
+
+func (ee *StackEvent) PSMEventKey() StackPSMEventKey {
+	return ee.Event.PSMEventKey()
+}
+
+func (ee *StackEvent) UnwrapPSMEvent() StackPSMEvent {
+	return ee.Event.UnwrapPSMEvent()
+}
+
+func (ee *StackEvent) SetPSMEvent(inner StackPSMEvent) {
+	if ee.Event == nil {
+		ee.Event = &StackEventType{}
+	}
+	ee.Event.SetPSMEvent(inner)
+}
+
 func (*StackEventType_Configured) PSMEventKey() StackPSMEventKey {
 	return StackPSMEventConfigured
 }
