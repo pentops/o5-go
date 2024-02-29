@@ -5,40 +5,8 @@ package deployer_spb
 // Service: DeploymentCommandService
 // Method: TriggerDeployment
 
-func (msg *TriggerDeploymentRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentCommandService/TriggerDeployment",
-		"grpc-message": "o5.deployer.v1.service.TriggerDeploymentRequest",
-	}
-	return headers
-}
-
 // Method: TerminateDeployment
-
-func (msg *TerminateDeploymentRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentCommandService/TerminateDeployment",
-		"grpc-message": "o5.deployer.v1.service.TerminateDeploymentRequest",
-	}
-	return headers
-}
 
 // Method: UpsertEnvironment
 
-func (msg *UpsertEnvironmentRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentCommandService/UpsertEnvironment",
-		"grpc-message": "o5.deployer.v1.service.UpsertEnvironmentRequest",
-	}
-	return headers
-}
-
 // Method: UpsertStack
-
-func (msg *UpsertStackRequest) MessagingHeaders() map[string]string {
-	headers := map[string]string{
-		"grpc-service": "/o5.deployer.v1.service.DeploymentCommandService/UpsertStack",
-		"grpc-message": "o5.deployer.v1.service.UpsertStackRequest",
-	}
-	return headers
-}
