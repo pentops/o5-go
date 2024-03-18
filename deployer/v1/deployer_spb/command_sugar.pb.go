@@ -2,5 +2,4 @@
 
 package deployer_spb
 
-type IsTriggerDeploymentRequest_Source = isTriggerDeploymentRequest_Source
 type IsUpsertEnvironmentRequest_Src = isUpsertEnvironmentRequest_Src

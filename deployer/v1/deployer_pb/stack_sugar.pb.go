@@ -11,13 +11,13 @@ import (
 type CodeSourceTypeKey string
 
 const (
-	CodeSource_Github CodeSourceTypeKey = "github"
+	CodeSource_GitHub CodeSourceTypeKey = "gitHub"
 )
 
 func (x *CodeSourceType) TypeKey() (CodeSourceTypeKey, bool) {
 	switch x.Type.(type) {
-	case *CodeSourceType_Github_:
-		return CodeSource_Github, true
+	case *CodeSourceType_GitHub_:
+		return CodeSource_GitHub, true
 	default:
 		return "", false
 	}
@@ -29,23 +29,24 @@ type IsCodeSourceTypeWrappedType interface {
 
 func (x *CodeSourceType) Set(val IsCodeSourceTypeWrappedType) {
 	switch v := val.(type) {
-	case *CodeSourceType_Github:
-		x.Type = &CodeSourceType_Github_{Github: v}
+	case *CodeSourceType_GitHub:
+		x.Type = &CodeSourceType_GitHub_{GitHub: v}
 	}
 }
 func (x *CodeSourceType) Get() IsCodeSourceTypeWrappedType {
 	switch v := x.Type.(type) {
-	case *CodeSourceType_Github_:
-		return v.Github
+	case *CodeSourceType_GitHub_:
+		return v.GitHub
 	default:
 		return nil
 	}
 }
-func (x *CodeSourceType_Github) TypeKey() CodeSourceTypeKey {
-	return CodeSource_Github
+func (x *CodeSourceType_GitHub) TypeKey() CodeSourceTypeKey {
+	return CodeSource_GitHub
 }
 
 type IsCodeSourceType_Type = isCodeSourceType_Type
+type IsCodeSourceType_GitHub_Ref = isCodeSourceType_GitHub_Ref
 
 // StackEventType is a oneof wrapper
 type StackEventTypeKey string
