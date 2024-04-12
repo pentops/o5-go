@@ -7,6 +7,7 @@ import (
 	fmt "fmt"
 )
 
+type IsBlobstoreRef_Source = isBlobstoreRef_Source
 type IsDatabase_Engine = isDatabase_Engine
 type IsContainer_Source = isContainer_Source
 type IsEnvironmentVariable_Spec = isEnvironmentVariable_Spec
