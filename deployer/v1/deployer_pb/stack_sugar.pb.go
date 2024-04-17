@@ -7,46 +7,45 @@ import (
 	fmt "fmt"
 )
 
-// CodeSourceType is a oneof wrapper
-type CodeSourceTypeKey string
+// SourceTriggerType is a oneof wrapper
+type SourceTriggerTypeKey string
 
 const (
-	CodeSource_GitHub CodeSourceTypeKey = "gitHub"
+	SourceTrigger_Github SourceTriggerTypeKey = "github"
 )
 
-func (x *CodeSourceType) TypeKey() (CodeSourceTypeKey, bool) {
+func (x *SourceTriggerType) TypeKey() (SourceTriggerTypeKey, bool) {
 	switch x.Type.(type) {
-	case *CodeSourceType_GitHub_:
-		return CodeSource_GitHub, true
+	case *SourceTriggerType_Github_:
+		return SourceTrigger_Github, true
 	default:
 		return "", false
 	}
 }
 
-type IsCodeSourceTypeWrappedType interface {
-	TypeKey() CodeSourceTypeKey
+type IsSourceTriggerTypeWrappedType interface {
+	TypeKey() SourceTriggerTypeKey
 }
 
-func (x *CodeSourceType) Set(val IsCodeSourceTypeWrappedType) {
+func (x *SourceTriggerType) Set(val IsSourceTriggerTypeWrappedType) {
 	switch v := val.(type) {
-	case *CodeSourceType_GitHub:
-		x.Type = &CodeSourceType_GitHub_{GitHub: v}
+	case *SourceTriggerType_Github:
+		x.Type = &SourceTriggerType_Github_{Github: v}
 	}
 }
-func (x *CodeSourceType) Get() IsCodeSourceTypeWrappedType {
+func (x *SourceTriggerType) Get() IsSourceTriggerTypeWrappedType {
 	switch v := x.Type.(type) {
-	case *CodeSourceType_GitHub_:
-		return v.GitHub
+	case *SourceTriggerType_Github_:
+		return v.Github
 	default:
 		return nil
 	}
 }
-func (x *CodeSourceType_GitHub) TypeKey() CodeSourceTypeKey {
-	return CodeSource_GitHub
+func (x *SourceTriggerType_Github) TypeKey() SourceTriggerTypeKey {
+	return SourceTrigger_Github
 }
 
-type IsCodeSourceType_Type = isCodeSourceType_Type
-type IsCodeSourceType_GitHub_Ref = isCodeSourceType_GitHub_Ref
+type IsSourceTriggerType_Type = isSourceTriggerType_Type
 
 // StackEventType is a oneof wrapper
 type StackEventTypeKey string

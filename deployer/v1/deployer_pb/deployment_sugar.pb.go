@@ -7,6 +7,46 @@ import (
 	fmt "fmt"
 )
 
+// CodeSourceType is a oneof wrapper
+type CodeSourceTypeKey string
+
+const (
+	CodeSource_Github CodeSourceTypeKey = "github"
+)
+
+func (x *CodeSourceType) TypeKey() (CodeSourceTypeKey, bool) {
+	switch x.Type.(type) {
+	case *CodeSourceType_Github_:
+		return CodeSource_Github, true
+	default:
+		return "", false
+	}
+}
+
+type IsCodeSourceTypeWrappedType interface {
+	TypeKey() CodeSourceTypeKey
+}
+
+func (x *CodeSourceType) Set(val IsCodeSourceTypeWrappedType) {
+	switch v := val.(type) {
+	case *CodeSourceType_Github:
+		x.Type = &CodeSourceType_Github_{Github: v}
+	}
+}
+func (x *CodeSourceType) Get() IsCodeSourceTypeWrappedType {
+	switch v := x.Type.(type) {
+	case *CodeSourceType_Github_:
+		return v.Github
+	default:
+		return nil
+	}
+}
+func (x *CodeSourceType_Github) TypeKey() CodeSourceTypeKey {
+	return CodeSource_Github
+}
+
+type IsCodeSourceType_Type = isCodeSourceType_Type
+
 // DeploymentEventType is a oneof wrapper
 type DeploymentEventTypeKey string
 
