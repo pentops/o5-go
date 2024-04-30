@@ -6,6 +6,7 @@ import (
 	context "context"
 	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
+	sqrlx "github.com/pentops/sqrlx.go/sqrlx"
 	proto "google.golang.org/protobuf/proto"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -93,6 +94,11 @@ var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
 		PKFieldPaths: []string{
 			"metadata.event_id",
 		},
+		PK: func(event *DeploymentEvent) (map[string]interface{}, error) {
+			return map[string]interface{}{
+				"id": event.Metadata.EventId,
+			}, nil
+		},
 	},
 	PrimaryKey: func(event *DeploymentEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
@@ -102,20 +108,64 @@ var DefaultDeploymentPSMTableSpec = DeploymentPSMTableSpec{
 }
 
 type DeploymentPSMTransitionBaton = psm.TransitionBaton[*DeploymentEvent, DeploymentPSMEvent]
+type DeploymentPSMHookBaton = psm.StateHookBaton[*DeploymentEvent, DeploymentPSMEvent]
 
-func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, DeploymentPSMTransitionBaton, *DeploymentState, SE) error) psm.TransitionFunc[
+func DeploymentPSMFunc[SE DeploymentPSMEvent](cb func(context.Context, DeploymentPSMTransitionBaton, *DeploymentState, SE) error) psm.PSMCombinedFunc[
 	*DeploymentState,
 	DeploymentStatus,
 	*DeploymentEvent,
 	DeploymentPSMEvent,
 	SE,
 ] {
-	return psm.TransitionFunc[
+	return psm.PSMCombinedFunc[
 		*DeploymentState,
 		DeploymentStatus,
 		*DeploymentEvent,
 		DeploymentPSMEvent,
 		SE,
+	](cb)
+}
+func DeploymentPSMTransition[SE DeploymentPSMEvent](cb func(context.Context, *DeploymentState, SE) error) psm.PSMTransitionFunc[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+	SE,
+] {
+	return psm.PSMTransitionFunc[
+		*DeploymentState,
+		DeploymentStatus,
+		*DeploymentEvent,
+		DeploymentPSMEvent,
+		SE,
+	](cb)
+}
+func DeploymentPSMHook[SE DeploymentPSMEvent](cb func(context.Context, sqrlx.Transaction, DeploymentPSMHookBaton, *DeploymentState, SE) error) psm.PSMHookFunc[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+	SE,
+] {
+	return psm.PSMHookFunc[
+		*DeploymentState,
+		DeploymentStatus,
+		*DeploymentEvent,
+		DeploymentPSMEvent,
+		SE,
+	](cb)
+}
+func DeploymentPSMGeneralHook(cb func(context.Context, sqrlx.Transaction, *DeploymentState, *DeploymentEvent) error) psm.GeneralStateHook[
+	*DeploymentState,
+	DeploymentStatus,
+	*DeploymentEvent,
+	DeploymentPSMEvent,
+] {
+	return psm.GeneralStateHook[
+		*DeploymentState,
+		DeploymentStatus,
+		*DeploymentEvent,
+		DeploymentPSMEvent,
 	](cb)
 }
 

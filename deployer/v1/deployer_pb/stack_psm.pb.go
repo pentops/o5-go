@@ -6,6 +6,7 @@ import (
 	context "context"
 	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
+	sqrlx "github.com/pentops/sqrlx.go/sqrlx"
 	proto "google.golang.org/protobuf/proto"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -93,6 +94,11 @@ var DefaultStackPSMTableSpec = StackPSMTableSpec{
 		PKFieldPaths: []string{
 			"metadata.event_id",
 		},
+		PK: func(event *StackEvent) (map[string]interface{}, error) {
+			return map[string]interface{}{
+				"id": event.Metadata.EventId,
+			}, nil
+		},
 	},
 	PrimaryKey: func(event *StackEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
@@ -102,20 +108,64 @@ var DefaultStackPSMTableSpec = StackPSMTableSpec{
 }
 
 type StackPSMTransitionBaton = psm.TransitionBaton[*StackEvent, StackPSMEvent]
+type StackPSMHookBaton = psm.StateHookBaton[*StackEvent, StackPSMEvent]
 
-func StackPSMFunc[SE StackPSMEvent](cb func(context.Context, StackPSMTransitionBaton, *StackState, SE) error) psm.TransitionFunc[
+func StackPSMFunc[SE StackPSMEvent](cb func(context.Context, StackPSMTransitionBaton, *StackState, SE) error) psm.PSMCombinedFunc[
 	*StackState,
 	StackStatus,
 	*StackEvent,
 	StackPSMEvent,
 	SE,
 ] {
-	return psm.TransitionFunc[
+	return psm.PSMCombinedFunc[
 		*StackState,
 		StackStatus,
 		*StackEvent,
 		StackPSMEvent,
 		SE,
+	](cb)
+}
+func StackPSMTransition[SE StackPSMEvent](cb func(context.Context, *StackState, SE) error) psm.PSMTransitionFunc[
+	*StackState,
+	StackStatus,
+	*StackEvent,
+	StackPSMEvent,
+	SE,
+] {
+	return psm.PSMTransitionFunc[
+		*StackState,
+		StackStatus,
+		*StackEvent,
+		StackPSMEvent,
+		SE,
+	](cb)
+}
+func StackPSMHook[SE StackPSMEvent](cb func(context.Context, sqrlx.Transaction, StackPSMHookBaton, *StackState, SE) error) psm.PSMHookFunc[
+	*StackState,
+	StackStatus,
+	*StackEvent,
+	StackPSMEvent,
+	SE,
+] {
+	return psm.PSMHookFunc[
+		*StackState,
+		StackStatus,
+		*StackEvent,
+		StackPSMEvent,
+		SE,
+	](cb)
+}
+func StackPSMGeneralHook(cb func(context.Context, sqrlx.Transaction, *StackState, *StackEvent) error) psm.GeneralStateHook[
+	*StackState,
+	StackStatus,
+	*StackEvent,
+	StackPSMEvent,
+] {
+	return psm.GeneralStateHook[
+		*StackState,
+		StackStatus,
+		*StackEvent,
+		StackPSMEvent,
 	](cb)
 }
 

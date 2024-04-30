@@ -6,6 +6,7 @@ import (
 	context "context"
 	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
+	sqrlx "github.com/pentops/sqrlx.go/sqrlx"
 	proto "google.golang.org/protobuf/proto"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -93,6 +94,11 @@ var DefaultDeadmessagePSMTableSpec = DeadmessagePSMTableSpec{
 		PKFieldPaths: []string{
 			"metadata.event_id",
 		},
+		PK: func(event *DeadMessageEvent) (map[string]interface{}, error) {
+			return map[string]interface{}{
+				"id": event.Metadata.EventId,
+			}, nil
+		},
 	},
 	PrimaryKey: func(event *DeadMessageEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
@@ -102,20 +108,64 @@ var DefaultDeadmessagePSMTableSpec = DeadmessagePSMTableSpec{
 }
 
 type DeadmessagePSMTransitionBaton = psm.TransitionBaton[*DeadMessageEvent, DeadmessagePSMEvent]
+type DeadmessagePSMHookBaton = psm.StateHookBaton[*DeadMessageEvent, DeadmessagePSMEvent]
 
-func DeadmessagePSMFunc[SE DeadmessagePSMEvent](cb func(context.Context, DeadmessagePSMTransitionBaton, *DeadMessageState, SE) error) psm.TransitionFunc[
+func DeadmessagePSMFunc[SE DeadmessagePSMEvent](cb func(context.Context, DeadmessagePSMTransitionBaton, *DeadMessageState, SE) error) psm.PSMCombinedFunc[
 	*DeadMessageState,
 	MessageStatus,
 	*DeadMessageEvent,
 	DeadmessagePSMEvent,
 	SE,
 ] {
-	return psm.TransitionFunc[
+	return psm.PSMCombinedFunc[
 		*DeadMessageState,
 		MessageStatus,
 		*DeadMessageEvent,
 		DeadmessagePSMEvent,
 		SE,
+	](cb)
+}
+func DeadmessagePSMTransition[SE DeadmessagePSMEvent](cb func(context.Context, *DeadMessageState, SE) error) psm.PSMTransitionFunc[
+	*DeadMessageState,
+	MessageStatus,
+	*DeadMessageEvent,
+	DeadmessagePSMEvent,
+	SE,
+] {
+	return psm.PSMTransitionFunc[
+		*DeadMessageState,
+		MessageStatus,
+		*DeadMessageEvent,
+		DeadmessagePSMEvent,
+		SE,
+	](cb)
+}
+func DeadmessagePSMHook[SE DeadmessagePSMEvent](cb func(context.Context, sqrlx.Transaction, DeadmessagePSMHookBaton, *DeadMessageState, SE) error) psm.PSMHookFunc[
+	*DeadMessageState,
+	MessageStatus,
+	*DeadMessageEvent,
+	DeadmessagePSMEvent,
+	SE,
+] {
+	return psm.PSMHookFunc[
+		*DeadMessageState,
+		MessageStatus,
+		*DeadMessageEvent,
+		DeadmessagePSMEvent,
+		SE,
+	](cb)
+}
+func DeadmessagePSMGeneralHook(cb func(context.Context, sqrlx.Transaction, *DeadMessageState, *DeadMessageEvent) error) psm.GeneralStateHook[
+	*DeadMessageState,
+	MessageStatus,
+	*DeadMessageEvent,
+	DeadmessagePSMEvent,
+] {
+	return psm.GeneralStateHook[
+		*DeadMessageState,
+		MessageStatus,
+		*DeadMessageEvent,
+		DeadmessagePSMEvent,
 	](cb)
 }
 

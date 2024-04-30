@@ -6,6 +6,7 @@ import (
 	context "context"
 	fmt "fmt"
 	psm "github.com/pentops/protostate/psm"
+	sqrlx "github.com/pentops/sqrlx.go/sqrlx"
 	proto "google.golang.org/protobuf/proto"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -93,6 +94,11 @@ var DefaultEnvironmentPSMTableSpec = EnvironmentPSMTableSpec{
 		PKFieldPaths: []string{
 			"metadata.event_id",
 		},
+		PK: func(event *EnvironmentEvent) (map[string]interface{}, error) {
+			return map[string]interface{}{
+				"id": event.Metadata.EventId,
+			}, nil
+		},
 	},
 	PrimaryKey: func(event *EnvironmentEvent) (map[string]interface{}, error) {
 		return map[string]interface{}{
@@ -102,20 +108,64 @@ var DefaultEnvironmentPSMTableSpec = EnvironmentPSMTableSpec{
 }
 
 type EnvironmentPSMTransitionBaton = psm.TransitionBaton[*EnvironmentEvent, EnvironmentPSMEvent]
+type EnvironmentPSMHookBaton = psm.StateHookBaton[*EnvironmentEvent, EnvironmentPSMEvent]
 
-func EnvironmentPSMFunc[SE EnvironmentPSMEvent](cb func(context.Context, EnvironmentPSMTransitionBaton, *EnvironmentState, SE) error) psm.TransitionFunc[
+func EnvironmentPSMFunc[SE EnvironmentPSMEvent](cb func(context.Context, EnvironmentPSMTransitionBaton, *EnvironmentState, SE) error) psm.PSMCombinedFunc[
 	*EnvironmentState,
 	EnvironmentStatus,
 	*EnvironmentEvent,
 	EnvironmentPSMEvent,
 	SE,
 ] {
-	return psm.TransitionFunc[
+	return psm.PSMCombinedFunc[
 		*EnvironmentState,
 		EnvironmentStatus,
 		*EnvironmentEvent,
 		EnvironmentPSMEvent,
 		SE,
+	](cb)
+}
+func EnvironmentPSMTransition[SE EnvironmentPSMEvent](cb func(context.Context, *EnvironmentState, SE) error) psm.PSMTransitionFunc[
+	*EnvironmentState,
+	EnvironmentStatus,
+	*EnvironmentEvent,
+	EnvironmentPSMEvent,
+	SE,
+] {
+	return psm.PSMTransitionFunc[
+		*EnvironmentState,
+		EnvironmentStatus,
+		*EnvironmentEvent,
+		EnvironmentPSMEvent,
+		SE,
+	](cb)
+}
+func EnvironmentPSMHook[SE EnvironmentPSMEvent](cb func(context.Context, sqrlx.Transaction, EnvironmentPSMHookBaton, *EnvironmentState, SE) error) psm.PSMHookFunc[
+	*EnvironmentState,
+	EnvironmentStatus,
+	*EnvironmentEvent,
+	EnvironmentPSMEvent,
+	SE,
+] {
+	return psm.PSMHookFunc[
+		*EnvironmentState,
+		EnvironmentStatus,
+		*EnvironmentEvent,
+		EnvironmentPSMEvent,
+		SE,
+	](cb)
+}
+func EnvironmentPSMGeneralHook(cb func(context.Context, sqrlx.Transaction, *EnvironmentState, *EnvironmentEvent) error) psm.GeneralStateHook[
+	*EnvironmentState,
+	EnvironmentStatus,
+	*EnvironmentEvent,
+	EnvironmentPSMEvent,
+] {
+	return psm.GeneralStateHook[
+		*EnvironmentState,
+		EnvironmentStatus,
+		*EnvironmentEvent,
+		EnvironmentPSMEvent,
 	](cb)
 }
 
