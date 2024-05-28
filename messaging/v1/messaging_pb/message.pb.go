@@ -10,7 +10,7 @@ import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	anypb "google.golang.org/protobuf/types/known/anypb"
+	_ "google.golang.org/protobuf/types/known/anypb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -31,8 +31,8 @@ type Message struct {
 
 	MessageId string `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	// The 'full_name' of the gRPC method, /<package>.<service>/<method>
-	GrpcMethod string     `protobuf:"bytes,2,opt,name=grpc_method,json=grpcMethod,proto3" json:"grpc_method,omitempty"`
-	Body       *anypb.Any `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`
+	GrpcMethod string `protobuf:"bytes,2,opt,name=grpc_method,json=grpcMethod,proto3" json:"grpc_method,omitempty"`
+	Body       *Any   `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`
 	// Then o5.application.name which sent the message
 	SourceApp string `protobuf:"bytes,4,opt,name=source_app,json=sourceApp,proto3" json:"source_app,omitempty"`
 	// The o5.environment.full_name which sent the message
@@ -91,7 +91,7 @@ func (x *Message) GetGrpcMethod() string {
 	return ""
 }
 
-func (x *Message) GetBody() *anypb.Any {
+func (x *Message) GetBody() *Any {
 	if x != nil {
 		return x.Body
 	}
@@ -133,6 +133,63 @@ func (x *Message) GetHeaders() map[string]string {
 	return nil
 }
 
+// Any is wire-compatible with google.protobuf.Any, but without the parsing and
+// encoding methods, i.e. it leaves proto messages proto bytes
+type Any struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TypeUrl string `protobuf:"bytes,1,opt,name=type_url,json=typeUrl,proto3" json:"type_url,omitempty"`
+	Value   []byte `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *Any) Reset() {
+	*x = Any{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_o5_messaging_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Any) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Any) ProtoMessage() {}
+
+func (x *Any) ProtoReflect() protoreflect.Message {
+	mi := &file_o5_messaging_v1_message_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Any.ProtoReflect.Descriptor instead.
+func (*Any) Descriptor() ([]byte, []int) {
+	return file_o5_messaging_v1_message_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Any) GetTypeUrl() string {
+	if x != nil {
+		return x.TypeUrl
+	}
+	return ""
+}
+
+func (x *Any) GetValue() []byte {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
 var File_o5_messaging_v1_message_proto protoreflect.FileDescriptor
 
 var file_o5_messaging_v1_message_proto_rawDesc = []byte{
@@ -153,7 +210,7 @@ var file_o5_messaging_v1_message_proto_rawDesc = []byte{
 	0x29, 0x5c, 0x2f, 0x28, 0x5b, 0x41, 0x2d, 0x5a, 0x61, 0x2d, 0x7a, 0x30, 0x2d, 0x39, 0x5f, 0x5d,
 	0x2b, 0x29, 0x24, 0x52, 0x0a, 0x67, 0x72, 0x70, 0x63, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12,
 	0x28, 0x0a, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x6f, 0x35, 0x2e, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e,
 	0x41, 0x6e, 0x79, 0x52, 0x04, 0x62, 0x6f, 0x64, 0x79, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x6f, 0x75,
 	0x72, 0x63, 0x65, 0x5f, 0x61, 0x70, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73,
 	0x6f, 0x75, 0x72, 0x63, 0x65, 0x41, 0x70, 0x70, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x6f, 0x75, 0x72,
@@ -172,11 +229,14 @@ var file_o5_messaging_v1_message_proto_rawDesc = []byte{
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76,
 	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
 	0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x5f,
-	0x64, 0x65, 0x73, 0x74, 0x42, 0x34, 0x5a, 0x32, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x70, 0x65, 0x6e, 0x74, 0x6f, 0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f,
-	0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x5f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x64, 0x65, 0x73, 0x74, 0x22, 0x36, 0x0a, 0x03, 0x41, 0x6e, 0x79, 0x12, 0x19, 0x0a, 0x08, 0x74,
+	0x79, 0x70, 0x65, 0x5f, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x74,
+	0x79, 0x70, 0x65, 0x55, 0x72, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x42, 0x34, 0x5a, 0x32,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70, 0x65, 0x6e, 0x74, 0x6f,
+	0x70, 0x73, 0x2f, 0x6f, 0x35, 0x2d, 0x67, 0x6f, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x69,
+	0x6e, 0x67, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x5f,
+	0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -191,15 +251,15 @@ func file_o5_messaging_v1_message_proto_rawDescGZIP() []byte {
 	return file_o5_messaging_v1_message_proto_rawDescData
 }
 
-var file_o5_messaging_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_o5_messaging_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_o5_messaging_v1_message_proto_goTypes = []interface{}{
-	(*Message)(nil),   // 0: o5.messaging.v1.Message
-	nil,               // 1: o5.messaging.v1.Message.HeadersEntry
-	(*anypb.Any)(nil), // 2: google.protobuf.Any
+	(*Message)(nil), // 0: o5.messaging.v1.Message
+	(*Any)(nil),     // 1: o5.messaging.v1.Any
+	nil,             // 2: o5.messaging.v1.Message.HeadersEntry
 }
 var file_o5_messaging_v1_message_proto_depIdxs = []int32{
-	2, // 0: o5.messaging.v1.Message.body:type_name -> google.protobuf.Any
-	1, // 1: o5.messaging.v1.Message.headers:type_name -> o5.messaging.v1.Message.HeadersEntry
+	1, // 0: o5.messaging.v1.Message.body:type_name -> o5.messaging.v1.Any
+	2, // 1: o5.messaging.v1.Message.headers:type_name -> o5.messaging.v1.Message.HeadersEntry
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -225,6 +285,18 @@ func file_o5_messaging_v1_message_proto_init() {
 				return nil
 			}
 		}
+		file_o5_messaging_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Any); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_o5_messaging_v1_message_proto_msgTypes[0].OneofWrappers = []interface{}{}
 	type x struct{}
@@ -233,7 +305,7 @@ func file_o5_messaging_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_o5_messaging_v1_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
