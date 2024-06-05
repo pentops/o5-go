@@ -7,6 +7,8 @@ import (
 	fmt "fmt"
 )
 
+type IsMessage_Extension = isMessage_Extension
+
 // WireEncoding
 const (
 	WireEncoding_UNSPECIFIED WireEncoding = 0
