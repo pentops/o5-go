@@ -2,4 +2,5 @@
 
 package messaging_pb
 
+type IsServiceConfig_Role = isServiceConfig_Role
 type IsConfig_Type = isConfig_Type
