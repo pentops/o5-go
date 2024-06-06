@@ -10,9 +10,11 @@ func (msg *RequestDeploymentMessage) MessagingTopic() string {
 }
 func (msg *RequestDeploymentMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":        "/o5.deployer.v1.topic.DeploymentRequestTopic/RequestDeployment",
-		"grpc-message":        "o5.deployer.v1.topic.RequestDeploymentMessage",
-		"o5-request-reply-to": msg.Metadata.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.DeploymentRequestTopic/RequestDeployment",
+		"grpc-message": "o5.deployer.v1.topic.RequestDeploymentMessage",
+	}
+	if msg.Metadata != nil {
+		headers["o5-request-reply-to"] = msg.Metadata.ReplyTo
 	}
 	return headers
 }
@@ -25,9 +27,11 @@ func (msg *DeploymentStatusMessage) MessagingTopic() string {
 }
 func (msg *DeploymentStatusMessage) MessagingHeaders() map[string]string {
 	headers := map[string]string{
-		"grpc-service":      "/o5.deployer.v1.topic.DeploymentReplyTopic/DeploymentStatus",
-		"grpc-message":      "o5.deployer.v1.topic.DeploymentStatusMessage",
-		"o5-reply-reply-to": msg.Metadata.ReplyTo,
+		"grpc-service": "/o5.deployer.v1.topic.DeploymentReplyTopic/DeploymentStatus",
+		"grpc-message": "o5.deployer.v1.topic.DeploymentStatusMessage",
+	}
+	if msg.Metadata != nil {
+		headers["o5-reply-reply-to"] = msg.Metadata.ReplyTo
 	}
 	return headers
 }
