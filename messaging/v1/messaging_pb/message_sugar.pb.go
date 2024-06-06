@@ -8,6 +8,7 @@ import (
 )
 
 type IsMessage_Extension = isMessage_Extension
+type IsProblem_Type = isProblem_Type
 
 // WireEncoding
 const (
