@@ -8,28 +8,32 @@ import (
 )
 
 type IsMessage_Extension = isMessage_Extension
-type IsProblem_Type = isProblem_Type
 
 // WireEncoding
 const (
 	WireEncoding_UNSPECIFIED WireEncoding = 0
 	WireEncoding_PROTOJSON   WireEncoding = 1
+	WireEncoding_RAW         WireEncoding = 2
 )
 
 var (
 	WireEncoding_name_short = map[int32]string{
 		0: "UNSPECIFIED",
 		1: "PROTOJSON",
+		2: "RAW",
 	}
 	WireEncoding_value_short = map[string]int32{
 		"UNSPECIFIED": 0,
 		"PROTOJSON":   1,
+		"RAW":         2,
 	}
 	WireEncoding_value_either = map[string]int32{
 		"UNSPECIFIED":               0,
 		"WIRE_ENCODING_UNSPECIFIED": 0,
 		"PROTOJSON":                 1,
 		"WIRE_ENCODING_PROTOJSON":   1,
+		"RAW":                       2,
+		"WIRE_ENCODING_RAW":         2,
 	}
 )
 
