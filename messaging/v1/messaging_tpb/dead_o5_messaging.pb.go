@@ -11,11 +11,11 @@ import (
 )
 
 // Service: DeadMessageTopic
-type DeadMessageTopicSender[C any] struct {
-	Sender o5msg.Sender[C]
+type DeadMessageTopicTxSender[C any] struct {
+	sender o5msg.TxSender[C]
 }
 
-func NewDeadMessageTopicSender[C any](sender o5msg.Sender[C]) *DeadMessageTopicSender[C] {
+func NewDeadMessageTopicTxSender[C any](sender o5msg.TxSender[C]) *DeadMessageTopicTxSender[C] {
 	sender.Register(o5msg.TopicDescriptor{
 		Service: "o5.messaging.v1.topic.DeadMessageTopic",
 		Methods: []o5msg.MethodDescriptor{
@@ -25,11 +25,11 @@ func NewDeadMessageTopicSender[C any](sender o5msg.Sender[C]) *DeadMessageTopicS
 			},
 		},
 	})
-	return &DeadMessageTopicSender[C]{Sender: sender}
+	return &DeadMessageTopicTxSender[C]{sender: sender}
 }
 
 type DeadMessageTopicCollector[C any] struct {
-	Collector o5msg.Collector[C]
+	collector o5msg.Collector[C]
 }
 
 func NewDeadMessageTopicCollector[C any](collector o5msg.Collector[C]) *DeadMessageTopicCollector[C] {
@@ -42,7 +42,24 @@ func NewDeadMessageTopicCollector[C any](collector o5msg.Collector[C]) *DeadMess
 			},
 		},
 	})
-	return &DeadMessageTopicCollector[C]{Collector: collector}
+	return &DeadMessageTopicCollector[C]{collector: collector}
+}
+
+type DeadMessageTopicPublisher struct {
+	publisher o5msg.Publisher
+}
+
+func NewDeadMessageTopicPublisher(publisher o5msg.Publisher) *DeadMessageTopicPublisher {
+	publisher.Register(o5msg.TopicDescriptor{
+		Service: "o5.messaging.v1.topic.DeadMessageTopic",
+		Methods: []o5msg.MethodDescriptor{
+			{
+				Name:    "Dead",
+				Message: (*DeadMessage).ProtoReflect(nil).Descriptor(),
+			},
+		},
+	})
+	return &DeadMessageTopicPublisher{publisher: publisher}
 }
 
 // Method: Dead
@@ -57,10 +74,14 @@ func (msg *DeadMessage) O5MessageHeader() o5msg.Header {
 	return header
 }
 
-func (send DeadMessageTopicSender[C]) Dead(ctx context.Context, sendContext C, msg *DeadMessage) error {
-	return send.Sender.Send(ctx, sendContext, msg)
+func (send DeadMessageTopicTxSender[C]) Dead(ctx context.Context, sendContext C, msg *DeadMessage) error {
+	return send.sender.Send(ctx, sendContext, msg)
 }
 
 func (collect DeadMessageTopicCollector[C]) Dead(sendContext C, msg *DeadMessage) {
-	collect.Collector.Collect(sendContext, msg)
+	collect.collector.Collect(sendContext, msg)
+}
+
+func (publish DeadMessageTopicPublisher) Dead(ctx context.Context, msg *DeadMessage) {
+	publish.publisher.Publish(ctx, msg)
 }

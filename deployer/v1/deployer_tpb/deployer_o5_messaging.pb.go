@@ -12,11 +12,11 @@ import (
 )
 
 // Service: DeploymentRequestTopic
-type DeploymentRequestTopicSender[C any] struct {
-	Sender o5msg.Sender[C]
+type DeploymentRequestTopicTxSender[C any] struct {
+	sender o5msg.TxSender[C]
 }
 
-func NewDeploymentRequestTopicSender[C any](sender o5msg.Sender[C]) *DeploymentRequestTopicSender[C] {
+func NewDeploymentRequestTopicTxSender[C any](sender o5msg.TxSender[C]) *DeploymentRequestTopicTxSender[C] {
 	sender.Register(o5msg.TopicDescriptor{
 		Service: "o5.deployer.v1.topic.DeploymentRequestTopic",
 		Methods: []o5msg.MethodDescriptor{
@@ -26,11 +26,11 @@ func NewDeploymentRequestTopicSender[C any](sender o5msg.Sender[C]) *DeploymentR
 			},
 		},
 	})
-	return &DeploymentRequestTopicSender[C]{Sender: sender}
+	return &DeploymentRequestTopicTxSender[C]{sender: sender}
 }
 
 type DeploymentRequestTopicCollector[C any] struct {
-	Collector o5msg.Collector[C]
+	collector o5msg.Collector[C]
 }
 
 func NewDeploymentRequestTopicCollector[C any](collector o5msg.Collector[C]) *DeploymentRequestTopicCollector[C] {
@@ -43,7 +43,24 @@ func NewDeploymentRequestTopicCollector[C any](collector o5msg.Collector[C]) *De
 			},
 		},
 	})
-	return &DeploymentRequestTopicCollector[C]{Collector: collector}
+	return &DeploymentRequestTopicCollector[C]{collector: collector}
+}
+
+type DeploymentRequestTopicPublisher struct {
+	publisher o5msg.Publisher
+}
+
+func NewDeploymentRequestTopicPublisher(publisher o5msg.Publisher) *DeploymentRequestTopicPublisher {
+	publisher.Register(o5msg.TopicDescriptor{
+		Service: "o5.deployer.v1.topic.DeploymentRequestTopic",
+		Methods: []o5msg.MethodDescriptor{
+			{
+				Name:    "RequestDeployment",
+				Message: (*RequestDeploymentMessage).ProtoReflect(nil).Descriptor(),
+			},
+		},
+	})
+	return &DeploymentRequestTopicPublisher{publisher: publisher}
 }
 
 // Method: RequestDeployment
@@ -58,20 +75,24 @@ func (msg *RequestDeploymentMessage) O5MessageHeader() o5msg.Header {
 	return header
 }
 
-func (send DeploymentRequestTopicSender[C]) RequestDeployment(ctx context.Context, sendContext C, msg *RequestDeploymentMessage) error {
-	return send.Sender.Send(ctx, sendContext, msg)
+func (send DeploymentRequestTopicTxSender[C]) RequestDeployment(ctx context.Context, sendContext C, msg *RequestDeploymentMessage) error {
+	return send.sender.Send(ctx, sendContext, msg)
 }
 
 func (collect DeploymentRequestTopicCollector[C]) RequestDeployment(sendContext C, msg *RequestDeploymentMessage) {
-	collect.Collector.Collect(sendContext, msg)
+	collect.collector.Collect(sendContext, msg)
+}
+
+func (publish DeploymentRequestTopicPublisher) RequestDeployment(ctx context.Context, msg *RequestDeploymentMessage) {
+	publish.publisher.Publish(ctx, msg)
 }
 
 // Service: DeploymentReplyTopic
-type DeploymentReplyTopicSender[C any] struct {
-	Sender o5msg.Sender[C]
+type DeploymentReplyTopicTxSender[C any] struct {
+	sender o5msg.TxSender[C]
 }
 
-func NewDeploymentReplyTopicSender[C any](sender o5msg.Sender[C]) *DeploymentReplyTopicSender[C] {
+func NewDeploymentReplyTopicTxSender[C any](sender o5msg.TxSender[C]) *DeploymentReplyTopicTxSender[C] {
 	sender.Register(o5msg.TopicDescriptor{
 		Service: "o5.deployer.v1.topic.DeploymentReplyTopic",
 		Methods: []o5msg.MethodDescriptor{
@@ -81,11 +102,11 @@ func NewDeploymentReplyTopicSender[C any](sender o5msg.Sender[C]) *DeploymentRep
 			},
 		},
 	})
-	return &DeploymentReplyTopicSender[C]{Sender: sender}
+	return &DeploymentReplyTopicTxSender[C]{sender: sender}
 }
 
 type DeploymentReplyTopicCollector[C any] struct {
-	Collector o5msg.Collector[C]
+	collector o5msg.Collector[C]
 }
 
 func NewDeploymentReplyTopicCollector[C any](collector o5msg.Collector[C]) *DeploymentReplyTopicCollector[C] {
@@ -98,7 +119,24 @@ func NewDeploymentReplyTopicCollector[C any](collector o5msg.Collector[C]) *Depl
 			},
 		},
 	})
-	return &DeploymentReplyTopicCollector[C]{Collector: collector}
+	return &DeploymentReplyTopicCollector[C]{collector: collector}
+}
+
+type DeploymentReplyTopicPublisher struct {
+	publisher o5msg.Publisher
+}
+
+func NewDeploymentReplyTopicPublisher(publisher o5msg.Publisher) *DeploymentReplyTopicPublisher {
+	publisher.Register(o5msg.TopicDescriptor{
+		Service: "o5.deployer.v1.topic.DeploymentReplyTopic",
+		Methods: []o5msg.MethodDescriptor{
+			{
+				Name:    "DeploymentStatus",
+				Message: (*DeploymentStatusMessage).ProtoReflect(nil).Descriptor(),
+			},
+		},
+	})
+	return &DeploymentReplyTopicPublisher{publisher: publisher}
 }
 
 // Method: DeploymentStatus
@@ -120,10 +158,14 @@ func (msg *DeploymentStatusMessage) O5MessageHeader() o5msg.Header {
 	return header
 }
 
-func (send DeploymentReplyTopicSender[C]) DeploymentStatus(ctx context.Context, sendContext C, msg *DeploymentStatusMessage) error {
-	return send.Sender.Send(ctx, sendContext, msg)
+func (send DeploymentReplyTopicTxSender[C]) DeploymentStatus(ctx context.Context, sendContext C, msg *DeploymentStatusMessage) error {
+	return send.sender.Send(ctx, sendContext, msg)
 }
 
 func (collect DeploymentReplyTopicCollector[C]) DeploymentStatus(sendContext C, msg *DeploymentStatusMessage) {
-	collect.Collector.Collect(sendContext, msg)
+	collect.collector.Collect(sendContext, msg)
+}
+
+func (publish DeploymentReplyTopicPublisher) DeploymentStatus(ctx context.Context, msg *DeploymentStatusMessage) {
+	publish.publisher.Publish(ctx, msg)
 }

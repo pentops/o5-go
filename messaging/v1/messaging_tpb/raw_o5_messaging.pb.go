@@ -11,11 +11,11 @@ import (
 )
 
 // Service: RawMessageTopic
-type RawMessageTopicSender[C any] struct {
-	Sender o5msg.Sender[C]
+type RawMessageTopicTxSender[C any] struct {
+	sender o5msg.TxSender[C]
 }
 
-func NewRawMessageTopicSender[C any](sender o5msg.Sender[C]) *RawMessageTopicSender[C] {
+func NewRawMessageTopicTxSender[C any](sender o5msg.TxSender[C]) *RawMessageTopicTxSender[C] {
 	sender.Register(o5msg.TopicDescriptor{
 		Service: "o5.messaging.v1.topic.RawMessageTopic",
 		Methods: []o5msg.MethodDescriptor{
@@ -25,11 +25,11 @@ func NewRawMessageTopicSender[C any](sender o5msg.Sender[C]) *RawMessageTopicSen
 			},
 		},
 	})
-	return &RawMessageTopicSender[C]{Sender: sender}
+	return &RawMessageTopicTxSender[C]{sender: sender}
 }
 
 type RawMessageTopicCollector[C any] struct {
-	Collector o5msg.Collector[C]
+	collector o5msg.Collector[C]
 }
 
 func NewRawMessageTopicCollector[C any](collector o5msg.Collector[C]) *RawMessageTopicCollector[C] {
@@ -42,7 +42,24 @@ func NewRawMessageTopicCollector[C any](collector o5msg.Collector[C]) *RawMessag
 			},
 		},
 	})
-	return &RawMessageTopicCollector[C]{Collector: collector}
+	return &RawMessageTopicCollector[C]{collector: collector}
+}
+
+type RawMessageTopicPublisher struct {
+	publisher o5msg.Publisher
+}
+
+func NewRawMessageTopicPublisher(publisher o5msg.Publisher) *RawMessageTopicPublisher {
+	publisher.Register(o5msg.TopicDescriptor{
+		Service: "o5.messaging.v1.topic.RawMessageTopic",
+		Methods: []o5msg.MethodDescriptor{
+			{
+				Name:    "Raw",
+				Message: (*RawMessage).ProtoReflect(nil).Descriptor(),
+			},
+		},
+	})
+	return &RawMessageTopicPublisher{publisher: publisher}
 }
 
 // Method: Raw
@@ -56,10 +73,14 @@ func (msg *RawMessage) O5MessageHeader() o5msg.Header {
 	return header
 }
 
-func (send RawMessageTopicSender[C]) Raw(ctx context.Context, sendContext C, msg *RawMessage) error {
-	return send.Sender.Send(ctx, sendContext, msg)
+func (send RawMessageTopicTxSender[C]) Raw(ctx context.Context, sendContext C, msg *RawMessage) error {
+	return send.sender.Send(ctx, sendContext, msg)
 }
 
 func (collect RawMessageTopicCollector[C]) Raw(sendContext C, msg *RawMessage) {
-	collect.Collector.Collect(sendContext, msg)
+	collect.collector.Collect(sendContext, msg)
+}
+
+func (publish RawMessageTopicPublisher) Raw(ctx context.Context, msg *RawMessage) {
+	publish.publisher.Publish(ctx, msg)
 }
